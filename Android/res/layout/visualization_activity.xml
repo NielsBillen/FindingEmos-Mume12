@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/emotionbackground">
+
+    <!-- Add the custom activity indicator -->
+    <com.findingemos.felicity.general.ActivityIndicator
+        android:id="@+id/activityIndicator"
+        android:layout_width="fill_parent"
+        android:layout_height="32dp" />
+    
+    <ImageView 
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/emoticon_description"
+        android:id="@+id/dummyChart"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/dummy_chart"
+        android:scaleType="center">      
+    </ImageView>
+</LinearLayout>
