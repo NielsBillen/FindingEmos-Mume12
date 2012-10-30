@@ -69,13 +69,15 @@ public enum Emotion {
 	private int selectionCount = 0;
 	// The unique database name
 	private final String databaseName;
+	
 	/*
 	 * I included this field instead of using the index in the array "values()".
 	 * This will prevent errors when an emotion is added in the middle of the
 	 * enumeration.
 	 */
 	private final int id;
-	/*
+	
+	/* 
 	 * Whether the emotion is depricated. I already included this field for the
 	 * case when an emotion is in the database but is not used anymore. This
 	 * will avoid errors when the database is read out and the selection count

@@ -34,10 +34,12 @@ import com.findingemos.felicity.visualization.VisualizationActivity;
  */
 public class EmotionActivity extends Activity implements Swipeable {
 	// Final boolean variable to check whether drag and drop is enabled.
-//	public static final boolean DRAG_AND_DROP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-	public static final boolean DRAG_AND_DROP = false;
+	public static final boolean DRAG_AND_DROP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 	// The database to call
 	public static EmotionDatabase DATABASE;
+
+	// Code for requesting an emotion.
+	public static final int EMOTION_REQUEST_CODE = 1;
 
 	/*
 	 * (non-Javadoc)
@@ -56,7 +58,7 @@ public class EmotionActivity extends Activity implements Swipeable {
 
 		// Print the android version
 		Log.e("Android version", "" + Build.VERSION.SDK_INT);
-		
+
 		/*
 		 * These two method calls are suggested by a site to avoid the blocks
 		 * when drawing gradients. These lines should make the transition
@@ -108,13 +110,7 @@ public class EmotionActivity extends Activity implements Swipeable {
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() != MotionEvent.ACTION_DOWN)
 					return false;
-				Intent intent = new Intent(EmotionActivity.this,
-						EmotionSelectorActivity.class);
-
-				overridePendingTransition(R.anim.uptodown_emotion,
-						R.anim.downtoup_emotion);
-
-				startActivity(intent);
+				switchToEmotionSelection();
 				return true;
 			}
 		});
@@ -142,9 +138,9 @@ public class EmotionActivity extends Activity implements Swipeable {
 		EmotionDrawer drawer = (EmotionDrawer) findViewById(R.id.emoticonDrawer);
 
 		Emotion[] sorted = Emotion.values();
-		Arrays.sort(sorted,Emotion.getComparator());
-		
-		for (int i=0;i<sorted.length;++i) {
+		Arrays.sort(sorted, Emotion.getComparator());
+
+		for (int i = 0; i < sorted.length; ++i) {
 			// Create the layout paramters
 			LayoutParams layoutParameters = new LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
@@ -152,7 +148,7 @@ public class EmotionActivity extends Activity implements Swipeable {
 			view.setMinimumWidth(80);
 
 			// IMPORTANT! this line makes sure the name of the icon is drawn!
-			view.addSelectionListener(drawer);
+			view.addListener(drawer);
 			layout.addView(view, layoutParameters);
 		}
 	}
@@ -213,7 +209,28 @@ public class EmotionActivity extends Activity implements Swipeable {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		DATABASE.printOut();
+		DATABASE.close();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onResume()
+	 */
+	@Override
+	protected void onResume() {
+		super.onResume();
+		DATABASE.open();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onDestroy()
+	 */
+	@Override
+	protected void onPause() {
+		super.onPause();
 		DATABASE.close();
 	}
 
@@ -223,5 +240,38 @@ public class EmotionActivity extends Activity implements Swipeable {
 	private void switchToVisualization() {
 		Intent intent = new Intent(this, VisualizationActivity.class);
 		startActivity(intent);
+	}
+
+	/**
+	 * 
+	 */
+	private void switchToEmotionSelection() {
+		Intent intent = new Intent(this, EmotionSelectorActivity.class);
+		overridePendingTransition(R.anim.uptodown_emotion,
+				R.anim.downtoup_emotion);
+		startActivityForResult(intent, EMOTION_REQUEST_CODE);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onActivityResult(int, int,
+	 * android.content.Intent)
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.i("Result", "Got a result!");
+		if (resultCode != RESULT_OK)
+			return;
+
+		if (requestCode == EMOTION_REQUEST_CODE) {
+
+			Log.i("Result", "Got the result!");
+			EmotionDrawer drawer = (EmotionDrawer) findViewById(R.id.emoticonDrawer);
+			int uniqueEmotionId = data.getIntExtra("emotion", 0);
+			Emotion emotion = Emotion.getEmoticonByUniqueId(uniqueEmotionId);
+			drawer.onEmotionSelected(emotion);
+			drawer.onEmotionDoubleTapped(emotion);
+		}
 	}
 }

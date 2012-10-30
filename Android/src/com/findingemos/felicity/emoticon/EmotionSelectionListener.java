@@ -8,7 +8,7 @@ package com.findingemos.felicity.emoticon;
  */
 public interface EmotionSelectionListener {
 	/**
-	 * Called when an emotion is selected.
+	 * Called when an emotion is selected as in dragged, or tapped one time.
 	 * 
 	 * @param emoticon
 	 *            The emotion which is selected.

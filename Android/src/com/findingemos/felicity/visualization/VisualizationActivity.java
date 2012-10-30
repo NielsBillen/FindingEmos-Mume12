@@ -36,6 +36,9 @@ public class VisualizationActivity extends Activity implements Swipeable {
 
 		setContentView(R.layout.visualization_activity);
 
+		/*
+		 * Add listeners to the activity indicator
+		 */
 		ActivityIndicator indicator = (ActivityIndicator) findViewById(R.id.activityIndicator);
 		indicator.setCurrentActivity(1);
 		indicator.addListener(new ActivitySwitchListener() {
@@ -53,10 +56,25 @@ public class VisualizationActivity extends Activity implements Swipeable {
 			}
 		});
 
+		/*
+		 * Manage the buttons.
+		 */
+		ArrowButton left = (ArrowButton) findViewById(R.id.topArrowLeft);
+		left.setArrowDirection(ArrowButton.DIRECTION_LEFT);
+		ArrowButton right = (ArrowButton) findViewById(R.id.topArrowRight);
+		right.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
+		OptionSpinner spinner = (OptionSpinner) findViewById(R.id.topSpinner);
+		spinner.setLeftButton(left);
+		spinner.setRightButton(right);
+		spinner.setOptions("Pie chart", "Bar chart", "Timeline", "Map");
+		/*
+		 * Add a swipe listener to the chart.
+		 */
 		ImageView view = (ImageView) findViewById(R.id.dummyChart);
 		view.setOnTouchListener(new SimpleSwipeListener(this));
-		
-		overridePendingTransition(R.anim.lefttoright_visualization, R.anim.righttoleft_visualization);
+
+		overridePendingTransition(R.anim.lefttoright_visualization,
+				R.anim.righttoleft_visualization);
 	}
 
 	/*
@@ -107,6 +125,9 @@ public class VisualizationActivity extends Activity implements Swipeable {
 	public void onSwipeDown() {
 	}
 
+	/**
+	 * 
+	 */
 	private void switchToEmotionActivity() {
 		Intent intent = new Intent(this, EmotionActivity.class);
 		startActivity(intent);

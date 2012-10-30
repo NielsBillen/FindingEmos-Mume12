@@ -18,6 +18,7 @@ import android.view.View;
 import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.emoticon.EmotionSelectionListener;
 import com.findingemos.felicity.util.ImageScaler;
+import com.findingemos.felicity.util.ListenerContainer;
 
 /**
  * Gallery which displays all of the emotions with their descriptions.
@@ -25,7 +26,8 @@ import com.findingemos.felicity.util.ImageScaler;
  * @author Niels
  * @version 0.1
  */
-public class EmotionGallery extends View {
+public class EmotionGallery extends View implements
+		ListenerContainer<EmotionSelectionListener> {
 	// Stores the number of icons per row.
 	private int iconsPerRow = 4;
 
@@ -176,9 +178,16 @@ public class EmotionGallery extends View {
 	 * 
 	 * @param listener
 	 */
-	public void addSelectionListener(EmotionSelectionListener listener) {
+	public void addListener(EmotionSelectionListener listener) {
 		if (listener != null)
 			listeners.add(listener);
+	}
+
+	/**
+	 * 
+	 */
+	public void removeListener(EmotionSelectionListener listener) {
+		listeners.remove(listener);
 	}
 
 	/**

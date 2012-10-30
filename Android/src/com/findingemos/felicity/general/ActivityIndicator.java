@@ -3,6 +3,7 @@ package com.findingemos.felicity.general;
 import java.util.ArrayList;
 
 import com.findingemos.felicity.R;
+import com.findingemos.felicity.util.ListenerContainer;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -21,7 +22,8 @@ import android.view.View;
  * @author Niels
  * @version 0.1
  */
-public class ActivityIndicator extends View {
+public class ActivityIndicator extends View implements
+		ListenerContainer<ActivitySwitchListener> {
 	/**
 	 * A paint object for drawing the outline of the dots.
 	 */
@@ -48,10 +50,10 @@ public class ActivityIndicator extends View {
 	private final int NB_OF_DOTS = 2;
 
 	// The radius of a dot
-	private final int DOT_RADIUS = 8;
+	private final int DOT_RADIUS = 10;
 
 	// The spacing between two dots.
-	private final int DOT_SPACING = 16;
+	private final int DOT_SPACING = 24;
 
 	// The width of the lines when drawing the outline of a dot.
 	private final int STROKE_WIDTH = 2;
@@ -173,7 +175,7 @@ public class ActivityIndicator extends View {
 		for (int i = 0; i < NB_OF_DOTS; ++i) {
 			canvas.drawCircle(drawX, centerY, DOT_RADIUS,
 					(i == current_dot) ? CURRENTPAINTER : DOTPAINTER);
-			updateRectangle(i, drawX, centerY);
+			updateRectangle(i, drawX, RECT.height());
 			drawX += 2 * DOT_RADIUS + DOT_SPACING;
 		}
 		isDirty = false;
@@ -186,14 +188,14 @@ public class ActivityIndicator extends View {
 	 * @param drawX
 	 * @param drawY
 	 */
-	private void updateRectangle(int index, int drawX, int drawY) {
+	private void updateRectangle(int index, int drawX, int height) {
+		int width = DOT_RADIUS + DOT_SPACING / 2;
 		if (isDirty)
-			touchRectangles
-					.add(new Rect(drawX - DOT_RADIUS, drawY - DOT_RADIUS, drawX
-							+ DOT_RADIUS, drawY + DOT_RADIUS));
-		else if (touchRectangles.get(index).left != drawX - DOT_RADIUS)
-			touchRectangles.set(index, new Rect(drawX - DOT_RADIUS, drawY
-					- DOT_RADIUS, drawX + DOT_RADIUS, drawY + DOT_RADIUS));
+			touchRectangles.add(new Rect(drawX - width, 0, drawX + width,
+					height));
+		else if (touchRectangles.get(index).left != drawX - width)
+			touchRectangles.set(index, new Rect(drawX - width, 0,
+					drawX + width, height));
 	}
 
 	/**
@@ -204,6 +206,22 @@ public class ActivityIndicator extends View {
 	public void addListener(ActivitySwitchListener listener) {
 		if (listener != null)
 			listeners.add(listener);
+	}
+
+	/**
+	 * 
+	 */
+	public void removeListener(ActivitySwitchListener listener) {
+		listeners.remove(listener);
+	}
+
+	/**
+	 * 
+	 * @param activity
+	 */
+	private void notifySwitched(int activity) {
+		for (ActivitySwitchListener listener : listeners)
+			listener.activitySelected(activity);
 	}
 
 	/*
@@ -217,8 +235,7 @@ public class ActivityIndicator extends View {
 			for (int i = 0; i < touchRectangles.size(); ++i)
 				if (touchRectangles.get(i).contains((int) event.getX(),
 						(int) event.getY())) {
-					for (ActivitySwitchListener listener : listeners)
-						listener.activitySelected(i);
+					notifySwitched(i);
 					return true;
 				}
 

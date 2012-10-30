@@ -34,6 +34,9 @@ import com.findingemos.felicity.util.MultiThreadAccesView;
  */
 public class EmotionDrawer extends View implements EmotionSelectionListener,
 		MultiThreadAccesView {
+	// The current emoticon
+	private Emotion emotion;
+	
 	/**
 	 * Field in which the emoticon with the empty face is stored.<br>
 	 * <br>
@@ -158,29 +161,29 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 		else
 			helpText = "Double tap on the emoticon\nto change your emotion";
 
-		new Thread() {
-			public void run() {
-				try {
-					sleep(5000);
-				} catch (InterruptedException e) {
-				}
-				;
-				new FadeThread(EmotionDrawer.this, HELPPAINTER, 1000, 60) {
-					/*
-					 * (non-Javadoc)
-					 * 
-					 * @see
-					 * com.findingemos.felicity.util.FadeThread#onInvisible()
-					 */
-					@Override
-					public void onInvisible() {
-						helpText = "";
-						HELPPAINTER.setAlpha(255);
-
-					}
-				}.start();
-			}
-		}.start();
+		// new Thread() {
+		// public void run() {
+		// try {
+		// sleep(5000);
+		// } catch (InterruptedException e) {
+		// }
+		// ;
+		// new FadeThread(EmotionDrawer.this, HELPPAINTER, 1000, 60) {
+		// /*
+		// * (non-Javadoc)
+		// *
+		// * @see
+		// * com.findingemos.felicity.util.FadeThread#onInvisible()
+		// */
+		// @Override
+		// public void onInvisible() {
+		// helpText = "";
+		// HELPPAINTER.setAlpha(255);
+		//
+		// }
+		// }.start();
+		// }
+		// }.start();
 	}
 
 	/**
@@ -306,6 +309,7 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 				}
 			};
 			imageUpdater.start();
+			emotion = emoticon;
 			return true;
 		} else if (event.getAction() == DragEvent.ACTION_DRAG_ENDED) {
 			view.setVisibility(View.VISIBLE);
@@ -365,8 +369,9 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 			 */
 			@Override
 			public void onInvisible() {
-				emoticonDescription = "";
-				TEXTPAINTER.setAlpha(255);
+
+				emoticonDescription = emotion == null ? "" : emotion.getName();
+				TEXTPAINTER.setAlpha(0);
 			}
 		};
 		emoticonDescriptionFade.start();

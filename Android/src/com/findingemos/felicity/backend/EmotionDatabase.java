@@ -36,6 +36,8 @@ public class EmotionDatabase {
 	private SQLiteDatabase database;
 	// A helper class to initialize the database (see Notepad example)
 	private EmotionDatabaseHelper databaseHelper;
+	// Whether the database is closed
+	private boolean isClosed = true;
 
 	/*
 	 * These are keys for fields in the database.
@@ -66,9 +68,12 @@ public class EmotionDatabase {
 	/**
 	 * Opens the database.
 	 */
-	public void open() {
-		databaseHelper = new EmotionDatabaseHelper(context);
-		database = databaseHelper.getWritableDatabase();
+	public synchronized void open() {
+		if (isClosed) {
+			databaseHelper = new EmotionDatabaseHelper(context);
+			database = databaseHelper.getWritableDatabase();
+			isClosed = false;
+		}
 	}
 
 	/**
@@ -76,7 +81,12 @@ public class EmotionDatabase {
 	 * database. The "selection count" of the emoticons will be set to the
 	 * stored data.
 	 */
-	public void readEmotionDatabase() {
+	public synchronized void readEmotionDatabase() {
+		if (isClosed) {
+			Log.i("EmotionDatabase",
+					"@readEmotionDatabase: tried to read from closed database.");
+			return;
+		}
 		Cursor count = database.query(true, COUNT, new String[] { COUNT_KEY_ID,
 				COUNT_KEY_COUNT }, null, null, null, null, null, null);
 		if (count != null && count.getCount() > 0) {
@@ -96,12 +106,16 @@ public class EmotionDatabase {
 					count.moveToNext();
 			}
 		}
+		count.close();
 	}
 
 	/**
 	 * Closes the database.
 	 */
-	public void close() {
+	public synchronized void close() {
+		if (isClosed)
+			return;
+		isClosed = true;
 		databaseHelper.close();
 	}
 
@@ -118,8 +132,13 @@ public class EmotionDatabase {
 	 * @param emotion
 	 *            The emotion which was selected.
 	 */
-	public long createEmotionEntry(Calendar calendar, String country,
-			String city, Emotion emotion) {
+	public synchronized long createEmotionEntry(Calendar calendar,
+			String country, String city, Emotion emotion) {
+		if (isClosed) {
+			Log.i("EmotionDatabase",
+					"@createEmotionEntry: tried to add something to a closed database!");
+			return -1;
+		}
 		ContentValues entry = new ContentValues();
 		entry.put(HISTORY_KEY_DATE, dateString(calendar));
 		entry.put(HISTORY_KEY_TIME, timeString(calendar));
@@ -136,7 +155,12 @@ public class EmotionDatabase {
 	 * @param rowId
 	 * @return
 	 */
-	public boolean deleteEmotionEntry(long rowId) {
+	public synchronized boolean deleteEmotionEntry(long rowId) {
+		if (isClosed) {
+			Log.i("EmotionDatabase",
+					"@deleteEmotionEntry: tried to remove something to a closed database!");
+			return false;
+		}
 		return database.delete(HISTORY, "_id = " + rowId, null) > 0;
 	}
 
@@ -150,7 +174,13 @@ public class EmotionDatabase {
 	 *            The emotion to increase the count of.
 	 * @return the row which was updated.
 	 */
-	public long updateEmotionCount(Emotion emotion) {
+	public synchronized long updateEmotionCount(Emotion emotion) {
+		if (isClosed) {
+			Log.i("EmotionDatabase",
+					"@updateEmotionCount: database is already closed!");
+			return -1;
+		}
+
 		Cursor cursor = database.query(true, COUNT, new String[] {
 				COUNT_KEY_ID, COUNT_KEY_COUNT },
 				COUNT_KEY_ID + "=" + emotion.getUniqueId(), null, null, null,
@@ -164,12 +194,14 @@ public class EmotionDatabase {
 			values.put(COUNT_KEY_COUNT, count + 1);
 			long result = database.update(COUNT, values, COUNT_KEY_ID + "="
 					+ emotion.getUniqueId(), null);
+			cursor.close();
 			return result;
 		} else {
 			ContentValues values = new ContentValues();
 			values.put(COUNT_KEY_ID, emotion.getUniqueId());
 			values.put(COUNT_KEY_COUNT, count + 1);
 			long result = database.insert(COUNT, null, values);
+			cursor.close();
 			return result;
 		}
 	}
@@ -181,7 +213,12 @@ public class EmotionDatabase {
 	 *            The emotion of which we want the amount of selections.
 	 * @return the amount of selections.
 	 */
-	public int getCountOfEmoticon(Emotion emoticon) {
+	public synchronized int getCountOfEmoticon(Emotion emoticon) {
+		if (isClosed) {
+			Log.i("EmotionDatabase",
+					"@getCountOfEmotion: database is already closed!");
+			return -1;
+		}
 		Cursor cursor = database.query(true, COUNT, new String[] {
 				COUNT_KEY_ID, COUNT_KEY_COUNT },
 				COUNT_KEY_ID + "=" + emoticon.getUniqueId(), null, null, null,
@@ -192,6 +229,10 @@ public class EmotionDatabase {
 			cursor.moveToFirst();
 			count = cursor.getInt(1);
 		}
+
+		if (cursor != null)
+			cursor.close();
+
 		return count;
 	}
 
@@ -315,6 +356,10 @@ public class EmotionDatabase {
 	 * 
 	 */
 	public void printOut() {
+		if (isClosed) {
+			Log.i("EmotionDatabase", "@printOut: database is already closed!");
+			return;
+		}
 		System.out.println("---History---");
 		Cursor cursor = database.query(true, HISTORY, new String[] {
 				HISTORY_KEY_ID, HISTORY_KEY_DATE, HISTORY_KEY_TIME,
@@ -331,12 +376,11 @@ public class EmotionDatabase {
 						System.out.print("€");
 				}
 				System.out.println();
-//				if (cursor.isLast())
-//					break;
-//				else
-//					cursor.moveToNext();
-			}
-			while(cursor.moveToNext());
+				// if (cursor.isLast())
+				// break;
+				// else
+				// cursor.moveToNext();
+			} while (cursor.moveToNext());
 		}
 
 		Cursor count = database.query(true, COUNT, new String[] { COUNT_KEY_ID,
@@ -348,9 +392,8 @@ public class EmotionDatabase {
 			count.moveToFirst();
 
 			do {
-				System.out
-						.print(Emotion.getEmoticonByUniqueId(count.getInt(0))
-								.getName() + "-");
+				System.out.print(Emotion.getEmoticonByUniqueId(count.getInt(0))
+						.getName() + "-");
 				for (int i = 1; i < count.getColumnCount(); ++i) {
 					System.out.print(count.getString(i));
 					if (i != count.getColumnCount() - 1)
@@ -358,12 +401,11 @@ public class EmotionDatabase {
 				}
 				System.out.println();
 
-//				if (count.isLast())
-//					break;
-//				else
-//					count.moveToNext();
-			}
-			while(count.moveToNext());
+				// if (count.isLast())
+				// break;
+				// else
+				// count.moveToNext();
+			} while (count.moveToNext());
 		}
 	}
 }

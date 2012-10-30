@@ -97,10 +97,6 @@ public class EmotionExpander extends View {
 				+ width / 2, rect.top + rect.height() * 10);
 		canvas.drawRoundRect(rectangle, 2 * rect.height(), 2 * rect.height(),
 				EXPANDER_GRADIENT);
-
-		// canvas.drawRect(centerX - WIDTH / 2, rect.top + 8, centerX + WIDTH /
-		// 2,
-		// rect.bottom, EXPANDER_PAINTER);
 		canvas.drawCircle(centerX, rect.height() / 2, dotRadius,
 				EXPANDER_CIRCLES);
 		canvas.drawCircle(centerX - width / 4, rect.height() / 2, dotRadius,

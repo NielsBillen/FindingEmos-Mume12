@@ -12,7 +12,6 @@ import android.widget.LinearLayout.LayoutParams;
 import com.findingemos.felicity.R;
 import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.emoticon.EmotionSelectionListener;
-import com.findingemos.felicity.emoticon.EmotionActivity;
 
 public class EmotionSelectorActivity extends Activity {
 	/*
@@ -52,7 +51,7 @@ public class EmotionSelectorActivity extends Activity {
 	private void initialize() {
 		// Gallery
 		EmotionGallery gallery = new EmotionGallery(this);
-		gallery.addSelectionListener(new EmotionSelectionListener() {
+		gallery.addListener(new EmotionSelectionListener() {
 				/*
 				 * (non-Javadoc)
 				 * 
@@ -62,11 +61,11 @@ public class EmotionSelectorActivity extends Activity {
 				 * (com.findingemos.felicity.emoticon.Emoticon)
 				 */
 				@Override
-				public void onEmotionSelected(Emotion emoticon) {
-					Intent intent = new Intent(EmotionSelectorActivity.this,
-							EmotionActivity.class);
-					startActivity(intent);
-
+				public void onEmotionSelected(Emotion emoticon) {			
+					Intent result = new Intent();
+					result.putExtra("emotion", emoticon.getUniqueId());
+					setResult(RESULT_OK, result);
+					finish();
 				}
 
 				/*

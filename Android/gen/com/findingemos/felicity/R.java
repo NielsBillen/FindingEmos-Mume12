@@ -81,13 +81,17 @@ containing a value of this type.
     public static final class id {
         public static final int EmotionSelectionLinearLayout=0x7f090000;
         public static final int activityIndicator=0x7f090002;
-        public static final int dummyChart=0x7f090007;
+        public static final int dummyChart=0x7f09000b;
         public static final int emoticonActivityLayout=0x7f090001;
         public static final int emoticonDrawer=0x7f090003;
         public static final int emotionExpander=0x7f090004;
         public static final int horizontalEmoticonScrollerLayout=0x7f090006;
         public static final int horizontalEmotionScroller=0x7f090005;
-        public static final int menu_settings=0x7f090008;
+        public static final int menu_settings=0x7f09000c;
+        public static final int topArrowLeft=0x7f090008;
+        public static final int topArrowRight=0x7f09000a;
+        public static final int topSelector=0x7f090007;
+        public static final int topSpinner=0x7f090009;
     }
     public static final class layout {
         public static final int emoticonselection_activity=0x7f030000;
