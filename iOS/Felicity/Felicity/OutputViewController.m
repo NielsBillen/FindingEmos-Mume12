@@ -24,6 +24,9 @@
     appDelegate = (FelicityAppDelegate *)[[UIApplication sharedApplication] delegate];
     imageNames = appDelegate.imageNames;
     
+    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    self.view.backgroundColor = background;
+    
     [self createStatistics];
 }
 

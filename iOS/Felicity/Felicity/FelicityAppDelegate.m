@@ -29,20 +29,20 @@
     // Override point for customization after application launch.
     
     imageNames = [[NSMutableArray alloc] init];
-    [imageNames addObject:@"Angry_big.png"];
-    [imageNames addObject:@"Ashamed_big.png"];
-    [imageNames addObject:@"Bored_big.png"];
-    [imageNames addObject:@"Happy_big.png"];
-    [imageNames addObject:@"Hungry_big.png"];
-    [imageNames addObject:@"In_love_big.png"];
-    [imageNames addObject:@"Irritated_big.png"];
-    [imageNames addObject:@"Sad_big.png"];
-    [imageNames addObject:@"Scared_big.png"];
-    [imageNames addObject:@"Sick_big.png"];
-    [imageNames addObject:@"Tired_big.png"];
-    [imageNames addObject:@"Very_happy_big.png"];
-    [imageNames addObject:@"Very_sad_big.png"];
-    [imageNames addObject:@"Super_happy_big.png"];
+    [imageNames addObject:@"angry"];
+    [imageNames addObject:@"ashamed"];
+    [imageNames addObject:@"bored"];
+    [imageNames addObject:@"happy"];
+    [imageNames addObject:@"hungry"];
+    [imageNames addObject:@"in_love"];
+    [imageNames addObject:@"irritated"];
+    [imageNames addObject:@"sad"];
+    [imageNames addObject:@"scared"];
+    [imageNames addObject:@"sick"];
+    [imageNames addObject:@"tired"];
+    [imageNames addObject:@"very_happy"];
+    [imageNames addObject:@"very_sad"];
+    [imageNames addObject:@"super_happy"];
     
     emotionsCount = [[NSMutableDictionary alloc] init];
     for (NSInteger i = 0; i < imageNames.count; i++) {
@@ -94,7 +94,7 @@
         name = [name stringByAppendingString:nameSplitted[i]];
     }
     
-    return name;
+    return [name capitalizedString];
 }
 
 @end

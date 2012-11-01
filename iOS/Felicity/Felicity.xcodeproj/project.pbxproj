@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00ACB3AD1642E01C007F75FB /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 00ACB3AC1642E01C007F75FB /* background.png */; };
+		00ACB3B01642E1FD007F75FB /* imageBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 00ACB3AE1642E1FD007F75FB /* imageBackground.png */; };
+		00CEAF071642E3FE001831B9 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 00CEAF051642E3FE001831B9 /* background.png */; };
+		00CEAF0B1642E59C001831B9 /* imageBackgroundReversed.png in Resources */ = {isa = PBXBuildFile; fileRef = 00CEAF091642E59C001831B9 /* imageBackgroundReversed.png */; };
 		041AB987163B1DA4002164D0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB971163B1DA4002164D0 /* Default-568h@2x.png */; };
 		041AB988163B1DA4002164D0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB972163B1DA4002164D0 /* Default.png */; };
 		041AB989163B1DA4002164D0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB973163B1DA4002164D0 /* Default@2x.png */; };
@@ -36,7 +40,7 @@
 		04F8A9B2163B229B00EAABC5 /* hungry_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A981163B229B00EAABC5 /* hungry_big.png */; };
 		04F8A9B3163B229B00EAABC5 /* hungry_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A983163B229B00EAABC5 /* hungry_small.png */; };
 		04F8A9B4163B229B00EAABC5 /* in_love_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A985163B229B00EAABC5 /* in_love_big.png */; };
-		04F8A9B5163B229B00EAABC5 /* inlove_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A987163B229B00EAABC5 /* inlove_small.png */; };
+		04F8A9B5163B229B00EAABC5 /* in_love_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A987163B229B00EAABC5 /* in_love_small.png */; };
 		04F8A9B6163B229B00EAABC5 /* irritated_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A989163B229B00EAABC5 /* irritated_big.png */; };
 		04F8A9B7163B229B00EAABC5 /* irritated_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A98B163B229B00EAABC5 /* irritated_small.png */; };
 		04F8A9B8163B229B00EAABC5 /* sad_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A98D163B229B00EAABC5 /* sad_big.png */; };
@@ -56,6 +60,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00ACB3AC1642E01C007F75FB /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = ../../../../../../Downloads/background.png; sourceTree = "<group>"; };
+		00ACB3AF1642E1FD007F75FB /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/imageBackground.png; sourceTree = "<group>"; };
+		00CEAF061642E3FE001831B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/background.png; sourceTree = "<group>"; };
+		00CEAF0A1642E59C001831B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/imageBackgroundReversed.png; sourceTree = "<group>"; };
 		041AB971163B1DA4002164D0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		041AB972163B1DA4002164D0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		041AB973163B1DA4002164D0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -92,7 +100,7 @@
 		04F8A982163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/hungry_big.png; sourceTree = "<group>"; };
 		04F8A984163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/hungry_small.png; sourceTree = "<group>"; };
 		04F8A986163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/in_love_big.png; sourceTree = "<group>"; };
-		04F8A988163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/inlove_small.png; sourceTree = "<group>"; };
+		04F8A988163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/in_love_small.png; sourceTree = "<group>"; };
 		04F8A98A163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/irritated_big.png; sourceTree = "<group>"; };
 		04F8A98C163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/irritated_small.png; sourceTree = "<group>"; };
 		04F8A98E163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/sad_big.png; sourceTree = "<group>"; };
@@ -199,6 +207,10 @@
 		04F8A96E163B229B00EAABC5 /* EmoticonSet */ = {
 			isa = PBXGroup;
 			children = (
+				00ACB3AE1642E1FD007F75FB /* imageBackground.png */,
+				00CEAF091642E59C001831B9 /* imageBackgroundReversed.png */,
+				00CEAF051642E3FE001831B9 /* background.png */,
+				00ACB3AC1642E01C007F75FB /* background.png */,
 				04F8A96F163B229B00EAABC5 /* angry_big.png */,
 				04F8A971163B229B00EAABC5 /* angry_small.png */,
 				04F8A973163B229B00EAABC5 /* ashamed_big.png */,
@@ -211,7 +223,7 @@
 				04F8A981163B229B00EAABC5 /* hungry_big.png */,
 				04F8A983163B229B00EAABC5 /* hungry_small.png */,
 				04F8A985163B229B00EAABC5 /* in_love_big.png */,
-				04F8A987163B229B00EAABC5 /* inlove_small.png */,
+				04F8A987163B229B00EAABC5 /* in_love_small.png */,
 				04F8A989163B229B00EAABC5 /* irritated_big.png */,
 				04F8A98B163B229B00EAABC5 /* irritated_small.png */,
 				04F8A98D163B229B00EAABC5 /* sad_big.png */,
@@ -304,7 +316,7 @@
 				04F8A9B2163B229B00EAABC5 /* hungry_big.png in Resources */,
 				04F8A9B3163B229B00EAABC5 /* hungry_small.png in Resources */,
 				04F8A9B4163B229B00EAABC5 /* in_love_big.png in Resources */,
-				04F8A9B5163B229B00EAABC5 /* inlove_small.png in Resources */,
+				04F8A9B5163B229B00EAABC5 /* in_love_small.png in Resources */,
 				04F8A9B6163B229B00EAABC5 /* irritated_big.png in Resources */,
 				04F8A9B7163B229B00EAABC5 /* irritated_small.png in Resources */,
 				04F8A9B8163B229B00EAABC5 /* sad_big.png in Resources */,
@@ -321,6 +333,10 @@
 				04F8A9C3163B229B00EAABC5 /* very_happy_small.png in Resources */,
 				04F8A9C4163B229B00EAABC5 /* very_sad_big.png in Resources */,
 				04F8A9C5163B229B00EAABC5 /* very_sad_small.png in Resources */,
+				00ACB3AD1642E01C007F75FB /* background.png in Resources */,
+				00ACB3B01642E1FD007F75FB /* imageBackground.png in Resources */,
+				00CEAF071642E3FE001831B9 /* background.png in Resources */,
+				00CEAF0B1642E59C001831B9 /* imageBackgroundReversed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +359,30 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		00ACB3AE1642E1FD007F75FB /* imageBackground.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00ACB3AF1642E1FD007F75FB /* en */,
+			);
+			name = imageBackground.png;
+			sourceTree = "<group>";
+		};
+		00CEAF051642E3FE001831B9 /* background.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00CEAF061642E3FE001831B9 /* en */,
+			);
+			name = background.png;
+			sourceTree = "<group>";
+		};
+		00CEAF091642E59C001831B9 /* imageBackgroundReversed.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00CEAF0A1642E59C001831B9 /* en */,
+			);
+			name = imageBackgroundReversed.png;
+			sourceTree = "<group>";
+		};
 		041AB974163B1DA4002164D0 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -455,12 +495,12 @@
 			name = in_love_big.png;
 			sourceTree = "<group>";
 		};
-		04F8A987163B229B00EAABC5 /* inlove_small.png */ = {
+		04F8A987163B229B00EAABC5 /* in_love_small.png */ = {
 			isa = PBXVariantGroup;
 			children = (
 				04F8A988163B229B00EAABC5 /* en */,
 			);
-			name = inlove_small.png;
+			name = in_love_small.png;
 			sourceTree = "<group>";
 		};
 		04F8A989163B229B00EAABC5 /* irritated_big.png */ = {

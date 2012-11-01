@@ -33,6 +33,9 @@
     [self createScrollingEmotions];
     [self createEmotionsOverviewPage];
     
+    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    self.view.backgroundColor = background;
+    
     // Nodig om te kunnen terugswitchen van de emotionsOverview Page naar de "gewone" view.
     inputView = self.view;
 }
@@ -45,7 +48,8 @@
     NSMutableArray *imagesArray = [[NSMutableArray alloc] init];
     
     for(NSInteger i = 0; i < imageNames.count; i++) {
-        [imagesArray addObject:[UIImage imageNamed:imageNames[i]]];
+        NSString *imageSourceName = [imageNames[i] stringByAppendingString:@"_small.png"];
+        [imagesArray addObject:[UIImage imageNamed:imageSourceName]];
         [images setObject:imageNames[i] forKey:imagesArray[i]];
     }
 }
@@ -55,10 +59,16 @@
 */
 -(void) createScrollingEmotions {
     emotionScroller.contentSize = CGSizeMake(80*imageNames.count, 64);
+    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"imageBackground.png"]];
+    emotionScroller.backgroundColor = background;
     [self.view addSubview:emotionScroller];
     
     for(NSInteger i = 0; i < imageNames.count; i++) {
-        UIImage *image = [UIImage imageNamed:imageNames[i]];
+       // NSString *imageFileName = imageNames[i];
+       // NSString *nameWithSmall = [imageFileName stringByReplacingOccurrencesOfString:@"big" withString:@"small"];
+       // UIImage *image = [UIImage imageNamed:nameWithSmall];
+        NSString *imageSourceName = [imageNames[i] stringByAppendingString:@"_small.png"];
+        UIImage *image = [UIImage imageNamed:imageSourceName];
         
         CGRect frame;
         frame.origin.x = 8 + 80*i;
@@ -93,7 +103,12 @@
 */
 - (void)createEmotionsOverviewPage {
     for(NSInteger i = 0; i < imageNames.count; i++) {
-        UIImage *image = [UIImage imageNamed:imageNames[i]];
+      //  NSString *imageFileName = imageNames[i];
+      // NSString *nameWithSmall = [imageFileName stringByReplacingOccurrencesOfString:@"big" withString:@"small"];
+      //  UIImage *image = [UIImage imageNamed:nameWithSmall];
+        
+        NSString *imageSourceName = [imageNames[i] stringByAppendingString:@"_small.png"];
+        UIImage *image = [UIImage imageNamed:imageSourceName];
         
         CGRect frame;
         frame.origin.x = 8 + 80*(i % 4);
@@ -101,7 +116,8 @@
         frame.size = CGSizeMake(64,64);
         
         UILabel *imageName = [[UILabel alloc] initWithFrame:CGRectMake(80*(i % 4), 75 + 87*(i / 4), 80, 15)];
-        imageName.text = [appDelegate getImageNameFromSource:imageNames[i]];
+        //imageName.text = [appDelegate getImageNameFromSource:imageNames[i]];
+        imageName.text = [[imageNames[i] stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
         imageName.textAlignment = NSTextAlignmentCenter;
         imageName.textColor = [UIColor whiteColor];
         imageName.backgroundColor = [UIColor blackColor];
@@ -129,9 +145,10 @@
     NSLog(@"Single tapped on an emotion");
     
     UIImageView *tappedView = (UIImageView*) recognizer.view;
-    NSString *imageName = [images objectForKey:tappedView.image];
+    NSString *imageName = [[images objectForKey:tappedView.image] stringByReplacingOccurrencesOfString:@"_" withString:@" "];
     
-    textLabel.text = [appDelegate getImageNameFromSource:imageName];
+    //textLabel.text = [appDelegate getImageNameFromSource:imageName];
+    textLabel.text = [imageName capitalizedString];
     [textLabel setFont: [UIFont fontWithName:@"Arial" size:20.0]];
 }
 
@@ -145,10 +162,12 @@
     NSLog(@"Double tapped on an emotion");
     
     UIImageView *tappedView = (UIImageView*) recognizer.view;
-    currentEmotionView.image = tappedView.image;
     NSString *imageName = [images objectForKey:tappedView.image];
     
-    textLabel.text = [appDelegate getImageNameFromSource:imageName];
+    NSString *imageSourceName = [imageName stringByAppendingString:@"_big.png"];
+    UIImage *image = [UIImage imageNamed:imageSourceName];
+    currentEmotionView.image = image;
+    textLabel.text = [[imageName stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
     [textLabel setFont: [UIFont fontWithName:@"Arial" size:35.0]];
     
     [self updateTimesSelectedOfImageName:imageName];
@@ -185,5 +204,6 @@
     NSLog(@"InputViewButton pressed");
     [self setView:inputView];
 }
+
 @end
 
