@@ -10,6 +10,7 @@
 
 #import "OutputViewController.h"
 #import "FelicityAppDelegate.h"
+#import "Emotion.h"
 
 @implementation OutputViewController
 
@@ -22,7 +23,7 @@
     [super viewDidLoad];
     
     appDelegate = (FelicityAppDelegate *)[[UIApplication sharedApplication] delegate];
-    imageNames = appDelegate.imageNames;
+    emotions = appDelegate.emotions;
     
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
     self.view.backgroundColor = background;
@@ -34,9 +35,10 @@
 ** Geeft de statistieken weer (hoe vaak een emoticon is geselecteerd).
 */
 - (void)createStatistics {
-    for(NSInteger i=0; i < appDelegate.emotionsCount.count; i++) {
+    for(NSInteger i=0; i < emotions.count; i++) {
         UILabel *imageName = [[UILabel alloc] initWithFrame:CGRectMake(60, 20 + 22*i, 110, 20)];
-        imageName.text = [[appDelegate getImageNameFromSource:imageNames[i]] stringByAppendingString:@":"];
+        Emotion *emotion = emotions[i];
+        imageName.text = [emotion.displayName stringByAppendingString:@"; "];
         imageName.textAlignment = NSTextAlignmentRight;
         imageName.textColor = [UIColor whiteColor];
         imageName.backgroundColor = [UIColor blackColor];
@@ -45,7 +47,7 @@
         [self.view addSubview:imageName];
 
         UILabel *timesSelected = [[UILabel alloc] initWithFrame:CGRectMake(190, 20 + 22*i, 20, 20)];
-        timesSelected.text = [[NSString alloc] initWithFormat: @"%@", [appDelegate.emotionsCount objectForKey:imageNames[i]]];
+        timesSelected.text = [[NSString alloc] initWithFormat: @"%@", [appDelegate.emotionsCount objectForKey:emotion.displayName]];
         timesSelected.textAlignment = NSTextAlignmentLeft;
         timesSelected.textColor = [UIColor whiteColor];
         timesSelected.backgroundColor = [UIColor blackColor];

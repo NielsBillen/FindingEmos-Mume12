@@ -16,6 +16,8 @@
     // Lokale versie van de source names van de emotions.
     NSMutableArray *imageNames;
     
+    NSMutableArray *emotions;
+    
     // Mapping: source name van image - UIImageView van image
     NSMutableDictionary *images;
     

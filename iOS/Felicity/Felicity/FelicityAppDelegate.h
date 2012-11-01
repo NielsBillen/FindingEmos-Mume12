@@ -15,6 +15,7 @@
 @interface FelicityAppDelegate : UIResponder <UIApplicationDelegate> {
     NSMutableDictionary *emotionsCount;
     NSMutableArray *imageNames;
+    NSMutableArray *emotions;
 }
 
 /*
@@ -34,11 +35,7 @@
 @property (strong, nonatomic) NSMutableArray *imageNames;
 
 
-/*
-** Retourneert enkel de (echte) naam van de emotion,
-** bvb "happy_big.png" wordt "happy".
-*/ 
--(NSString*) getImageNameFromSource:(NSString*)sourceName;
+@property (strong, nonatomic) NSMutableArray *emotions;
 
 @end
 

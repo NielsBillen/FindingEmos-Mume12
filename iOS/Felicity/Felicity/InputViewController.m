@@ -11,6 +11,7 @@
 #import "InputViewController.h"
 #import "FelicityAppDelegate.h"
 #import "FelicityViewController.h"
+#import "Emotion.h"
 
 @implementation InputViewController
 
@@ -27,7 +28,7 @@
     [super viewDidLoad];
     
     appDelegate = (FelicityAppDelegate *)[[UIApplication sharedApplication] delegate];
-    imageNames = appDelegate.imageNames;
+    emotions = appDelegate.emotions;
     
     [self loadImages];
     [self createScrollingEmotions];
@@ -47,10 +48,10 @@
     images = [[NSMutableDictionary alloc] init];
     NSMutableArray *imagesArray = [[NSMutableArray alloc] init];
     
-    for(NSInteger i = 0; i < imageNames.count; i++) {
-        NSString *imageSourceName = [imageNames[i] stringByAppendingString:@"_small.png"];
+    for(NSInteger i = 0; i < emotions.count; i++) {
+        NSString *imageSourceName = [emotions[i] smallImage];
         [imagesArray addObject:[UIImage imageNamed:imageSourceName]];
-        [images setObject:imageNames[i] forKey:imagesArray[i]];
+        [images setObject:emotions[i] forKey:imagesArray[i]];
     }
 }
 
@@ -58,16 +59,13 @@
 ** Initialiseert de scrollView met emotions onderaan de Inputview.
 */
 -(void) createScrollingEmotions {
-    emotionScroller.contentSize = CGSizeMake(80*imageNames.count, 64);
+    emotionScroller.contentSize = CGSizeMake(80*emotions.count, 64);
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"imageBackground.png"]];
     emotionScroller.backgroundColor = background;
     [self.view addSubview:emotionScroller];
     
-    for(NSInteger i = 0; i < imageNames.count; i++) {
-       // NSString *imageFileName = imageNames[i];
-       // NSString *nameWithSmall = [imageFileName stringByReplacingOccurrencesOfString:@"big" withString:@"small"];
-       // UIImage *image = [UIImage imageNamed:nameWithSmall];
-        NSString *imageSourceName = [imageNames[i] stringByAppendingString:@"_small.png"];
+    for(NSInteger i = 0; i < emotions.count; i++) {
+        NSString *imageSourceName = [[emotions objectAtIndex:i] smallImage];
         UIImage *image = [UIImage imageNamed:imageSourceName];
         
         CGRect frame;
@@ -102,12 +100,8 @@
 ** Initialiseert de emotionsOverview pagina met de emoticons.
 */
 - (void)createEmotionsOverviewPage {
-    for(NSInteger i = 0; i < imageNames.count; i++) {
-      //  NSString *imageFileName = imageNames[i];
-      // NSString *nameWithSmall = [imageFileName stringByReplacingOccurrencesOfString:@"big" withString:@"small"];
-      //  UIImage *image = [UIImage imageNamed:nameWithSmall];
-        
-        NSString *imageSourceName = [imageNames[i] stringByAppendingString:@"_small.png"];
+    for(NSInteger i = 0; i < emotions.count; i++) {
+        NSString *imageSourceName = [[emotions objectAtIndex:i] smallImage];
         UIImage *image = [UIImage imageNamed:imageSourceName];
         
         CGRect frame;
@@ -116,8 +110,7 @@
         frame.size = CGSizeMake(64,64);
         
         UILabel *imageName = [[UILabel alloc] initWithFrame:CGRectMake(80*(i % 4), 75 + 87*(i / 4), 80, 15)];
-        //imageName.text = [appDelegate getImageNameFromSource:imageNames[i]];
-        imageName.text = [[imageNames[i] stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
+        imageName.text = [emotions[i] displayName];
         imageName.textAlignment = NSTextAlignmentCenter;
         imageName.textColor = [UIColor whiteColor];
         imageName.backgroundColor = [UIColor blackColor];
@@ -145,14 +138,13 @@
     NSLog(@"Single tapped on an emotion");
     
     UIImageView *tappedView = (UIImageView*) recognizer.view;
-    NSString *imageName = [[images objectForKey:tappedView.image] stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+    Emotion *emotion = [images objectForKey:tappedView.image];
     
-    //textLabel.text = [appDelegate getImageNameFromSource:imageName];
-    textLabel.text = [imageName capitalizedString];
+    textLabel.text = emotion.displayName;
     [textLabel setFont: [UIFont fontWithName:@"Arial" size:20.0]];
 }
 
-/*
+/* 
 ** Wordt aangeroepen wanneer er tweemaal getapt wordt op een emoticon in
 ** de emotionScroller onderaan de inputpagina of eenmaal op een emoticon in
 ** de emotionsOverview pagina.
@@ -162,15 +154,15 @@
     NSLog(@"Double tapped on an emotion");
     
     UIImageView *tappedView = (UIImageView*) recognizer.view;
-    NSString *imageName = [images objectForKey:tappedView.image];
+    Emotion *emotion = [images objectForKey:tappedView.image];
     
-    NSString *imageSourceName = [imageName stringByAppendingString:@"_big.png"];
-    UIImage *image = [UIImage imageNamed:imageSourceName];
+    UIImage *image = [UIImage imageNamed:emotion.largeImage];
     currentEmotionView.image = image;
-    textLabel.text = [[imageName stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
+    
+    textLabel.text = emotion.displayName;
     [textLabel setFont: [UIFont fontWithName:@"Arial" size:35.0]];
     
-    [self updateTimesSelectedOfImageName:imageName];
+    [self updateTimesSelectedOfImageName:emotion.displayName];
     [self setView:inputView];
 }
 

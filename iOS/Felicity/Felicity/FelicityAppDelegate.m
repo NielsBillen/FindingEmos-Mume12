@@ -11,11 +11,13 @@
 //
 
 #import "FelicityAppDelegate.h"
+#import "Emotion.h"
 
 @implementation FelicityAppDelegate
 
 @synthesize imageNames;
 @synthesize emotionsCount;
+@synthesize emotions;
 
 /*
 ** Deze methode wordt opgeroepen nadat de applicatie geladen is.
@@ -43,6 +45,25 @@
     [imageNames addObject:@"very_happy"];
     [imageNames addObject:@"very_sad"];
     [imageNames addObject:@"super_happy"];
+    
+    emotions = [[NSMutableArray alloc] init];
+    
+    for (NSInteger i = 0; i < imageNames.count; i++) {
+        NSString *name =  imageNames[i];
+        NSString *displayName = [[name stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
+        NSString *uniqueId = [NSString stringWithFormat:@"%d",i];
+        NSString *smallImage = [name stringByAppendingString:@"_small.png"];
+        NSString *largeImage = [name stringByAppendingString:@"_big.png"];
+        Emotion *emo = [Emotion alloc];
+        
+        [emotions addObject:[emo initWithDisplayName:displayName
+                                         andUniqueId:uniqueId
+                                     AndDatabaseName:name
+                                       AndSmallImage:smallImage
+                                       AndLargeImage:largeImage
+                                   AndSelectionCount:0]];
+        
+    }
     
     emotionsCount = [[NSMutableDictionary alloc] init];
     for (NSInteger i = 0; i < imageNames.count; i++) {
@@ -77,24 +98,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-/*
-** Retourneert enkel de (echte) naam van de emotion,
-** bvb "happy_big.png" wordt "happy".
-*/
-- (NSString*) getImageNameFromSource:(NSString*)sourceName {
-    NSString *nameWithoutPNG = [[sourceName componentsSeparatedByString:@".png"] objectAtIndex:0];
-    NSString *nameWithoutBIG = [[nameWithoutPNG componentsSeparatedByString:@"_big"] objectAtIndex:0];
-    NSArray *nameSplitted = [nameWithoutBIG componentsSeparatedByString:@"_"];
-    
-    NSString *name = nameSplitted[0];
-    for(NSInteger i = 1; i < [nameSplitted count]; i++) {
-        name = [name stringByAppendingString:@" "];
-        name = [name stringByAppendingString:nameSplitted[i]];
-    }
-    
-    return [name capitalizedString];
 }
 
 @end

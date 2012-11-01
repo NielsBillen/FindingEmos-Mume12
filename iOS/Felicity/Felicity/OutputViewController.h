@@ -13,10 +13,12 @@
 
 @interface OutputViewController : UIViewController {
     // Lokale versie van de source names van de emotions.
-    NSMutableArray *imageNames;
+    NSMutableArray *emotions;
     
     // Link naar de appDelegate;
     FelicityAppDelegate *appDelegate;
+    
+    
 }
 
 @end
