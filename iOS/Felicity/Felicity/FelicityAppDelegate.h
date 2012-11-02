@@ -14,7 +14,6 @@
 
 @interface FelicityAppDelegate : UIResponder <UIApplicationDelegate> {
     NSMutableDictionary *emotionsCount;
-    NSMutableArray *imageNames;
     NSMutableArray *emotions;
 }
 
@@ -27,12 +26,6 @@
 ** Houdt voor elke emotion bij hoe vaak ze is geselecteerd gedurende deze sessie.
 */
 @property (strong, nonatomic) NSMutableDictionary *emotionsCount;
-
-/*
-** Bevat alle big-varianten van de namen van de emotions-images,
-** bvb happy_big.png.
-*/
-@property (strong, nonatomic) NSMutableArray *imageNames;
 
 
 @property (strong, nonatomic) NSMutableArray *emotions;

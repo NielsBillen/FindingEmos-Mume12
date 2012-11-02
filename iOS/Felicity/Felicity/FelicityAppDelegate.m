@@ -15,7 +15,6 @@
 
 @implementation FelicityAppDelegate
 
-@synthesize imageNames;
 @synthesize emotionsCount;
 @synthesize emotions;
 
@@ -30,21 +29,9 @@
 {
     // Override point for customization after application launch.
     
-    imageNames = [[NSMutableArray alloc] init];
-    [imageNames addObject:@"angry"];
-    [imageNames addObject:@"ashamed"];
-    [imageNames addObject:@"bored"];
-    [imageNames addObject:@"happy"];
-    [imageNames addObject:@"hungry"];
-    [imageNames addObject:@"in_love"];
-    [imageNames addObject:@"irritated"];
-    [imageNames addObject:@"sad"];
-    [imageNames addObject:@"scared"];
-    [imageNames addObject:@"sick"];
-    [imageNames addObject:@"tired"];
-    [imageNames addObject:@"very_happy"];
-    [imageNames addObject:@"very_sad"];
-    [imageNames addObject:@"super_happy"];
+    NSArray *imageNames = [NSArray arrayWithObjects:
+                @"angry",@"ashamed",@"bored",@"happy",@"hungry",@"in_love",@"irritated",@"sad",@"scared",@"sick",
+                           @"tired",@"very_happy",@"very_sad",@"super_happy",nil];
     
     emotions = [[NSMutableArray alloc] init];
     
