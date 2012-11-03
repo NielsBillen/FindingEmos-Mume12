@@ -39,15 +39,14 @@ static Database *_database;
 
 
 - (void) insertEmotion:(Emotion *)emotion {
-        NSString *query = [NSString stringWithFormat:@"INSERT INTO emotions (displayName, uniqueId, name, smallImage, largeImage, nbSelected) VALUES (\"%@\",\"%d\",\"%@\",\"%@\", \"%@\", \"%d\")",emotion.displayName,emotion.uniqueId, emotion.databaseName,emotion.smallImage,emotion.largeImage, emotion.selectionCount ];
-        sqlite3_stmt *updateStmt = nil;
-        if(sqlite3_prepare_v2(_database, [query UTF8String], -1, &updateStmt, nil) != SQLITE_OK)
-        {
-            NSLog(@"Error while creating update statement. '%s'", sqlite3_errmsg(_database));
-        }
-        if (SQLITE_DONE != sqlite3_step(updateStmt)){
-            NSLog(@"Error while creating database. '%s'", sqlite3_errmsg(_database));
-        }
+    NSString *query = [NSString stringWithFormat:@"INSERT INTO emotions (displayName, uniqueId, name, smallImage, largeImage, nbSelected) VALUES (\"%@\",\"%d\",\"%@\",\"%@\", \"%@\", \"%d\")",emotion.displayName,emotion.uniqueId, emotion.databaseName,emotion.smallImage,emotion.largeImage, emotion.selectionCount ];
+    sqlite3_stmt *updateStmt = nil;
+    if(sqlite3_prepare_v2(_database, [query UTF8String], -1, &updateStmt, nil) != SQLITE_OK) {
+        NSLog(@"Error while creating update statement. '%s'", sqlite3_errmsg(_database));
+    }
+    if (SQLITE_DONE != sqlite3_step(updateStmt)) {
+        NSLog(@"Error while creating database. '%s'", sqlite3_errmsg(_database));
+    }
 }
 
 - (NSArray *)retrieveEmotionsFromDatabase {
