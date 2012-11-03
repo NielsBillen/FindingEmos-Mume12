@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
+#import "Emotion.h"
 
 @interface Database : NSObject {
     sqlite3 *_database;
@@ -15,5 +16,7 @@
 
 + (Database*)database;
 - (NSArray *)retrieveEmotionsFromDatabase;
+
+- (void) insertEmotion:(Emotion *)emotion;
 
 @end

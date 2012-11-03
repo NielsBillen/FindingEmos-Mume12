@@ -30,9 +30,7 @@
 {
     // Override point for customization after application launch.
     
-    NSArray *imageNames = [NSArray arrayWithObjects:
-                @"angry",@"ashamed",@"bored",@"happy",@"hungry",@"in_love",@"irritated",@"sad",@"scared",@"sick",
-                           @"tired",@"very_happy",@"very_sad",@"super_happy",nil];
+    NSArray *imageNames = [NSArray arrayWithObjects:@"angry",@"ashamed",@"bored",@"happy",@"hungry",@"in_love",@"irritated",@"sad",@"scared",@"sick",@"tired",@"very_happy",@"very_sad",@"super_happy",nil];
     
     emotions = [[NSMutableArray alloc] init];
     
@@ -49,7 +47,7 @@
                                        AndSmallImage:smallImage
                                        AndLargeImage:largeImage
                                    AndSelectionCount:0]];
-        
+        [[Database database] insertEmotion:emo];
     }
     
     NSArray *emotionInformation = [[Database database] retrieveEmotionsFromDatabase];

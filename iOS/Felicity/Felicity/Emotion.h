@@ -26,10 +26,6 @@
               AndLargeImage:(NSString *)largeImage
           AndSelectionCount:(int)selectionCount;
 
-// TODO id nog aanpassen
 - (void)storeEmotionInDatabase:(id)database;
-
-
-+ (Emotion *)loadEmotionFromDatabase:(id)database;
 
 @end
