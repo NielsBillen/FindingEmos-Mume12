@@ -14,6 +14,6 @@
 }
 
 + (Database*)database;
-- (NSArray *)emotionInfo;
+- (NSArray *)retrieveEmotionsFromDatabase;
 
 @end

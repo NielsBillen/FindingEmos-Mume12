@@ -39,7 +39,7 @@ static Database *_database;
     //[super dealloc];
 }
 
-- (NSArray *)emotionInfo {
+- (NSArray *)retrieveEmotionsFromDatabase {
     
     NSMutableArray *retval = [[NSMutableArray alloc] init];
     NSString *query = @"SELECT uniqueId, displayName, smallImage, largeImage FROM failed_banks ORDER BY close_date DESC";
