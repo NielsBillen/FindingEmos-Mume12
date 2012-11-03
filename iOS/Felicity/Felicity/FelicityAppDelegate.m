@@ -53,9 +53,7 @@
     }
     
     NSArray *emotionInformation = [[Database database] retrieveEmotionsFromDatabase];
-    NSLog(@"%@",[emotionInformation description]);
     for (Emotion *info in emotionInformation) {
-        NSLog(@"We have information");
         NSLog(@"%d: %@, %@, %@", info.uniqueId, info.displayName, info.smallImage, info.largeImage);
     }
     
