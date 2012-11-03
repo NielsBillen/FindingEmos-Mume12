@@ -21,7 +21,7 @@
 @synthesize selectionCount = _selectionCount;
 
 - (Emotion *)initWithDisplayName:(NSString *)displayName
-                andUniqueId:(NSString *)uniqueId
+                andUniqueId:(int)uniqueId
             AndDatabaseName:(NSString *)databaseName
               AndSmallImage:(NSString *)smallImage
               AndLargeImage:(NSString *)largeImage

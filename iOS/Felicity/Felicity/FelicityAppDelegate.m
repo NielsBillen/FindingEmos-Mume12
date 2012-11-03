@@ -38,13 +38,12 @@
     for (NSInteger i = 0; i < imageNames.count; i++) {
         NSString *name =  imageNames[i];
         NSString *displayName = [[name stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
-        NSString *uniqueId = [NSString stringWithFormat:@"%d",i];
         NSString *smallImage = [name stringByAppendingString:@"_small.png"];
         NSString *largeImage = [name stringByAppendingString:@"_big.png"];
         Emotion *emo = [Emotion alloc];
         
         [emotions addObject:[emo initWithDisplayName:displayName
-                                         andUniqueId:uniqueId
+                                         andUniqueId:i
                                      AndDatabaseName:name
                                        AndSmallImage:smallImage
                                        AndLargeImage:largeImage
