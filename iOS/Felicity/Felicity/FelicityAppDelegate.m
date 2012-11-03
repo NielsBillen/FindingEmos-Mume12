@@ -12,6 +12,7 @@
 
 #import "FelicityAppDelegate.h"
 #import "Emotion.h"
+#import "Database.h"
 
 @implementation FelicityAppDelegate
 
@@ -49,6 +50,13 @@
                                        AndLargeImage:largeImage
                                    AndSelectionCount:0]];
         
+    }
+    
+    NSArray *emotionInformation = [[Database database] retrieveEmotionsFromDatabase];
+    NSLog(@"%@",[emotionInformation description]);
+    for (Emotion *info in emotionInformation) {
+        NSLog(@"We have information");
+        NSLog(@"%d: %@, %@, %@", info.uniqueId, info.displayName, info.smallImage, info.largeImage);
     }
     
     emotionsCount = [[NSMutableDictionary alloc] init];

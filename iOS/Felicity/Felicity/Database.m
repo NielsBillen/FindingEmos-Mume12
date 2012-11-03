@@ -23,10 +23,10 @@ static Database *_database;
 
 - (id)init {
     if ((self = [super init])) {
-        NSString *sqLiteDb = [[NSBundle mainBundle] pathForResource:@"felicity"
-                                                             ofType:@"sqlite3"];
+        NSString *dbPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"felicity.sqlite"];
+        NSLog(@"new path: %@",dbPath);
         
-        if (sqlite3_open([sqLiteDb UTF8String], &_database) != SQLITE_OK) {
+        if (sqlite3_open([dbPath UTF8String], &_database) != SQLITE_OK) {
             NSLog(@"Failed to open database!");
         }
     }
@@ -41,11 +41,15 @@ static Database *_database;
 
 - (NSArray *)retrieveEmotionsFromDatabase {
     
+    
     NSMutableArray *retval = [[NSMutableArray alloc] init];
-    NSString *query = @"SELECT uniqueId, displayName, smallImage, largeImage FROM failed_banks ORDER BY close_date DESC";
+    NSString *query = @"SELECT uniqueId, displayName, smallImage, largeImage FROM emotions";
     sqlite3_stmt *statement;
+    NSLog(@"methode wordt wel opgeroepen");
+
     if (sqlite3_prepare_v2(_database, [query UTF8String], -1, &statement, nil)
         == SQLITE_OK) {
+        NSLog(@"kwam ik hier dan wel");
         while (sqlite3_step(statement) == SQLITE_ROW) {
             int uniqueId = sqlite3_column_int(statement, 0);
             char *displayNameChars = (char *) sqlite3_column_text(statement, 1);
@@ -61,6 +65,7 @@ static Database *_database;
                                 AndSmallImage:smallImage
                                 AndLargeImage:largeImage
                                 AndSelectionCount:0];
+            NSLog(@"%@",emotion.description);
             [retval addObject:emotion];
         }
         sqlite3_finalize(statement);
