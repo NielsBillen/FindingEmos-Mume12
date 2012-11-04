@@ -10,6 +10,7 @@
 //  Copyright (c) 2012 Ariadne. All rights reserved.
 //
 
+#import <CoreLocation/CoreLocation.h>
 #import "FelicityAppDelegate.h"
 #import "Emotion.h"
 #import "Database.h"
@@ -28,6 +29,16 @@
 */
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    if ([CLLocationManager locationServicesEnabled]== NO) {
+        UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"You currently have all location services for this device disabled. If you proceed, you will be asked to confirm whether location services should be reenabled." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [servicesDisabledAlert show];
+    }
+    
+    
+    locationController = [[MyCLController alloc] init];
+    [locationController.locationManager startUpdatingLocation];
+    
     // Override point for customization after application launch.
     
     NSArray *imageNames = [NSArray arrayWithObjects:@"angry",@"ashamed",@"bored",@"happy",@"hungry",@"in_love",@"irritated",@"sad",@"scared",@"sick",@"tired",@"very_happy",@"very_sad",@"super_happy",nil];
@@ -87,7 +98,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+
 }
 
 @end

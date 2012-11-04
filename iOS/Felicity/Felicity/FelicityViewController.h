@@ -10,13 +10,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MyClController.h"
 
 @class InputViewController;
 @class OutputViewController;
 @class SettingsViewController;
 
 @interface FelicityViewController : UIViewController
-{
+{    
 	InputViewController *inputPage;
 	OutputViewController *outputPage;
     SettingsViewController *settingsPage;

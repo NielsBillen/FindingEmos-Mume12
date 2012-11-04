@@ -14,6 +14,8 @@
 		00CEAF1216453168001831B9 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CEAF1116453168001831B9 /* libsqlite3.0.dylib */; };
 		00CEAF1416453248001831B9 /* felicity.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 00CEAF1316453248001831B9 /* felicity.sqlite */; };
 		00CEAF171645343C001831B9 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CEAF161645343C001831B9 /* Database.m */; };
+		00F4A90C1646760900F4709F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F4A90B1646760900F4709F /* CoreLocation.framework */; };
+		00F4A91016467E0800F4709F /* MyClController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00F4A90F16467E0800F4709F /* MyClController.m */; };
 		041AB987163B1DA4002164D0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB971163B1DA4002164D0 /* Default-568h@2x.png */; };
 		041AB988163B1DA4002164D0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB972163B1DA4002164D0 /* Default.png */; };
 		041AB989163B1DA4002164D0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB973163B1DA4002164D0 /* Default@2x.png */; };
@@ -72,6 +74,9 @@
 		00CEAF1316453248001831B9 /* felicity.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = felicity.sqlite; sourceTree = "<group>"; };
 		00CEAF151645343C001831B9 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
 		00CEAF161645343C001831B9 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		00F4A90B1646760900F4709F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		00F4A90E16467E0800F4709F /* MyClController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyClController.h; sourceTree = "<group>"; };
+		00F4A90F16467E0800F4709F /* MyClController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyClController.m; sourceTree = "<group>"; };
 		041AB971163B1DA4002164D0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		041AB972163B1DA4002164D0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		041AB973163B1DA4002164D0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -132,6 +137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00F4A90C1646760900F4709F /* CoreLocation.framework in Frameworks */,
 				00CEAF1216453168001831B9 /* libsqlite3.0.dylib in Frameworks */,
 				041F7F051636CA3300E15F83 /* UIKit.framework in Frameworks */,
 				041F7F071636CA3300E15F83 /* Foundation.framework in Frameworks */,
@@ -145,6 +151,8 @@
 		041AB970163B1DA4002164D0 /* Felicity */ = {
 			isa = PBXGroup;
 			children = (
+				00F4A90E16467E0800F4709F /* MyClController.h */,
+				00F4A90F16467E0800F4709F /* MyClController.m */,
 				00CEAF151645343C001831B9 /* Database.h */,
 				00CEAF161645343C001831B9 /* Database.m */,
 				041AB97A163B1DA4002164D0 /* FelicityAppDelegate.h */,
@@ -192,6 +200,7 @@
 		041F7EF51636CA3300E15F83 = {
 			isa = PBXGroup;
 			children = (
+				00F4A90B1646760900F4709F /* CoreLocation.framework */,
 				00CEAF1316453248001831B9 /* felicity.sqlite */,
 				00CEAF1116453168001831B9 /* libsqlite3.0.dylib */,
 				04F8A96E163B229B00EAABC5 /* EmoticonSet */,
@@ -369,6 +378,7 @@
 				041AB994163B1DA4002164D0 /* SettingsViewController.m in Sources */,
 				00CEAF0E16432F78001831B9 /* Emotion.m in Sources */,
 				00CEAF171645343C001831B9 /* Database.m in Sources */,
+				00F4A91016467E0800F4709F /* MyClController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
