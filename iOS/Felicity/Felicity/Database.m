@@ -27,8 +27,6 @@ static Database * _database;
     return _database;
 }
 
-
-
 - (id)init {
     // Definieer welke emoties er zijn!
     NSArray *emotionNames = [NSArray arrayWithObjects:@"angry", @"ashamed", @"bored", @"happy", @"hungry", @"in_love",@"irritated",@"sad", @"scared", @"sick", @"tired", @"very_happy", @"very_sad", @"super_happy", nil];
@@ -58,20 +56,7 @@ static Database * _database;
 
 - (void) close {
     NSLog(@"De database is gesloten");
-    sqlite3_close(_database);
-}
-
-
-- (void) insertEmotion:(Emotion *)emotion {
-    NSString *query = [NSString stringWithFormat:@"INSERT INTO emotions VALUES (\'%@\',\'%d\',\'%@\',\'%@\', \'%@\', \'%d\');",emotion.displayName,emotion.uniqueId, emotion.databaseName,emotion.smallImage,emotion.largeImage, emotion.nbSelected ];
-    sqlite3_stmt *updateStmt = nil;
-    if(sqlite3_prepare_v2(_database, [query UTF8String], -1, &updateStmt, nil) != SQLITE_OK) {
-        NSLog(@"Error while creating update statement. '%s'", sqlite3_errmsg(_database));
-    }
-    if (SQLITE_DONE != sqlite3_step(updateStmt)) {
-        NSLog(@"Error while creating database. '%s'", sqlite3_errmsg(_database));
-    }
-    sqlite3_finalize(updateStmt);
+    [self.db close];
 }
 
 - (NSArray *)retrieveEmotionsFromDatabase {
