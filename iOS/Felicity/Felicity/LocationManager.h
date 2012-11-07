@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface MyCLController : NSObject <CLLocationManagerDelegate> {
+@interface LocationManager : NSObject <CLLocationManagerDelegate> {
 	CLLocationManager *locationManager;
 }
 

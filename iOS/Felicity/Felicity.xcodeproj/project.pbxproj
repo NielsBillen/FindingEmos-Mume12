@@ -13,15 +13,14 @@
 		0077C3E6164A5FED003DE80C /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3DE164A5FED003DE80C /* FMDatabasePool.m */; };
 		0077C3E7164A5FED003DE80C /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3E0164A5FED003DE80C /* FMDatabaseQueue.m */; };
 		0077C3E9164A5FED003DE80C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3E3164A5FED003DE80C /* FMResultSet.m */; };
+		0077C3EC164A6EDE003DE80C /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3EB164A6EDE003DE80C /* LocationManager.m */; };
 		00ACB3B01642E1FD007F75FB /* imageBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 00ACB3AE1642E1FD007F75FB /* imageBackground.png */; };
 		00CEAF071642E3FE001831B9 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 00CEAF051642E3FE001831B9 /* background.png */; };
 		00CEAF0B1642E59C001831B9 /* imageBackgroundReversed.png in Resources */ = {isa = PBXBuildFile; fileRef = 00CEAF091642E59C001831B9 /* imageBackgroundReversed.png */; };
 		00CEAF0E16432F78001831B9 /* Emotion.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CEAF0D16432F78001831B9 /* Emotion.m */; };
 		00CEAF1216453168001831B9 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CEAF1116453168001831B9 /* libsqlite3.0.dylib */; };
-		00CEAF1416453248001831B9 /* felicity.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 00CEAF1316453248001831B9 /* felicity.sqlite */; };
 		00CEAF171645343C001831B9 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CEAF161645343C001831B9 /* Database.m */; };
 		00F4A90C1646760900F4709F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F4A90B1646760900F4709F /* CoreLocation.framework */; };
-		00F4A91016467E0800F4709F /* MyClController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00F4A90F16467E0800F4709F /* MyClController.m */; };
 		00F4A912164683B600F4709F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 00F4A911164683B600F4709F /* icon.png */; };
 		041AB987163B1DA4002164D0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB971163B1DA4002164D0 /* Default-568h@2x.png */; };
 		041AB988163B1DA4002164D0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB972163B1DA4002164D0 /* Default.png */; };
@@ -83,18 +82,17 @@
 		0077C3E0164A5FED003DE80C /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
 		0077C3E2164A5FED003DE80C /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		0077C3E3164A5FED003DE80C /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		0077C3EA164A6EDD003DE80C /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
+		0077C3EB164A6EDE003DE80C /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 		00ACB3AF1642E1FD007F75FB /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/imageBackground.png; sourceTree = "<group>"; };
 		00CEAF061642E3FE001831B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/background.png; sourceTree = "<group>"; };
 		00CEAF0A1642E59C001831B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/imageBackgroundReversed.png; sourceTree = "<group>"; };
 		00CEAF0C16432F78001831B9 /* Emotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emotion.h; sourceTree = "<group>"; };
 		00CEAF0D16432F78001831B9 /* Emotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emotion.m; sourceTree = "<group>"; };
 		00CEAF1116453168001831B9 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
-		00CEAF1316453248001831B9 /* felicity.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = felicity.sqlite; sourceTree = "<group>"; };
 		00CEAF151645343C001831B9 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
 		00CEAF161645343C001831B9 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
 		00F4A90B1646760900F4709F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		00F4A90E16467E0800F4709F /* MyClController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyClController.h; sourceTree = "<group>"; };
-		00F4A90F16467E0800F4709F /* MyClController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyClController.m; sourceTree = "<group>"; };
 		00F4A911164683B600F4709F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		041AB971163B1DA4002164D0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		041AB972163B1DA4002164D0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -189,8 +187,8 @@
 			isa = PBXGroup;
 			children = (
 				0077C3D7164A5FA8003DE80C /* FMDB */,
-				00F4A90E16467E0800F4709F /* MyClController.h */,
-				00F4A90F16467E0800F4709F /* MyClController.m */,
+				0077C3EA164A6EDD003DE80C /* LocationManager.h */,
+				0077C3EB164A6EDE003DE80C /* LocationManager.m */,
 				00CEAF151645343C001831B9 /* Database.h */,
 				00CEAF161645343C001831B9 /* Database.m */,
 				041AB97A163B1DA4002164D0 /* FelicityAppDelegate.h */,
@@ -239,7 +237,6 @@
 		041F7EF51636CA3300E15F83 = {
 			isa = PBXGroup;
 			children = (
-				00CEAF1316453248001831B9 /* felicity.sqlite */,
 				04F8A96E163B229B00EAABC5 /* EmoticonSet */,
 				041AB970163B1DA4002164D0 /* Felicity */,
 				041F7F031636CA3300E15F83 /* Frameworks */,
@@ -399,7 +396,6 @@
 				00ACB3B01642E1FD007F75FB /* imageBackground.png in Resources */,
 				00CEAF071642E3FE001831B9 /* background.png in Resources */,
 				00CEAF0B1642E59C001831B9 /* imageBackgroundReversed.png in Resources */,
-				00CEAF1416453248001831B9 /* felicity.sqlite in Resources */,
 				00F4A912164683B600F4709F /* icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,12 +415,12 @@
 				041AB994163B1DA4002164D0 /* SettingsViewController.m in Sources */,
 				00CEAF0E16432F78001831B9 /* Emotion.m in Sources */,
 				00CEAF171645343C001831B9 /* Database.m in Sources */,
-				00F4A91016467E0800F4709F /* MyClController.m in Sources */,
 				0077C3E4164A5FED003DE80C /* FMDatabase.m in Sources */,
 				0077C3E5164A5FED003DE80C /* FMDatabaseAdditions.m in Sources */,
 				0077C3E6164A5FED003DE80C /* FMDatabasePool.m in Sources */,
 				0077C3E7164A5FED003DE80C /* FMDatabaseQueue.m in Sources */,
 				0077C3E9164A5FED003DE80C /* FMResultSet.m in Sources */,
+				0077C3EC164A6EDE003DE80C /* LocationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

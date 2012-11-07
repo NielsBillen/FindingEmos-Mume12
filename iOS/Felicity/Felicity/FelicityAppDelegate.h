@@ -11,13 +11,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MyClController.h"
+#import "LocationManager.h"
 
 @interface FelicityAppDelegate : UIResponder <UIApplicationDelegate> {
     NSMutableDictionary *emotionsCount;
     NSMutableArray *emotions;
     
-    MyCLController *locationController;
+    LocationManager *locationController;
 }
 
 /*

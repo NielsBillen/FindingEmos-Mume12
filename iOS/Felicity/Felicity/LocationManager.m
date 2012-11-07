@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Ariadne. All rights reserved.
 //
 
-#import "MyClController.h"
+#import "LocationManager.h"
 
-@implementation MyCLController
+@implementation LocationManager
 
 @synthesize locationManager;
 

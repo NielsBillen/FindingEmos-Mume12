@@ -41,7 +41,7 @@
         [servicesDisabledAlert show];
     }
     
-    locationController = [[MyCLController alloc] init];
+    locationController = [[LocationManager alloc] init];
     [locationController.locationManager startUpdatingLocation];
     
     
