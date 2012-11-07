@@ -16,7 +16,12 @@
 
 + (Database*)database;
 - (NSArray *)retrieveEmotionsFromDatabase;
+- (Emotion *) getEmotionWithName:(NSString *)name;
 
 - (void) insertEmotion:(Emotion *)emotion;
+
+-(void) incrementCountOfEmotion:(Emotion *)emotion;
+
+- (void) close;
 
 @end

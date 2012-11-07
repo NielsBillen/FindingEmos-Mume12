@@ -11,9 +11,11 @@
 //
 
 #import <CoreLocation/CoreLocation.h>
+#import <EventKit/EventKit.h>
 #import "FelicityAppDelegate.h"
 #import "Emotion.h"
 #import "Database.h"
+#import "FMDatabase.h"
 
 @implementation FelicityAppDelegate
 
@@ -30,47 +32,75 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
+    /*
+     * Location
+     */
+    
     if ([CLLocationManager locationServicesEnabled]== NO) {
         UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"You currently have all location services for this device disabled. If you proceed, you will be asked to confirm whether location services should be reenabled." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [servicesDisabledAlert show];
     }
     
-    
     locationController = [[MyCLController alloc] init];
     [locationController.locationManager startUpdatingLocation];
     
-    // Override point for customization after application launch.
     
-    NSArray *imageNames = [NSArray arrayWithObjects:@"angry",@"ashamed",@"bored",@"happy",@"hungry",@"in_love",@"irritated",@"sad",@"scared",@"sick",@"tired",@"very_happy",@"very_sad",@"super_happy",nil];
+    /*
+     * Fill database
+     */
     
-    emotions = [[NSMutableArray alloc] init];
+    NSArray *imageNames = [NSArray arrayWithObjects:@"angry", @"ashamed", @"bored", @"happy", @"hungry", @"in_love",@"irritated",@"sad", @"scared", @"sick", @"tired", @"very_happy", @"very_sad", @"super_happy", nil];
     
-    for (NSInteger i = 0; i < imageNames.count; i++) {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docsPath = [paths objectAtIndex:0];
+    NSString *path = [docsPath stringByAppendingPathComponent:@"database.sqlite"];
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:path];
+    if (![db open]) {
+        return NO;
+    }
+    [db executeUpdate:@"create table emotions (displayName text ,uniqueId int primary key,name text ,smallImage text,largeImage text,nbSelected int)"];
+    
+    
+    for (int i = 0; i < imageNames.count; i++) {
         NSString *name =  imageNames[i];
         NSString *displayName = [[name stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
         NSString *smallImage = [name stringByAppendingString:@"_small.png"];
         NSString *largeImage = [name stringByAppendingString:@"_big.png"];
-        Emotion *emo = [Emotion alloc];
-        
-        [emotions addObject:[emo initWithDisplayName:displayName
-                                         andUniqueId:i
-                                     AndDatabaseName:name
-                                       AndSmallImage:smallImage
-                                       AndLargeImage:largeImage
-                                   AndSelectionCount:0]];
-        [[Database database] insertEmotion:emo];
+        //Emotion *emo = [[Emotion alloc] initWithDisplayName:displayName
+        //                                 andUniqueId:i
+        //                             AndDatabaseName:name
+        //                               AndSmallImage:smallImage
+        //                               AndLargeImage:largeImage
+        //                           AndNbSelected:0];
+        [db executeUpdate:@"insert into emotions(displayName, uniqueId,name, smallImage, largeImage, nbSelected) values(?,?,?,?,?,?)",displayName,[NSNumber numberWithInt:i],name, smallImage, largeImage,[NSNumber numberWithInt:0],nil];
+        //[[Database database] insertEmotion:emo];
     }
     
-    NSArray *emotionInformation = [[Database database] retrieveEmotionsFromDatabase];
-    for (Emotion *info in emotionInformation) {
-        NSLog(@"%d: %@, %@, %@", info.uniqueId, info.displayName, info.smallImage, info.largeImage);
+    [db executeUpdate:@"UPDATE emotions SET nbSelected=? WHERE name=?", [NSNumber numberWithInt:2], @"happy",nil];
+
+    
+    FMResultSet *results = [db executeQuery:@"select * from emotions"];
+    while([results next]) {
+        NSString *name = [results stringForColumn:@"name"];
+        NSInteger nbSelected  = [results intForColumn:@"nbSelected"];
+        NSLog(@"User: %@ - %d",name, nbSelected);
     }
+    [db close];
+    
+  //  NSArray *emotionInformation = [[Database database] retrieveEmotionsFromDatabase];
+  //  for (Emotion *info in emotionInformation) {
+  //      [[Database database] incrementCountOfEmotion:info];
+  //      NSLog(@"%d: %@, %@, %@, %d", info.uniqueId, info.databaseName, info.smallImage, info.largeImage, info.nbSelected);
+  //  }
+    
+    // Let fmdb do the work
     
     emotionsCount = [[NSMutableDictionary alloc] init];
     for (NSInteger i = 0; i < imageNames.count; i++) {
         [emotionsCount setObject:[NSNumber numberWithInteger:0] forKey:imageNames[i]];
     }
-
+            
     return YES;
 }
 							

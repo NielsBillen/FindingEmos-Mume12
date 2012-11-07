@@ -17,14 +17,14 @@
 @property (nonatomic, strong) NSString *databaseName;
 @property (nonatomic, strong) NSString *smallImage;
 @property (nonatomic, strong) NSString *largeImage;
-@property (nonatomic) int selectionCount;
+@property (nonatomic) int nbSelected;
 
 - (id)initWithDisplayName:(NSString *)displayName
                 andUniqueId:(int)uniqueId
             AndDatabaseName:(NSString *)databaseName
               AndSmallImage:(NSString *)smallImage
               AndLargeImage:(NSString *)largeImage
-          AndSelectionCount:(int)selectionCount;
+          AndNbSelected:(int)nbSelected;
 
 - (void)storeEmotionInDatabase:(id)database;
 

@@ -18,21 +18,21 @@
 @synthesize databaseName = _databaseName;
 @synthesize smallImage = _smallImage;
 @synthesize largeImage = _largeImage;
-@synthesize selectionCount = _selectionCount;
+@synthesize nbSelected = _nbSelected;
 
 - (Emotion *)initWithDisplayName:(NSString *)displayName
                 andUniqueId:(int)uniqueId
             AndDatabaseName:(NSString *)databaseName
               AndSmallImage:(NSString *)smallImage
               AndLargeImage:(NSString *)largeImage
-          AndSelectionCount:(int)selectionCount {
+          AndNbSelected:(int)nbSelected {
     
         self.displayName = displayName;
         self.uniqueId = uniqueId;
         self.databaseName = databaseName;
         self.smallImage = smallImage;
         self.largeImage = largeImage;
-        self.selectionCount = selectionCount;
+        self.nbSelected = nbSelected;
     return self;
 }
 

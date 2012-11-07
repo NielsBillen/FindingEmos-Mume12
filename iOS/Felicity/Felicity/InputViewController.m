@@ -11,6 +11,7 @@
 #import "InputViewController.h"
 #import "FelicityAppDelegate.h"
 #import "FelicityViewController.h"
+#import "Database.h"
 #import "Emotion.h"
 
 @implementation InputViewController
@@ -27,8 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    appDelegate = (FelicityAppDelegate *)[[UIApplication sharedApplication] delegate];
-    emotions = appDelegate.emotions;
+    //appDelegate = (FelicityAppDelegate *)[[UIApplication sharedApplication] delegate];
+    //emotions = appDelegate.emotions;
     
     [self loadImages];
     [self createScrollingEmotions];
@@ -45,6 +46,8 @@
 ** Initialiseert de mapping: source name van image - UIImageView van image
 */
 -(void) loadImages {
+    NSArray *emotions = [[Database database] retrieveEmotionsFromDatabase];
+
     images = [[NSMutableDictionary alloc] init];
     NSMutableArray *imagesArray = [[NSMutableArray alloc] init];
     
@@ -59,6 +62,7 @@
 ** Initialiseert de scrollView met emotions onderaan de Inputview.
 */
 -(void) createScrollingEmotions {
+    NSArray *emotions = [[Database database] retrieveEmotionsFromDatabase];
     emotionScroller.contentSize = CGSizeMake(80*emotions.count, 64);
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"imageBackground.png"]];
     emotionScroller.backgroundColor = background;
@@ -100,6 +104,7 @@
 ** Initialiseert de emotionsOverview pagina met de emoticons.
 */
 - (void)createEmotionsOverviewPage {
+    NSArray *emotions = [[Database database] retrieveEmotionsFromDatabase];
     for(NSInteger i = 0; i < emotions.count; i++) {
         NSString *imageSourceName = [[emotions objectAtIndex:i] smallImage];
         UIImage *image = [UIImage imageNamed:imageSourceName];
