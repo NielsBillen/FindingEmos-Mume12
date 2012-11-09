@@ -43,7 +43,7 @@ static Database * _database;
     [self setLocationDelagate];
     
     return self;
-} 
+}
 
 // Geef alle emoties terug
 - (NSArray *)retrieveEmotionsFromDatabase {
