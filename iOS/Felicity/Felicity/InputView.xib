@@ -169,7 +169,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="404744597">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIButton" id="219626829">
@@ -206,6 +206,7 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{320, 385}</string>
+				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="219626829"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<object class="NSColor" key="IBUIBackgroundColor">
@@ -689,11 +690,6 @@
 						<reference key="parent" ref="219626829"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">422</int>
-						<reference key="object" ref="568739369"/>
-						<reference key="parent" ref="404744597"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">423</int>
 						<reference key="object" ref="60022727"/>
 						<reference key="parent" ref="191373211"/>
@@ -762,6 +758,11 @@
 						<int key="objectID">469</int>
 						<reference key="object" ref="1016864959"/>
 						<reference key="parent" ref="138106294"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">422</int>
+						<reference key="object" ref="568739369"/>
+						<reference key="parent" ref="404744597"/>
 					</object>
 				</array>
 			</object>
@@ -839,7 +840,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">469</int>
+			<int key="maxID">470</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>

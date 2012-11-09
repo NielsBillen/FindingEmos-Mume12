@@ -36,17 +36,6 @@
     return self;
 }
 
-
-// TODO id nog aanpassen
-- (void)storeEmotionInDatabase:(id)database {
-    
-};
-
-
-+ (Emotion *)loadEmotionFromDatabase:(id)database {
-    return nil;
-};
-
 @end
 
 

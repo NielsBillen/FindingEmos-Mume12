@@ -7,15 +7,34 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 #import "Emotion.h"
 
-@interface Database : NSObject
+@interface Database : NSObject {
+	CLLocationManager *locationManager;
+    CLLocation *currentLocation;
+}
 
+// Statische methode om aan het database singleton te geraken
 + (Database*)database;
-
+// Geef alle emoties terug
 - (NSArray *)retrieveEmotionsFromDatabase;
+// Geeft een emotieobject terug met de opgegeven naam
 - (Emotion *) getEmotionWithName:(NSString *)name;
-- (void) incrementCountOfEmotion:(Emotion *)emotion;
+// Sla op als er een nieuwe emotie geselecteerd wordt
+- (void) registerNewEmotionSelected:(Emotion *)emotion;
+// Print de huidige geschiedenis
+- (void)printCurrentHistory;
+// Sluit de database
 - (void) close;
+
+// LocatieManager methodes
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation;
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error;
 
 @end

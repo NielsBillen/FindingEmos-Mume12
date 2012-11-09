@@ -31,30 +31,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    /*
-     * Location
-     */
-    
+    // Geef een melding weer dat Felicity de locatietrackt
     if ([CLLocationManager locationServicesEnabled]== NO) {
         UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"You currently have all location services for this device disabled. If you proceed, you will be asked to confirm whether location services should be reenabled." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [servicesDisabledAlert show];
     }
     
-    locationController = [[LocationManager alloc] init];
-    [locationController.locationManager startUpdatingLocation];
-    
-    NSArray *emotions = [[Database database] retrieveEmotionsFromDatabase];
-    for (Emotion *emo in emotions) {
-        NSLog(emo.displayName);
-    }
-
-    //[db close];
-    /*
-    emotionsCount = [[NSMutableDictionary alloc] init];
-    for (NSInteger i = 0; i < imageNames.count; i++) {
-        [emotionsCount setObject:[NSNumber numberWithInteger:0] forKey:imageNames[i]];
-    }
-     */
+    [[Database database] printCurrentHistory];
             
     return YES;
 }

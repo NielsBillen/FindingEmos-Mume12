@@ -26,6 +26,4 @@
               AndLargeImage:(NSString *)largeImage
           AndNbSelected:(int)nbSelected;
 
-- (void)storeEmotionInDatabase:(id)database;
-
 @end
