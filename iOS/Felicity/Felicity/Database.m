@@ -45,6 +45,29 @@ static Database * _database;
     return self;
 }
 
+// Geef de statistieken terug
+- (EmotionStatistics *)retrieveEmotionStaticsForEmotion:(Emotion *)emotion {
+    if (![self.FMDBDatabase tableExists:@"history"]) {
+        NSLog(@"De history tabel bestaat nog niet!!");
+    }
+    
+    FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from history"];
+    int selectionCount = 0;
+    int totalCount = 0;
+    
+    NSInteger uniqueIdObject;
+    while ([results next]) {
+        uniqueIdObject = [results intForColumn:@"emoticon_id"];
+        int emoticon_id  = [results intForColumn:@"emoticon_id"];
+        if (emoticon_id == emotion.uniqueId) {
+            selectionCount++;
+        }
+        totalCount++;
+    }
+    return [[EmotionStatistics alloc] initWithEmotion:emotion andWithTimesSelected:selectionCount andWithTotalNbEmtionsSelected:totalCount];
+}
+
+
 // Geef alle emoties terug
 - (NSArray *)retrieveEmotionsFromDatabase {
     NSMutableArray *emotionsArray = [[NSMutableArray alloc] init];
@@ -90,6 +113,7 @@ static Database * _database;
         [self.FMDBDatabase executeUpdate:@"INSERT INTO history (date,time,epochtime,country,city,emoticon_id) VALUES (?,?,?,?,?,?)",date, time, epochtime,placemark.country,placemark.locality, emotionId, nil];
     }];
 }
+
 
 
 
@@ -162,7 +186,7 @@ static Database * _database;
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation {
-    currentLocation = newLocation;
+    if(!newLocation) currentLocation = newLocation;
 }
 
 - (void)locationManager:(CLLocationManager *)manager

@@ -35,7 +35,8 @@
 ** Geeft de statistieken weer (hoe vaak een emoticon is geselecteerd).
 */
 - (void)createStatistics {
-    for(NSInteger i=0; i < emotions.count; i++) {
+    
+    /*for(NSInteger i=0; i < emotions.count; i++) {
         UILabel *imageName = [[UILabel alloc] initWithFrame:CGRectMake(60, 20 + 22*i, 110, 20)];
         Emotion *emotion = emotions[i];
         imageName.text = [emotion.displayName stringByAppendingString:@"; "];
@@ -54,7 +55,7 @@
         timesSelected.numberOfLines = 1;
         [timesSelected setFont:[UIFont fontWithName:@"Arial" size:14]];
         [self.view addSubview:timesSelected];
-    }
+    }*/
 }
 
 /*

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "Emotion.h"
+#import "EmotionStatistics.h"
 
 @interface Database : NSObject {
 	CLLocationManager *locationManager;
@@ -25,6 +26,8 @@
 - (void) registerNewEmotionSelected:(Emotion *)emotion;
 // Print de huidige geschiedenis
 - (void)printCurrentHistory;
+// Geef de statistieken terug
+- (EmotionStatistics *)retrieveEmotionStaticsForEmotion:(Emotion *)emotion;
 // Sluit de database
 - (void) close;
 

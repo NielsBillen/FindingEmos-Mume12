@@ -19,6 +19,8 @@
 		00CEAF0E16432F78001831B9 /* Emotion.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CEAF0D16432F78001831B9 /* Emotion.m */; };
 		00CEAF1216453168001831B9 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CEAF1116453168001831B9 /* libsqlite3.0.dylib */; };
 		00CEAF171645343C001831B9 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CEAF161645343C001831B9 /* Database.m */; };
+		00D28985164D42BE00AF914F /* ResultStatistics.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D28984164D42BE00AF914F /* ResultStatistics.m */; };
+		00D28989164D487B00AF914F /* EmotionStatistics.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D28988164D487B00AF914F /* EmotionStatistics.m */; };
 		00F4A90C1646760900F4709F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F4A90B1646760900F4709F /* CoreLocation.framework */; };
 		00F4A912164683B600F4709F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 00F4A911164683B600F4709F /* icon.png */; };
 		041AB987163B1DA4002164D0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB971163B1DA4002164D0 /* Default-568h@2x.png */; };
@@ -89,6 +91,10 @@
 		00CEAF1116453168001831B9 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		00CEAF151645343C001831B9 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
 		00CEAF161645343C001831B9 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		00D28983164D42BE00AF914F /* ResultStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultStatistics.h; sourceTree = "<group>"; };
+		00D28984164D42BE00AF914F /* ResultStatistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultStatistics.m; sourceTree = "<group>"; };
+		00D28987164D487B00AF914F /* EmotionStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmotionStatistics.h; sourceTree = "<group>"; };
+		00D28988164D487B00AF914F /* EmotionStatistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmotionStatistics.m; sourceTree = "<group>"; };
 		00F4A90B1646760900F4709F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		00F4A911164683B600F4709F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		041AB971163B1DA4002164D0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -184,6 +190,10 @@
 			isa = PBXGroup;
 			children = (
 				0077C3D7164A5FA8003DE80C /* FMDB */,
+				00D28983164D42BE00AF914F /* ResultStatistics.h */,
+				00D28984164D42BE00AF914F /* ResultStatistics.m */,
+				00D28987164D487B00AF914F /* EmotionStatistics.h */,
+				00D28988164D487B00AF914F /* EmotionStatistics.m */,
 				00CEAF151645343C001831B9 /* Database.h */,
 				00CEAF161645343C001831B9 /* Database.m */,
 				041AB97A163B1DA4002164D0 /* FelicityAppDelegate.h */,
@@ -415,6 +425,8 @@
 				0077C3E6164A5FED003DE80C /* FMDatabasePool.m in Sources */,
 				0077C3E7164A5FED003DE80C /* FMDatabaseQueue.m in Sources */,
 				0077C3E9164A5FED003DE80C /* FMResultSet.m in Sources */,
+				00D28985164D42BE00AF914F /* ResultStatistics.m in Sources */,
+				00D28989164D487B00AF914F /* EmotionStatistics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
