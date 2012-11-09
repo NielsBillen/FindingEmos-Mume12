@@ -36,7 +36,7 @@ static Database * _database;
     // Maak de tabel met informatie van de emoties aan en vul deze.
     [self makeEmotionTable];
     // Maak de geschiedenis tabel aan.
-    [self.FMDBDatabase executeUpdate:@"create table history (id int primary key autoincrement, date text, time text, epochtime int, country text, city text, emoticon_id int)"];
+    [self.FMDBDatabase executeUpdate:@"create table history (idKey int primary key, date text, time text, epochtime int, country text, city text, emoticon_id int)"];
     // Maak de vrienden tabel aan.
     [self.FMDBDatabase executeUpdate:@"create table friends (key int primary key, epochtime int, friend text)"];
     // Maak deze database de delagete van de LocationManager, op deze manier kan de database altijd aan de locatie van de gebruiker.
@@ -81,7 +81,7 @@ static Database * _database;
     NSString *date = [dateFormatter stringFromDate:currentDateTime];
     [dateFormatter setDateFormat:@"HH:mm:ss"];
     NSString *time = [dateFormatter stringFromDate:currentDateTime];
-    long epochtime = [[NSDate date] timeIntervalSince1970];;
+    NSNumber *epochtime = [NSNumber numberWithLong:[[NSDate date] timeIntervalSince1970]];
     NSNumber *emotionId = [NSNumber numberWithInt:emotion.uniqueId];
     
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
@@ -117,7 +117,7 @@ static Database * _database;
 - (void)openFMDBdatabase {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docsPath = [paths objectAtIndex:0];
-    NSString *path = [docsPath stringByAppendingPathComponent:@"database2.sqlite"];
+    NSString *path = [docsPath stringByAppendingPathComponent:@"database3.sqlite"];
     self.FMDBDatabase = [FMDatabase databaseWithPath:path];
     if (![self.FMDBDatabase open]) {
         NSLog(@"Error opening the database!");
@@ -127,7 +127,8 @@ static Database * _database;
 // Print de huidige geschiedenis
 - (void)printCurrentHistory {
     if (![self.FMDBDatabase tableExists:@"history"]) {
-        NSLog(@"history bestaat niet!!");
+        NSLog(@"De history tabel bestaat nog niet!!");
+        return;
     }
 
     FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from history"];
