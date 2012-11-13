@@ -29,7 +29,6 @@
     [super viewDidLoad];
     
     //appDelegate = (FelicityAppDelegate *)[[UIApplication sharedApplication] delegate];
-    //emotions = appDelegate.emotions;
     
     [self loadImages];
     [self createScrollingEmotions];

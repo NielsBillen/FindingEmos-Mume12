@@ -14,7 +14,19 @@
 #import "Database.h"
 #import "FelicityUtil.h"
 
+@interface OutputViewController ()
+@property int xPadding; 
+@property int yPadding;
+@property int imageSize;
+@property int yMargin;
+@property int xWidthBar;
+@end
+
 @implementation OutputViewController
+
+@synthesize resultsScroller;
+
+@synthesize xPadding, yPadding, imageSize,yMargin,xWidthBar;
 
 /*
 ** Wordt aangeroepen wanneer de Results pagina geladen is.
@@ -24,10 +36,21 @@
 {
     [super viewDidLoad];
     
+    xPadding = 10;
+    yPadding = 10;
+    imageSize = 50;
+    yMargin = 70;
+    xWidthBar = 230;
+    
     appDelegate = (FelicityAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
-    self.view.backgroundColor = background;
+    
+    int nbEmotions = [[Database database] nbOfEmotions];
+    
+    resultsScroller.contentSize = CGSizeMake(320, nbEmotions * 70);
+    resultsScroller.backgroundColor = background;
+    [self.view addSubview:resultsScroller];
     
     [self createStatistics];
 }
@@ -37,19 +60,13 @@
 */
 - (void)createStatistics {
     
-    for(UIView *subview in [self.view subviews]) {
+    /*for(UIView *subview in [self.resultsScroller subviews]) {
         [subview removeFromSuperview];
-    }
+    }*/
     
     NSArray *sortedStatistics = [FelicityUtil retrieveEmotionStatistics];
     
     double maxPercentage = ((EmotionStatistics *)sortedStatistics[0]).percentageSelected;
-        
-    int xPadding = 10;
-    int yPadding = 10;
-    int imageSize = 50;
-    int yMargin = 70;
-    int xWidthBar = 230;
     
     for(int i = 0; i < sortedStatistics.count; i++) {
         // Nodige dynamische gegevens
@@ -64,7 +81,7 @@
         Imageframe.size = CGSizeMake(imageSize,imageSize);
         UIImageView *imageSubView = [[UIImageView alloc] initWithFrame:Imageframe];
         imageSubView.image = [UIImage imageNamed:emotion.smallImage];
-        [self.view addSubview:imageSubView];
+        [resultsScroller addSubview:imageSubView];
         
         // De bars
         UILabel *barSubView = [[UILabel alloc] initWithFrame:CGRectMake(xPadding + 60, yPadding + yMargin*(i), (xWidthBar / maxPercentage) * percentage, imageSize)];
@@ -73,7 +90,7 @@
         barSubView.textColor = [UIColor whiteColor];
         barSubView.backgroundColor = [UIColor darkGrayColor];
         [barSubView setFont:[UIFont fontWithName:@"Arial" size:11]];
-        [self.view addSubview:barSubView];
+        [resultsScroller addSubview:barSubView];
         
     }
 }

@@ -13,11 +13,13 @@
 
 @interface Database ()
 @property FMDatabase *FMDBDatabase;
+@property int nbEmotions;
 @end
 
 @implementation Database
 
 @synthesize FMDBDatabase = _FMDBDatabase;
+@synthesize nbEmotions;
 
 /*
  * Maak database een singleton.
@@ -44,6 +46,12 @@ static Database * _database;
     
     return self;
 }
+
+// Geeft het aantal emoties terug
+- (int)nbOfEmotions {
+    return nbEmotions;
+}
+
 
 // Geef de statistieken terug
 - (EmotionStatistics *)retrieveEmotionStaticsForEmotion:(Emotion *)emotion {
@@ -123,6 +131,7 @@ static Database * _database;
 - (void)makeEmotionTable {
     // Let op opmerking hieronder !!! 
     NSArray *emotionNames = [NSArray arrayWithObjects:@"angry", @"ashamed", @"bored", @"happy", @"hungry", @"in_love",@"irritated",@"sad", @"scared", @"sick", @"super_happy", @"tired", @"very_happy", @"very_sad", nil];
+    nbEmotions = emotionNames.count;
     
     // Vermijd een hoop foutmeldingen door na te gaan of de emotiestabel al bestaat
     // Let wel op dat indien nieuwe emoties toegevoegd worden, de database opnieuw aangemaakt moet worden.

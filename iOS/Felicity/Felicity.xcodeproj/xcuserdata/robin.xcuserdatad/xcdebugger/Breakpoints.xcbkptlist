@@ -8,13 +8,26 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Felicity/Database.m"
-         timestampString = "374167037.650736"
+         timestampString = "374506327.62523"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "62"
-         endingLineNumber = "62"
+         startingLineNumber = "70"
+         endingLineNumber = "70"
          landmarkName = "-retrieveEmotionStaticsForEmotion:"
          landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Felicity/OutputViewController.m"
+         timestampString = "374506741.796498"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "74"
+         endingLineNumber = "74"
+         landmarkName = "@interface OutputViewController"
+         landmarkType = "2">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

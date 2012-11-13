@@ -30,6 +30,8 @@
 - (EmotionStatistics *)retrieveEmotionStaticsForEmotion:(Emotion *)emotion;
 // Sluit de database
 - (void) close;
+// Geeft het aantal emoties terug
+- (int)nbOfEmotions;
 
 // LocatieManager methodes
 

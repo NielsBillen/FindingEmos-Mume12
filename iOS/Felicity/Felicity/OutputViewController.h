@@ -16,7 +16,7 @@
     // Link naar de appDelegate;
     FelicityAppDelegate *appDelegate;
     
-    
 }
+@property (weak, nonatomic) IBOutlet UIScrollView *resultsScroller;
 
 @end
