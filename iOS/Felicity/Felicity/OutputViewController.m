@@ -60,9 +60,9 @@
 */
 - (void)createStatistics {
     
-    /*for(UIView *subview in [self.resultsScroller subviews]) {
+    for(UIView *subview in [self.resultsScroller subviews]) {
         [subview removeFromSuperview];
-    }*/
+    }
     
     NSArray *sortedStatistics = [FelicityUtil retrieveEmotionStatistics];
     
@@ -92,7 +92,8 @@
         barSubView.backgroundColor = [UIColor darkGrayColor];
         [barSubView setFont:[UIFont fontWithName:@"Arial" size:11]];
         
-        [UIView animateWithDuration:2 animations:^{
+        
+        [UIView animateWithDuration:i animations:^{
             [barSubView setAlpha:2.0];
         }];
         
