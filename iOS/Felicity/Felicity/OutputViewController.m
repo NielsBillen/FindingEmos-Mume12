@@ -38,27 +38,30 @@
     
     NSArray *emotions= [[Database database] retrieveEmotionsFromDatabase];
     
+    int xPadding = 10;
+    int yPadding = 10;
+    int imageSize = 50;
+    int yMargin = 70;
+    
     for(int i = 0; i < emotions.count; i++) {
         Emotion *emotion = emotions[i];
         EmotionStatistics *statistics = [[Database database] retrieveEmotionStaticsForEmotion:emotion];
-
-        UIImage *image = [UIImage imageNamed:emotion.smallImage];
         
-        CGRect frame;
-        frame.origin.x = 5;
-        frame.origin.y = 10 + 70*(i);
-        frame.size = CGSizeMake(50,50);
+        CGRect Imageframe;
+        Imageframe.origin.x = xPadding;
+        Imageframe.origin.y = yPadding + yMargin*(i);
+        Imageframe.size = CGSizeMake(imageSize,imageSize);
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(80*(i % 4), 75 + 87*(i / 4), 80, 15)];
+        UIImageView *subview = [[UIImageView alloc] initWithFrame:Imageframe];
+        subview.image = [UIImage imageNamed:emotion.smallImage];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(xPadding + 100, yPadding + yMargin*(i), 100, imageSize)];
         label.text = [[NSString alloc] initWithFormat: @"%f", statistics.percentageSelected];
-        label.textAlignment = NSTextAlignmentCenter;
+        label.textAlignment = NSTextAlignmentRight;
         label.textColor = [UIColor whiteColor];
         label.backgroundColor = [UIColor blackColor];
         [label setFont:[UIFont fontWithName:@"Arial" size:12]];
         [self.view addSubview:label];
-        
-        UIImageView *subview = [[UIImageView alloc] initWithFrame:frame];
-        subview.image = image;
         
         [self.view addSubview:subview];
         
