@@ -174,21 +174,6 @@
 }
 
 /*
-** Wordt aangeroepen telkens wanneer de gebruiker een emoticon selecteert.
-** Update het aantal maal dat deze emoticon is geselecteerd.
-*
--(void)updateTimesSelectedOfImageName:(NSString*) imageName {
-    NSNumber *timesSelectedNumber = [appDelegate.emotionsCount objectForKey:imageName];
-    NSInteger timesSelectedInt = [timesSelectedNumber intValue];
-    NSInteger newTimesSelectedInt = timesSelectedInt + 1;
-    NSNumber *newTimesSelectedNumber = [NSNumber numberWithInt:newTimesSelectedInt];
-    
-    [appDelegate.emotionsCount setObject:newTimesSelectedNumber forKey:imageName];
-    
-    NSLog(@"The emotion is selected %@ times.", [appDelegate.emotionsCount objectForKey:imageName]);
-}*/
-
-/*
 ** Een klik op de emotionsButton geeft de emotionsOverview view weer.
 */
 - (IBAction)emotionsButtonPressed:(id)sender {

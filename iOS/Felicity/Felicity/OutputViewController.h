@@ -12,8 +12,6 @@
 #import "FelicityAppDelegate.h"
 
 @interface OutputViewController : UIViewController {
-    // Lokale versie van de source names van de emotions.
-    NSMutableArray *emotions;
     
     // Link naar de appDelegate;
     FelicityAppDelegate *appDelegate;
