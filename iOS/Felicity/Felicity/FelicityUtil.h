@@ -10,6 +10,6 @@
 
 @interface FelicityUtil : NSObject
 
--(NSArray *)retrieveEmotionStatistics;
++(NSArray *)retrieveEmotionStatistics;
 
 @end

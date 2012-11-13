@@ -12,6 +12,7 @@
 #import "FelicityAppDelegate.h"
 #import "Emotion.h"
 #import "Database.h"
+#import "FelicityUtil.h"
 
 @implementation OutputViewController
 
@@ -42,10 +43,11 @@
     int yPadding = 10;
     int imageSize = 50;
     int yMargin = 70;
+    NSArray *sortedStatistics = [FelicityUtil retrieveEmotionStatistics];
     
     for(int i = 0; i < emotions.count; i++) {
-        Emotion *emotion = emotions[i];
-        EmotionStatistics *statistics = [[Database database] retrieveEmotionStaticsForEmotion:emotion];
+        EmotionStatistics *statistics = (EmotionStatistics *)sortedStatistics[i];
+        Emotion *emotion = statistics.emotion;
         
         CGRect Imageframe;
         Imageframe.origin.x = xPadding;
@@ -55,7 +57,7 @@
         UIImageView *subview = [[UIImageView alloc] initWithFrame:Imageframe];
         subview.image = [UIImage imageNamed:emotion.smallImage];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(xPadding + 100, yPadding + yMargin*(i), 100, imageSize)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(xPadding + 60, yPadding + yMargin*(i), 230, imageSize)];
         label.text = [[NSString alloc] initWithFormat: @"%f", statistics.percentageSelected];
         label.textAlignment = NSTextAlignmentRight;
         label.textColor = [UIColor whiteColor];

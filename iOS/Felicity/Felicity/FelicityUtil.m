@@ -12,7 +12,7 @@
 
 @implementation FelicityUtil
 
--(NSArray *)retrieveEmotionStatistics {
++(NSArray *)retrieveEmotionStatistics {
     NSMutableArray *arrayToSort = [[NSMutableArray alloc] init];
     for(Emotion *emotion in [[Database database] retrieveEmotionsFromDatabase]) {
         [arrayToSort addObject:[[Database database] retrieveEmotionStaticsForEmotion:emotion]];
@@ -22,7 +22,8 @@
     sortedArray = [arrayToSort sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
         NSNumber *first = [NSNumber numberWithDouble:[(EmotionStatistics*)a percentageSelected]];
         NSNumber *second = [NSNumber numberWithDouble:[(EmotionStatistics*)b percentageSelected]];
-        return [first compare:second];
+        // In deze volgorde om van groot naar klein te sorteren.
+        return [second compare:first];
     }];
     
     return sortedArray;
