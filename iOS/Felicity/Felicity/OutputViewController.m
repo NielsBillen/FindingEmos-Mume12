@@ -85,12 +85,19 @@
         
         // De bars
         UILabel *barSubView = [[UILabel alloc] initWithFrame:CGRectMake(xPadding + 60, yPadding + yMargin*(i), (xWidthBar / maxPercentage) * percentage, imageSize)];
+        [barSubView setAlpha:0.0];
         barSubView.text = [[NSString alloc] initWithFormat: @"%.2f %%", percentage*100];
         barSubView.textAlignment = NSTextAlignmentRight;
         barSubView.textColor = [UIColor whiteColor];
         barSubView.backgroundColor = [UIColor darkGrayColor];
         [barSubView setFont:[UIFont fontWithName:@"Arial" size:11]];
+        
+        [UIView animateWithDuration:2 animations:^{
+            [barSubView setAlpha:2.0];
+        }];
+        
         [resultsScroller addSubview:barSubView];
+        
         
     }
 }
