@@ -10,6 +10,7 @@
 		0001974A16523A40000B1BF6 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0001974916523A40000B1BF6 /* libCorePlot-CocoaTouch.a */; };
 		0001974C16523AD0000B1BF6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0001974B16523AD0000B1BF6 /* QuartzCore.framework */; };
 		0001974F16525FEE000B1BF6 /* FelicityUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0001974E16525FEE000B1BF6 /* FelicityUtil.m */; };
+		0001975216528F6C000B1BF6 /* morebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0001975116528F6C000B1BF6 /* morebutton.png */; };
 		005E99831646A466009D2FDB /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 005E99821646A466009D2FDB /* EventKit.framework */; };
 		0077C3E4164A5FED003DE80C /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3DA164A5FED003DE80C /* FMDatabase.m */; };
 		0077C3E5164A5FED003DE80C /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3DC164A5FED003DE80C /* FMDatabaseAdditions.m */; };
@@ -153,6 +154,7 @@
 		0001974B16523AD0000B1BF6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0001974D16525FEE000B1BF6 /* FelicityUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FelicityUtil.h; sourceTree = "<group>"; };
 		0001974E16525FEE000B1BF6 /* FelicityUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FelicityUtil.m; sourceTree = "<group>"; };
+		0001975116528F6C000B1BF6 /* morebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = morebutton.png; path = ../../../../../Downloads/morebutton.png; sourceTree = "<group>"; };
 		005E99821646A466009D2FDB /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		0077C3D9164A5FED003DE80C /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		0077C3DA164A5FED003DE80C /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
@@ -172,8 +174,8 @@
 		00CEAF1116453168001831B9 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		00CEAF151645343C001831B9 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
 		00CEAF161645343C001831B9 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
-		00D28983164D42BE00AF914F /* ResultStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultStatistics.h; sourceTree = "<group>"; };
-		00D28984164D42BE00AF914F /* ResultStatistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultStatistics.m; sourceTree = "<group>"; };
+		00D28983164D42BE00AF914F /* ResultStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResultStatistics.h; path = Felicity/ResultStatistics.h; sourceTree = "<group>"; };
+		00D28984164D42BE00AF914F /* ResultStatistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResultStatistics.m; path = Felicity/ResultStatistics.m; sourceTree = "<group>"; };
 		00D28987164D487B00AF914F /* EmotionStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmotionStatistics.h; sourceTree = "<group>"; };
 		00D28988164D487B00AF914F /* EmotionStatistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmotionStatistics.m; sourceTree = "<group>"; };
 		00F4A90B1646760900F4709F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -343,6 +345,15 @@
 			path = CorePlotHeaders;
 			sourceTree = "<group>";
 		};
+		0001975016528AD9000B1BF6 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				0077C3D7164A5FA8003DE80C /* FMDB */,
+				000196FC16523933000B1BF6 /* CorePlot */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
 		0077C3D7164A5FA8003DE80C /* FMDB */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,14 +369,12 @@
 				0077C3E3164A5FED003DE80C /* FMResultSet.m */,
 			);
 			name = FMDB;
+			path = Felicity;
 			sourceTree = "<group>";
 		};
 		041AB970163B1DA4002164D0 /* Felicity */ = {
 			isa = PBXGroup;
 			children = (
-				0077C3D7164A5FA8003DE80C /* FMDB */,
-				00D28983164D42BE00AF914F /* ResultStatistics.h */,
-				00D28984164D42BE00AF914F /* ResultStatistics.m */,
 				00D28987164D487B00AF914F /* EmotionStatistics.h */,
 				00D28988164D487B00AF914F /* EmotionStatistics.m */,
 				00CEAF151645343C001831B9 /* Database.h */,
@@ -418,11 +427,13 @@
 		041F7EF51636CA3300E15F83 = {
 			isa = PBXGroup;
 			children = (
-				000196FC16523933000B1BF6 /* CorePlot */,
+				0001975016528AD9000B1BF6 /* Libraries */,
 				04F8A96E163B229B00EAABC5 /* EmoticonSet */,
 				041AB970163B1DA4002164D0 /* Felicity */,
 				041F7F031636CA3300E15F83 /* Frameworks */,
 				041F7F011636CA3300E15F83 /* Products */,
+				00D28983164D42BE00AF914F /* ResultStatistics.h */,
+				00D28984164D42BE00AF914F /* ResultStatistics.m */,
 			);
 			sourceTree = "<group>";
 		};
@@ -451,6 +462,7 @@
 		04F8A96E163B229B00EAABC5 /* EmoticonSet */ = {
 			isa = PBXGroup;
 			children = (
+				0001975116528F6C000B1BF6 /* morebutton.png */,
 				00ACB3AE1642E1FD007F75FB /* imageBackground.png */,
 				00CEAF091642E59C001831B9 /* imageBackgroundReversed.png */,
 				00CEAF051642E3FE001831B9 /* background.png */,
@@ -580,6 +592,7 @@
 				00CEAF071642E3FE001831B9 /* background.png in Resources */,
 				00CEAF0B1642E59C001831B9 /* imageBackgroundReversed.png in Resources */,
 				00F4A912164683B600F4709F /* icon.png in Resources */,
+				0001975216528F6C000B1BF6 /* morebutton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

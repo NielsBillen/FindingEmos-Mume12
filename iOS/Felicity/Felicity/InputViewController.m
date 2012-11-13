@@ -27,9 +27,7 @@
 */
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    //appDelegate = (FelicityAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
+        
     [self loadImages];
     [self createScrollingEmotions];
     [self createEmotionsOverviewPage];

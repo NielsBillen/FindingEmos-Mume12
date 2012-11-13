@@ -92,7 +92,7 @@
         barSubView.backgroundColor = [UIColor darkGrayColor];
         [barSubView setFont:[UIFont fontWithName:@"Arial" size:11]];
         
-        
+        // Animatie
         [UIView animateWithDuration:i animations:^{
             [barSubView setAlpha:2.0];
         }];
