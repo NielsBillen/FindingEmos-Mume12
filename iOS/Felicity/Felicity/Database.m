@@ -167,6 +167,8 @@ static Database * _database;
     }
 }
 
+
+// Sluit de database
 - (void)close {
     [self.FMDBDatabase close];
     NSLog(@"De database is gesloten");
