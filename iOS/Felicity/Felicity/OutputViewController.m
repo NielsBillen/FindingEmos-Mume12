@@ -40,6 +40,29 @@
     
     for(int i = 0; i < emotions.count; i++) {
         Emotion *emotion = emotions[i];
+        EmotionStatistics *statistics = [[Database database] retrieveEmotionStaticsForEmotion:emotion];
+
+        UIImage *image = [UIImage imageNamed:emotion.smallImage];
+        
+        CGRect frame;
+        frame.origin.x = 5;
+        frame.origin.y = 10 + 70*(i);
+        frame.size = CGSizeMake(50,50);
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(80*(i % 4), 75 + 87*(i / 4), 80, 15)];
+        label.text = [[NSString alloc] initWithFormat: @"%f", statistics.percentageSelected];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor whiteColor];
+        label.backgroundColor = [UIColor blackColor];
+        [label setFont:[UIFont fontWithName:@"Arial" size:12]];
+        [self.view addSubview:label];
+        
+        UIImageView *subview = [[UIImageView alloc] initWithFrame:frame];
+        subview.image = image;
+        
+        [self.view addSubview:subview];
+        
+        /*Emotion *emotion = emotions[i];
         
         EmotionStatistics *statistics = [[Database database] retrieveEmotionStaticsForEmotion:emotion];
         
@@ -59,23 +82,34 @@
         timesSelected.backgroundColor = [UIColor blackColor];
         timesSelected.numberOfLines = 1;
         [timesSelected setFont:[UIFont fontWithName:@"Arial" size:14]];
-        [self.view addSubview:timesSelected];
+        [self.view addSubview:timesSelected];*/
     }
     
     
     
-    /*for(NSInteger i=0; i < emotions.count; i++) {
-       
-
-        UILabel *timesSelected = [[UILabel alloc] initWithFrame:CGRectMake(190, 20 + 22*i, 20, 20)];
-        timesSelected.text = [[NSString alloc] initWithFormat: @"%@", [appDelegate.emotionsCount objectForKey:emotion.displayName]];
-        timesSelected.textAlignment = NSTextAlignmentLeft;
-        timesSelected.textColor = [UIColor whiteColor];
-        timesSelected.backgroundColor = [UIColor blackColor];
-        timesSelected.numberOfLines = 1;
-        [timesSelected setFont:[UIFont fontWithName:@"Arial" size:14]];
-        [self.view addSubview:timesSelected];
-    }*/
+    /*
+     
+     NSString *imageSourceName = [[emotions objectAtIndex:i] smallImage];
+     UIImage *image = [UIImage imageNamed:imageSourceName];
+     
+     CGRect frame;
+     frame.origin.x = 8 + 80*(i % 4);
+     frame.origin.y = 10 + 87*(i / 4);
+     frame.size = CGSizeMake(64,64);
+     
+     UILabel *imageName = [[UILabel alloc] initWithFrame:CGRectMake(80*(i % 4), 75 + 87*(i / 4), 80, 15)];
+     imageName.text = [emotions[i] displayName];
+     imageName.textAlignment = NSTextAlignmentCenter;
+     imageName.textColor = [UIColor whiteColor];
+     imageName.backgroundColor = [UIColor blackColor];
+     [imageName setFont:[UIFont fontWithName:@"Arial" size:12]];
+     [self.emotionsOverviewView addSubview:imageName];
+     
+     UIImageView *subview = [[UIImageView alloc] initWithFrame:frame];
+     subview.image = image;
+     
+     [self.emotionsOverviewView addSubview:subview];
+    */
 }
 
 /*
