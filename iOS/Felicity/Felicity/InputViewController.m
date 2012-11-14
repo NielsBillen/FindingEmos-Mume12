@@ -19,6 +19,7 @@
 
 @interface InputViewController ()
 @property NSString *currentActivy;
+@property Emotion *currentEmotion;
 @property BOOL favoriteOneSelected, favoriteTwoSelected, favoriteThreeSelected;
 @end
 
@@ -28,6 +29,7 @@
 
 @synthesize emotionScroller, currentEmotionView, textLabel, emotionsOverviewView, inputView, emotionsButton, inputViewButton, whatDoingView;
 @synthesize currentActivy;
+@synthesize currentEmotion;
 @synthesize withWhoView;
 @synthesize frequentPerson1, frequentPerson2, frequentPerson3;
 @synthesize favoriteOneSelected, favoriteTwoSelected, favoriteThreeSelected;
@@ -51,12 +53,12 @@
     
     self.personTableView.allowsMultipleSelectionDuringEditing = YES;
 
-    array = [[Database database] getNbBestFriends:3];
-    frequentPerson1.image = [contactsList objectForKey:array[0]];
+    favoritePersons = [[Database database] getNbBestFriends:3];
+    frequentPerson1.image = [contactsList objectForKey:favoritePersons[0]];
     frequentPerson1.tag = 1;
-    frequentPerson2.image = [contactsList objectForKey:array[1]];
+    frequentPerson2.image = [contactsList objectForKey:favoritePersons[1]];
     frequentPerson2.tag = 2;
-    frequentPerson3.image = [contactsList objectForKey:array[2]];
+    frequentPerson3.image = [contactsList objectForKey:favoritePersons[2]];
     frequentPerson3.tag = 3;
     
     UITapGestureRecognizer * singleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
@@ -89,11 +91,11 @@
             if(!favoriteOneSelected) {
                 [frequentPerson1.layer setBorderColor:[[UIColor blueColor] CGColor]];
                 [frequentPerson1.layer setBorderWidth: 5.0];
-                [[Database database] saveFriendSelected:array[0]];
+                [[Database database] saveFriendSelected:favoritePersons[0]];
                 favoriteOneSelected = YES;
             } else {
                 [frequentPerson1.layer setBorderColor:[[UIColor blackColor] CGColor]];
-                [[Database database] deleteFriendSelected:array[0]];
+                [[Database database] deleteFriendSelected:favoritePersons[0]];
                 favoriteOneSelected = NO;
             }
             break;
@@ -101,11 +103,11 @@
             if(!favoriteTwoSelected) {
                 [frequentPerson2.layer setBorderColor:[[UIColor blueColor] CGColor]];
                 [frequentPerson2.layer setBorderWidth: 5.0];
-                [[Database database] saveFriendSelected:array[1]];
+                [[Database database] saveFriendSelected:favoritePersons[1]];
                 favoriteTwoSelected = YES;
             } else {
                 [frequentPerson2.layer setBorderColor:[[UIColor blackColor] CGColor]];
-                [[Database database] deleteFriendSelected:array[1]];
+                [[Database database] deleteFriendSelected:favoritePersons[1]];
                 favoriteTwoSelected = NO;
             }
             break;
@@ -113,11 +115,11 @@
             if(!favoriteThreeSelected) {
                 [frequentPerson3.layer setBorderColor:[[UIColor blueColor] CGColor]];
                 [frequentPerson3.layer setBorderWidth: 5.0];
-                [[Database database] saveFriendSelected:array[2]];
+                [[Database database] saveFriendSelected:favoritePersons[2]];
                 favoriteThreeSelected = YES;
             } else {
                 [frequentPerson3.layer setBorderColor:[[UIColor blackColor] CGColor]];
-                [[Database database] deleteFriendSelected:array[2]];
+                [[Database database] deleteFriendSelected:favoritePersons[2]];
                 favoriteThreeSelected = NO;
             }
             break;
@@ -128,6 +130,7 @@
     
 - (IBAction)whatDoingPressed:(UIButton *)sender {
     self.currentActivy = [sender currentTitle];
+    [[Database database] registerNewEmotionSelected:currentEmotion andActivity:currentActivy];
     [self setView:withWhoView];
     
 }
@@ -229,9 +232,7 @@
 ** de emotionScroller onderaan de inputpagina.
 ** Geeft de naam van de emoticon in kwestie weer op het scherm.
 */
-- (IBAction)handleSingleTap:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"Single tapped on an emotion");
-    
+- (IBAction)handleSingleTap:(UITapGestureRecognizer *)recognizer {    
     UIImageView *tappedView = (UIImageView*) recognizer.view;
     Emotion *emotion = [images objectForKey:tappedView.image];
     
@@ -245,9 +246,7 @@
 ** de emotionsOverview pagina.
 ** Geeft de emoticon in kwestie en zijn naam weer op het scherm.
 */
-- (IBAction)handleDoubleTap:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"Double tapped on an emotion");
-    
+- (IBAction)handleDoubleTap:(UITapGestureRecognizer *)recognizer {    
     UIImageView *tappedView = (UIImageView*) recognizer.view;
     Emotion *emotion = [images objectForKey:tappedView.image];
     
@@ -258,11 +257,11 @@
     [textLabel setFont: [UIFont fontWithName:@"Arial" size:35.0]];
     
     // Sla op welke emotie geselecteerd is
-    [[Database database] registerNewEmotionSelected:emotion];
+    currentEmotion = emotion;
     
     [self setView:inputView];
     
-    [self performSelector:@selector(setView:) withObject:self.whatDoingView afterDelay:1];
+    [self performSelector:@selector(setView:) withObject:self.whatDoingView afterDelay:0.5];
 }
 
 /*

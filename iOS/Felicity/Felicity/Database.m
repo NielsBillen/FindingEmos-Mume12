@@ -40,7 +40,7 @@ static Database * _database;
     // Maak de tabel met informatie van de emoties aan en vul deze.
     [self makeEmotionTable];
     // Maak de geschiedenis tabel aan.
-    [self.FMDBDatabase executeUpdate:@"create table history (idKey int primary key, date text, time text, epochtime int, country text, city text, emoticon_id int)"];
+    [self.FMDBDatabase executeUpdate:@"create table history (idKey int primary key, date text, time text, epochtime int, country text, city text, emoticon_id int,activity text)"];
     // Maak de vrienden tabel aan.
     [self.FMDBDatabase executeUpdate:@"create table friends (key int primary key, epochtime int, friend text)"];
     // Maak deze database de delagete van de LocationManager, op deze manier kan de database altijd aan de locatie van de gebruiker.
@@ -70,13 +70,18 @@ static Database * _database;
             [tempDictionary setObject:[NSNumber numberWithInt:(primitiveValue + 1)] forKey:name];
         }
     }
-    NSArray *tempArray = [[[tempDictionary keysSortedByValueUsingSelector:@selector(compare:)] reverseObjectEnumerator] allObjects];
-    NSMutableArray *returnArray = [[NSMutableArray alloc] init];
-    for (int i = 0; i<number; i++) {
-        NSLog(@"person: %@, count: %@", tempArray[i],[tempDictionary objectForKey:tempArray[i]]);
-        [returnArray addObject:tempArray[i]];
+    if(tempDictionary.count > 0) {
+        NSArray *tempArray = [[[tempDictionary keysSortedByValueUsingSelector:@selector(compare:)] reverseObjectEnumerator] allObjects];
+        NSMutableArray *returnArray = [[NSMutableArray alloc] init];
+        for (int i = 0; i<number; i++) {
+            NSLog(@"person: %@, count: %@", tempArray[i],[tempDictionary objectForKey:tempArray[i]]);
+            [returnArray addObject:tempArray[i]];
+        }
+        return [NSArray arrayWithArray:returnArray];
+    } else {
+        return nil;
     }
-    return [NSArray arrayWithArray:returnArray];
+    
 }
 
 // Geef de statistieken terug
@@ -139,7 +144,7 @@ static Database * _database;
 }
 
 // Sla op als er een nieuwe emotie geselecteerd wordt
--(void)registerNewEmotionSelected:(Emotion *)emotion {
+- (void) registerNewEmotionSelected:(Emotion *)emotion andActivity:(NSString *)activity {
     NSDate *currentDateTime = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd/MM/yyyy"];
@@ -152,7 +157,7 @@ static Database * _database;
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *placemark = [placemarks objectAtIndex:0];
-        [self.FMDBDatabase executeUpdate:@"INSERT INTO history (date,time,epochtime,country,city,emoticon_id) VALUES (?,?,?,?,?,?)",date, time, lastEpochtime,placemark.country,placemark.locality, emotionId, nil];
+        [self.FMDBDatabase executeUpdate:@"INSERT INTO history (date,time,epochtime,country,city,emoticon_id,activity) VALUES (?,?,?,?,?,?,?)",date, time, lastEpochtime,placemark.country,placemark.locality, emotionId, activity, nil];
     }];
 }
 

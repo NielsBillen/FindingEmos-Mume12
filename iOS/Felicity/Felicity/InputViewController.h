@@ -18,7 +18,7 @@
     NSMutableDictionary *images;
     
     NSMutableArray *selectedIndexPaths;
-    NSArray *array;
+    NSArray *favoritePersons;
     
     // Link naar de appDelegate;
     FelicityAppDelegate *appDelegate;

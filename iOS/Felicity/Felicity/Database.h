@@ -23,7 +23,7 @@
 // Geeft een emotieobject terug met de opgegeven naam
 - (Emotion *) getEmotionWithName:(NSString *)name;
 // Sla op als er een nieuwe emotie geselecteerd wordt
-- (void) registerNewEmotionSelected:(Emotion *)emotion;
+- (void) registerNewEmotionSelected:(Emotion *)emotion andActivity:(NSString *)activity;
 // Print de huidige geschiedenis
 - (void)printCurrentHistory;
 // Geef de statistieken terug
