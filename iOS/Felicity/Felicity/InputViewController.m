@@ -13,12 +13,24 @@
 #import "FelicityViewController.h"
 #import "Database.h"
 #import "Emotion.h"
+#import "FelicityUtil.h"
+#import <QuartzCore/QuartzCore.h>
+
+
+@interface InputViewController ()
+@property NSString *currentActivy;
+@property BOOL favoriteOneSelected, favoriteTwoSelected, favoriteThreeSelected;
+@end
 
 @implementation InputViewController
 
 @class FelicityViewController;
 
-@synthesize emotionScroller, currentEmotionView, textLabel, emotionsOverviewView, inputView, emotionsButton, inputViewButton;
+@synthesize emotionScroller, currentEmotionView, textLabel, emotionsOverviewView, inputView, emotionsButton, inputViewButton, whatDoingView;
+@synthesize currentActivy;
+@synthesize withWhoView;
+@synthesize frequentPerson1, frequentPerson2, frequentPerson3;
+@synthesize favoriteOneSelected, favoriteTwoSelected, favoriteThreeSelected;
 
 /*
 ** Wordt opgeroepen wanneer de Input page geladen is.
@@ -32,11 +44,92 @@
     [self createScrollingEmotions];
     [self createEmotionsOverviewPage];
     
+    contactsList = [FelicityUtil retrieveContactList];
+    
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
     self.view.backgroundColor = background;
     
+    self.personTableView.allowsMultipleSelectionDuringEditing = YES;
+
+    array = [[Database database] getNbBestFriends:3];
+    frequentPerson1.image = [contactsList objectForKey:array[0]];
+    frequentPerson1.tag = 1;
+    frequentPerson2.image = [contactsList objectForKey:array[1]];
+    frequentPerson2.tag = 2;
+    frequentPerson3.image = [contactsList objectForKey:array[2]];
+    frequentPerson3.tag = 3;
+    
+    UITapGestureRecognizer * singleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
+    singleTapRecognizer.numberOfTapsRequired = 1;
+    singleTapRecognizer.delaysTouchesEnded = YES;
+    singleTapRecognizer.cancelsTouchesInView = NO;
+    [frequentPerson1 addGestureRecognizer:singleTapRecognizer];
+
+    UITapGestureRecognizer * singleTapRecognizer2 = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
+    singleTapRecognizer2.numberOfTapsRequired = 1;
+    singleTapRecognizer2.delaysTouchesEnded = YES;
+    singleTapRecognizer2.cancelsTouchesInView = NO;
+    [frequentPerson2 addGestureRecognizer:singleTapRecognizer2];
+
+    
+    UITapGestureRecognizer * singleTapRecognizer3 = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
+    singleTapRecognizer3.numberOfTapsRequired = 1;
+    singleTapRecognizer3.delaysTouchesEnded = YES;
+    singleTapRecognizer3.cancelsTouchesInView = NO;
+    [frequentPerson3 addGestureRecognizer:singleTapRecognizer3];
+
     // Nodig om te kunnen terugswitchen van de emotionsOverview Page naar de "gewone" view.
     inputView = self.view;
+}
+
+- (IBAction)handleFavoriteSelected:(UITapGestureRecognizer *)sender {
+    int tag = sender.view.tag;
+    switch (tag) {
+        case 1:
+            if(!favoriteOneSelected) {
+                [frequentPerson1.layer setBorderColor:[[UIColor blueColor] CGColor]];
+                [frequentPerson1.layer setBorderWidth: 5.0];
+                [[Database database] saveFriendSelected:array[0]];
+                favoriteOneSelected = YES;
+            } else {
+                [frequentPerson1.layer setBorderColor:[[UIColor blackColor] CGColor]];
+                [[Database database] deleteFriendSelected:array[0]];
+                favoriteOneSelected = NO;
+            }
+            break;
+        case 2:
+            if(!favoriteTwoSelected) {
+                [frequentPerson2.layer setBorderColor:[[UIColor blueColor] CGColor]];
+                [frequentPerson2.layer setBorderWidth: 5.0];
+                [[Database database] saveFriendSelected:array[1]];
+                favoriteTwoSelected = YES;
+            } else {
+                [frequentPerson2.layer setBorderColor:[[UIColor blackColor] CGColor]];
+                [[Database database] deleteFriendSelected:array[1]];
+                favoriteTwoSelected = NO;
+            }
+            break;
+        case 3:
+            if(!favoriteThreeSelected) {
+                [frequentPerson3.layer setBorderColor:[[UIColor blueColor] CGColor]];
+                [frequentPerson3.layer setBorderWidth: 5.0];
+                [[Database database] saveFriendSelected:array[2]];
+                favoriteThreeSelected = YES;
+            } else {
+                [frequentPerson3.layer setBorderColor:[[UIColor blackColor] CGColor]];
+                [[Database database] deleteFriendSelected:array[2]];
+                favoriteThreeSelected = NO;
+            }
+            break;
+        default:
+            break;
+    }
+}
+    
+- (IBAction)whatDoingPressed:(UIButton *)sender {
+    self.currentActivy = [sender currentTitle];
+    [self setView:withWhoView];
+    
 }
 
 /*
@@ -168,6 +261,8 @@
     [[Database database] registerNewEmotionSelected:emotion];
     
     [self setView:inputView];
+    
+    [self performSelector:@selector(setView:) withObject:self.whatDoingView afterDelay:1];
 }
 
 /*
@@ -185,6 +280,47 @@
     NSLog(@"InputViewButton pressed");
     [self setView:inputView];
 }
+
+//RootViewController.m
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [contactsList count];
+}
+
+//RootViewController.m
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] ;
+    }
+    
+    // Set up the cell...
+    int index = indexPath.row;
+    NSArray *array =  [contactsList.allKeys sortedArrayUsingSelector:@selector(compare:)];
+    
+    UIImage *cellImage = [contactsList objectForKey:array[index]];
+    cell.imageView.image = cellImage;
+    
+    NSString *cellValue = [array objectAtIndex:indexPath.row];
+    cell.textLabel.textColor=[UIColor whiteColor];
+    cell.textLabel.text = cellValue;
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [[Database database] saveFriendSelected:[contactsList.allKeys sortedArrayUsingSelector:@selector(compare:)][indexPath.row]];
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [[Database database] deleteFriendSelected:[contactsList.allKeys sortedArrayUsingSelector:@selector(compare:)][indexPath.row]];
+}
+
+
 
 @end
 

@@ -14,12 +14,14 @@
 @interface Database ()
 @property FMDatabase *FMDBDatabase;
 @property int nbEmotions;
+@property NSNumber *lastEpochtime;
 @end
 
 @implementation Database
 
 @synthesize FMDBDatabase = _FMDBDatabase;
 @synthesize nbEmotions;
+@synthesize lastEpochtime;
 
 /*
  * Maak database een singleton.
@@ -52,6 +54,30 @@ static Database * _database;
     return nbEmotions;
 }
 
+-(NSArray *)getNbBestFriends:(int)number {
+    if (![self.FMDBDatabase tableExists:@"friends"]) {
+        NSLog(@"De friends tabel bestaat nog niet!!");
+    }
+    NSMutableDictionary *tempDictionary = [[NSMutableDictionary alloc] init];
+    FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from friends"];
+    while ([results next]) {
+        NSString *name = [results stringForColumn:@"friend"];
+        NSNumber *currentCount = [tempDictionary objectForKey:name];
+        if(!currentCount) {
+            [tempDictionary setObject:[NSNumber numberWithInt:0] forKey:name];
+        } else {
+            int primitiveValue = [currentCount integerValue];
+            [tempDictionary setObject:[NSNumber numberWithInt:(primitiveValue + 1)] forKey:name];
+        }
+    }
+    NSArray *tempArray = [[[tempDictionary keysSortedByValueUsingSelector:@selector(compare:)] reverseObjectEnumerator] allObjects];
+    NSMutableArray *returnArray = [[NSMutableArray alloc] init];
+    for (int i = 0; i<number; i++) {
+        NSLog(@"person: %@, count: %@", tempArray[i],[tempDictionary objectForKey:tempArray[i]]);
+        [returnArray addObject:tempArray[i]];
+    }
+    return [NSArray arrayWithArray:returnArray];
+}
 
 // Geef de statistieken terug
 - (EmotionStatistics *)retrieveEmotionStaticsForEmotion:(Emotion *)emotion {
@@ -104,6 +130,14 @@ static Database * _database;
     return [[Emotion alloc] initWithDisplayName:displayName andUniqueId:uniqueId AndDatabaseName:name AndSmallImage:smallImage AndLargeImage:largeImage AndNbSelected:nbSelected];
 }
 
+-(void)saveFriendSelected:(NSString *)friend {
+    [self.FMDBDatabase executeUpdate:@"INSERT INTO friends (epochtime,friend) VALUES (?,?)",lastEpochtime, friend, nil];
+}
+
+-(void)deleteFriendSelected:(NSString *)friend {
+    [self.FMDBDatabase executeUpdate:@"DELETE FROM friends WHERE epochtime=? AND friend=?",lastEpochtime,friend, nil];
+}
+
 // Sla op als er een nieuwe emotie geselecteerd wordt
 -(void)registerNewEmotionSelected:(Emotion *)emotion {
     NSDate *currentDateTime = [NSDate date];
@@ -112,13 +146,13 @@ static Database * _database;
     NSString *date = [dateFormatter stringFromDate:currentDateTime];
     [dateFormatter setDateFormat:@"HH:mm:ss"];
     NSString *time = [dateFormatter stringFromDate:currentDateTime];
-    NSNumber *epochtime = [NSNumber numberWithLong:[[NSDate date] timeIntervalSince1970]];
+    lastEpochtime = [NSNumber numberWithLong:[[NSDate date] timeIntervalSince1970]];
     NSNumber *emotionId = [NSNumber numberWithInt:emotion.uniqueId];
     
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *placemark = [placemarks objectAtIndex:0];
-        [self.FMDBDatabase executeUpdate:@"INSERT INTO history (date,time,epochtime,country,city,emoticon_id) VALUES (?,?,?,?,?,?)",date, time, epochtime,placemark.country,placemark.locality, emotionId, nil];
+        [self.FMDBDatabase executeUpdate:@"INSERT INTO history (date,time,epochtime,country,city,emoticon_id) VALUES (?,?,?,?,?,?)",date, time, lastEpochtime,placemark.country,placemark.locality, emotionId, nil];
     }];
 }
 

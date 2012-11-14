@@ -13,14 +13,17 @@
 
 @interface InputViewController : UIViewController
 {
-    // Lokale versie van de source names van de emotions.
-    NSMutableArray *imageNames;
         
     // Mapping: source name van image - UIImageView van image
     NSMutableDictionary *images;
     
+    NSMutableArray *selectedIndexPaths;
+    NSArray *array;
+    
     // Link naar de appDelegate;
     FelicityAppDelegate *appDelegate;
+    
+    NSDictionary *contactsList;
     
     IBOutlet UIScrollView *emotionScroller;
     IBOutlet UIImageView *currentEmotionView;
@@ -28,6 +31,14 @@
     IBOutlet UIView *emotionsOverviewView;
     IBOutlet UIButton *emotionsButton;
 }
+
+@property (strong, nonatomic) IBOutlet UIView *whatDoingView;
+@property (strong, nonatomic) IBOutlet UIView *withWhoView;
+@property (weak, nonatomic) IBOutlet UIImageView *mostFrequentFriends;
+@property (weak, nonatomic) IBOutlet UIImageView *frequentPerson1;
+@property (weak, nonatomic) IBOutlet UIImageView *frequentPerson2;
+@property (weak, nonatomic) IBOutlet UIImageView *frequentPerson3;
+@property (weak, nonatomic) IBOutlet UITableView *personTableView;
 
 // De scrollview onderaan de Inputpagina.
 @property (retain, nonatomic) IBOutlet UIScrollView *emotionScroller;
