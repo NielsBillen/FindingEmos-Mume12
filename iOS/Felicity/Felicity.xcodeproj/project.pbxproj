@@ -77,7 +77,7 @@
 		0001974B16523AD0000B1BF6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0001974D16525FEE000B1BF6 /* FelicityUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FelicityUtil.h; sourceTree = "<group>"; };
 		0001974E16525FEE000B1BF6 /* FelicityUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FelicityUtil.m; sourceTree = "<group>"; };
-		0001975116528F6C000B1BF6 /* morebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = morebutton.png; path = ../../../../../Downloads/morebutton.png; sourceTree = "<group>"; };
+		0001975116528F6C000B1BF6 /* morebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = morebutton.png; path = ../../../../Downloads/morebutton.png; sourceTree = "<group>"; };
 		003E5BC116529FAE009D0C9B /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		003E5BC416529FB6009D0C9B /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		005E99821646A466009D2FDB /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
@@ -203,6 +203,25 @@
 			path = Felicity;
 			sourceTree = "<group>";
 		};
+		00F314421654D90400D8642B /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				00F314431654D91200D8642B /* Backgrounds */,
+				04F8A96E163B229B00EAABC5 /* EmoticonSet */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		00F314431654D91200D8642B /* Backgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				0001975116528F6C000B1BF6 /* morebutton.png */,
+				00ACB3AE1642E1FD007F75FB /* imageBackground.png */,
+				00CEAF051642E3FE001831B9 /* background.png */,
+			);
+			name = Backgrounds;
+			sourceTree = "<group>";
+		};
 		041AB970163B1DA4002164D0 /* Felicity */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,8 +277,8 @@
 		041F7EF51636CA3300E15F83 = {
 			isa = PBXGroup;
 			children = (
+				00F314421654D90400D8642B /* Images */,
 				0001975016528AD9000B1BF6 /* Libraries */,
-				04F8A96E163B229B00EAABC5 /* EmoticonSet */,
 				041AB970163B1DA4002164D0 /* Felicity */,
 				041F7F031636CA3300E15F83 /* Frameworks */,
 				041F7F011636CA3300E15F83 /* Products */,
@@ -293,9 +312,6 @@
 		04F8A96E163B229B00EAABC5 /* EmoticonSet */ = {
 			isa = PBXGroup;
 			children = (
-				0001975116528F6C000B1BF6 /* morebutton.png */,
-				00ACB3AE1642E1FD007F75FB /* imageBackground.png */,
-				00CEAF051642E3FE001831B9 /* background.png */,
 				04F8A96F163B229B00EAABC5 /* angry_big.png */,
 				04F8A971163B229B00EAABC5 /* angry_small.png */,
 				04F8A973163B229B00EAABC5 /* ashamed_big.png */,
@@ -458,6 +474,7 @@
 				00ACB3AF1642E1FD007F75FB /* en */,
 			);
 			name = imageBackground.png;
+			path = EmoticonSet;
 			sourceTree = "<group>";
 		};
 		00CEAF051642E3FE001831B9 /* background.png */ = {
@@ -466,6 +483,7 @@
 				00CEAF061642E3FE001831B9 /* en */,
 			);
 			name = background.png;
+			path = EmoticonSet;
 			sourceTree = "<group>";
 		};
 		041AB974163B1DA4002164D0 /* InfoPlist.strings */ = {

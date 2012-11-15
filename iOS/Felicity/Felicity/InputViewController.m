@@ -99,6 +99,7 @@
                 favoriteOneSelected = YES;
             } else {
                 [frequentPerson1.layer setBorderColor:[[UIColor blackColor] CGColor]];
+                [frequentPerson1.layer setBorderWidth: 0];
                 [[Database database] deleteFriendSelected:favoritePersons[0]];
                 favoriteOneSelected = NO;
             }
@@ -111,6 +112,7 @@
                 favoriteTwoSelected = YES;
             } else {
                 [frequentPerson2.layer setBorderColor:[[UIColor blackColor] CGColor]];
+                [frequentPerson2.layer setBorderWidth: 0];
                 [[Database database] deleteFriendSelected:favoritePersons[1]];
                 favoriteTwoSelected = NO;
             }
@@ -123,6 +125,7 @@
                 favoriteThreeSelected = YES;
             } else {
                 [frequentPerson3.layer setBorderColor:[[UIColor blackColor] CGColor]];
+                [frequentPerson3.layer setBorderWidth: 0];
                 [[Database database] deleteFriendSelected:favoritePersons[2]];
                 favoriteThreeSelected = NO;
             }

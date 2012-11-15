@@ -95,7 +95,7 @@
         [barSubView setFont:[UIFont fontWithName:@"Arial" size:11]];
         
         // Animatie
-        [UIView animateWithDuration:i animations:^{
+        [UIView animateWithDuration:(0.5 + i/2.f) animations:^{
             [barSubView setAlpha:2.0];
         }];
         
