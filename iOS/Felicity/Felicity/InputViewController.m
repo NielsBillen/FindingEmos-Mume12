@@ -21,6 +21,7 @@
 @property NSString *currentActivy;
 @property Emotion *currentEmotion;
 @property BOOL favoriteOneSelected, favoriteTwoSelected, favoriteThreeSelected;
+-(void)addActivity;
 @end
 
 @implementation InputViewController
@@ -30,9 +31,45 @@
 @synthesize emotionScroller, currentEmotionView, textLabel, emotionsOverviewView, inputView, emotionsButton, inputViewButton, whatDoingView;
 @synthesize currentActivy;
 @synthesize currentEmotion;
+@synthesize whatDoingScrollView;
 @synthesize withWhoView;
 @synthesize frequentPerson1, frequentPerson2, frequentPerson3;
 @synthesize favoriteOneSelected, favoriteTwoSelected, favoriteThreeSelected;
+
+-(void)createWhatDoing {
+    NSArray *activities = [[Database database] retrieveActivities];
+    
+    int i = 0;
+    while(i < activities.count) {
+        NSString *activity = activities[i];
+        UIButton *but=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        but.frame= CGRectMake(55, 30 + 70*i, 200, 50);
+        [but setTitle:activity forState:UIControlStateNormal];
+        [but addTarget:self action:@selector(whatDoingPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.whatDoingScrollView addSubview:but];
+        i++;
+    }
+    UIButton *but=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    but.frame= CGRectMake(55, 30 + 70*i, 200, 50);
+    [but setTitle:@"+" forState:UIControlStateNormal];
+    [but addTarget:self action:@selector(addActivity:) forControlEvents:UIControlEventTouchUpInside];
+    [self.whatDoingScrollView addSubview:but];
+}
+
+-(void)addActivity:(UIButton *)sender {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"New Activiy" message:@"Enter the new activity:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        NSString *newActivity = [alertView textFieldAtIndex:0].text;
+        [[Database database] insertActivity:newActivity];
+        [self createWhatDoing];
+    }
+}
 
 /*
 ** Wordt opgeroepen wanneer de Input page geladen is.
@@ -42,6 +79,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    
+    int nbActivities = [[Database database] nbOfActivities];
+    whatDoingScrollView.contentSize = CGSizeMake(320, 40 + (nbActivities + 1) * 70);
+    whatDoingScrollView.backgroundColor = background;
+    [self.whatDoingView addSubview:whatDoingScrollView];
+    [self createWhatDoing];
+    
     //[[Database database] printCurrentHistory];
     
     [self loadImages];
@@ -50,7 +95,6 @@
     
     contactsList = [FelicityUtil retrieveContactList];
     
-    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
     self.view.backgroundColor = background;
     self.whatDoingView.backgroundColor = background;
     self.withWhoView.backgroundColor = background;

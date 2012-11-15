@@ -222,27 +222,51 @@
 			name = Backgrounds;
 			sourceTree = "<group>";
 		};
-		041AB970163B1DA4002164D0 /* Felicity */ = {
+		00F314441654DE7500D8642B /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				0001974D16525FEE000B1BF6 /* FelicityUtil.h */,
+				0001974E16525FEE000B1BF6 /* FelicityUtil.m */,
 				00D28987164D487B00AF914F /* EmotionStatistics.h */,
 				00D28988164D487B00AF914F /* EmotionStatistics.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		00F314451654DE8C00D8642B /* Model */ = {
+			isa = PBXGroup;
+			children = (
 				00CEAF151645343C001831B9 /* Database.h */,
 				00CEAF161645343C001831B9 /* Database.m */,
-				041AB97A163B1DA4002164D0 /* FelicityAppDelegate.h */,
-				041AB97B163B1DA4002164D0 /* FelicityAppDelegate.m */,
+				00CEAF0C16432F78001831B9 /* Emotion.h */,
+				00CEAF0D16432F78001831B9 /* Emotion.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		00F314461654DE9D00D8642B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
 				041AB97C163B1DA4002164D0 /* FelicityViewController.h */,
 				041AB97D163B1DA4002164D0 /* FelicityViewController.m */,
 				041AB97F163B1DA4002164D0 /* InputViewController.h */,
 				041AB980163B1DA4002164D0 /* InputViewController.m */,
 				041AB983163B1DA4002164D0 /* OutputViewController.h */,
 				041AB984163B1DA4002164D0 /* OutputViewController.m */,
-				00CEAF0C16432F78001831B9 /* Emotion.h */,
-				00CEAF0D16432F78001831B9 /* Emotion.m */,
 				041AB985163B1DA4002164D0 /* SettingsViewController.h */,
 				041AB986163B1DA4002164D0 /* SettingsViewController.m */,
-				0001974D16525FEE000B1BF6 /* FelicityUtil.h */,
-				0001974E16525FEE000B1BF6 /* FelicityUtil.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		041AB970163B1DA4002164D0 /* Felicity */ = {
+			isa = PBXGroup;
+			children = (
+				00F314461654DE9D00D8642B /* Controller */,
+				00F314451654DE8C00D8642B /* Model */,
+				00F314441654DE7500D8642B /* Utilities */,
+				041AB97A163B1DA4002164D0 /* FelicityAppDelegate.h */,
+				041AB97B163B1DA4002164D0 /* FelicityAppDelegate.m */,
 				041AB995163B1DAF002164D0 /* XIB's */,
 				041AB996163B1DCC002164D0 /* Supporting Files */,
 			);

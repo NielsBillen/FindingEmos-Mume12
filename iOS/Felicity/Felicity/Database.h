@@ -33,9 +33,14 @@
 // Geeft het aantal emoties terug
 - (int)nbOfEmotions;
 
+-(int)nbOfActivities;
+-(void)insertActivity:(NSString *)activity;
 -(void)saveFriendSelected:(NSString *)friend;
 -(void)deleteFriendSelected:(NSString *)friend;
 -(NSArray *)getNbBestFriends:(int)number;
+
+-(void)setDefaultActivities;
+-(NSArray *)retrieveActivities;
 
 // LocatieManager methodes
 

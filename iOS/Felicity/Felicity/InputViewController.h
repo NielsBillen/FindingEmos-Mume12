@@ -39,6 +39,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *frequentPerson2;
 @property (weak, nonatomic) IBOutlet UIImageView *frequentPerson3;
 @property (weak, nonatomic) IBOutlet UITableView *personTableView;
+@property (weak, nonatomic) IBOutlet UIScrollView *whatDoingScrollView;
 
 // De scrollview onderaan de Inputpagina.
 @property (retain, nonatomic) IBOutlet UIScrollView *emotionScroller;

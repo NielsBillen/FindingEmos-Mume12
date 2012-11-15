@@ -47,7 +47,37 @@ static Database * _database;
     // Maak deze database de delagete van de LocationManager, op deze manier kan de database altijd aan de locatie van de gebruiker.
     [self setLocationDelagate];
     
+    [self setDefaultActivities];
+    
     return self;
+}
+
+-(void)setDefaultActivities {
+    if (![self.FMDBDatabase tableExists:@"activities"]) {
+        [self.FMDBDatabase executeUpdate:@"create table activities (idKey int primary key, activity text)"];
+        [self.FMDBDatabase executeUpdate:@"INSERT INTO activities (activity) VALUES (?)",@"Free Time", nil];
+        [self.FMDBDatabase executeUpdate:@"INSERT INTO activities (activity) VALUES (?)",@"School", nil];
+        [self.FMDBDatabase executeUpdate:@"INSERT INTO activities (activity) VALUES (?)",@"Sport", nil];
+        [self.FMDBDatabase executeUpdate:@"INSERT INTO activities (activity) VALUES (?)",@"Work", nil];
+    }
+}
+
+-(NSArray *)retrieveActivities {
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from activities"];
+    while ([results next]) {
+        NSString *activity = [results stringForColumn:@"activity"];
+        [tempArray addObject:activity];
+    }
+    return [NSArray arrayWithArray:tempArray];
+}
+
+-(void)insertActivity:(NSString *)activity {
+    [self.FMDBDatabase executeUpdate:@"INSERT INTO activities (activity) VALUES (?)",activity, nil];
+}
+
+-(int)nbOfActivities {
+    return [self.FMDBDatabase intForQuery:@"select count(activity) from activities"];
 }
 
 // Geeft het aantal emoties terug
