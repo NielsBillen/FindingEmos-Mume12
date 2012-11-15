@@ -41,6 +41,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *personTableView;
 @property (weak, nonatomic) IBOutlet UIScrollView *whatDoingScrollView;
 
+- (IBAction)friendAreSelected:(UIButton *)sender;
+
 // De scrollview onderaan de Inputpagina.
 @property (retain, nonatomic) IBOutlet UIScrollView *emotionScroller;
 

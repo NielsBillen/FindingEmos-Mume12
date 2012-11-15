@@ -17,6 +17,7 @@
 @implementation FelicityViewController
 
 @synthesize scrollView, pageControl, navBar;
+@synthesize settingsButton;
 
 /*
  ** Initialiseert de Input- en Results Page op de juiste plaats in de scrollview.

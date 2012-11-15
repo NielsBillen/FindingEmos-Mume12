@@ -29,6 +29,7 @@
     BOOL usingPageControl;
 }
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (strong, nonatomic) IBOutlet UINavigationBar *navBar;

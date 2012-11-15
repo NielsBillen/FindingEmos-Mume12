@@ -9,7 +9,6 @@
 //
 
 #import "InputViewController.h"
-#import "FelicityAppDelegate.h"
 #import "FelicityViewController.h"
 #import "Database.h"
 #import "Emotion.h"
@@ -69,6 +68,11 @@
     }
 }
 
+- (IBAction)friendAreSelected:(UIButton *)sender {
+    [self setView:inputView];
+}
+
+
 /*
  ** Wordt opgeroepen wanneer de Input page geladen is.
  ** Laad de images van de emotions in, creeert de scrolling bar
@@ -76,7 +80,7 @@
  */
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+        
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
     
     int nbActivities = [[Database database] nbOfActivities];
@@ -367,6 +371,5 @@
 {
     [[Database database] deleteFriendSelected:[contactsList.allKeys sortedArrayUsingSelector:@selector(compare:)][indexPath.row]];
 }
-
 @end
 

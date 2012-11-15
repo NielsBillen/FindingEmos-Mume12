@@ -57,6 +57,7 @@
                         <outlet property="navBar" destination="a2S-XF-8lF" id="h66-hO-tMP"/>
                         <outlet property="pageControl" destination="n6S-uD-yLu" id="o7C-Db-5bQ"/>
                         <outlet property="scrollView" destination="s8r-sr-fwX" id="yHc-8b-hqf"/>
+                        <outlet property="settingsButton" destination="ygH-bF-cId" id="vva-mA-ZvS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -113,6 +114,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FelicityViewController.h"/>
             <relationships>
                 <relationship kind="action" name="changePage:"/>
+                <relationship kind="outlet" name="SettingsButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="navBar" candidateClass="UINavigationBar"/>
                 <relationship kind="outlet" name="pageControl" candidateClass="UIPageControl"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
