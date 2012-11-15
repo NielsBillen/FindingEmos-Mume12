@@ -91,14 +91,14 @@
         [subview setUserInteractionEnabled:YES];
         
         // Eenmaal tappen = naam op scherm.
-        UITapGestureRecognizer * singleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleSingleTap:)];
+        UITapGestureRecognizer * singleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(viewEmotionName:)];
         singleTapRecognizer.numberOfTapsRequired = 1;
         singleTapRecognizer.delaysTouchesEnded = YES;
         singleTapRecognizer.cancelsTouchesInView = NO;
         [subview addGestureRecognizer:singleTapRecognizer];
         
         // Tweemaal tappen = emotion op scherm.
-        UITapGestureRecognizer * doubleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleDoubleTap:)];
+        UITapGestureRecognizer * doubleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleEmotionSelected:)];
         doubleTapRecognizer.numberOfTapsRequired = 2;
         doubleTapRecognizer.cancelsTouchesInView = NO;
         [subview addGestureRecognizer:doubleTapRecognizer];
@@ -251,7 +251,11 @@
 
 // Indien de gebruiker klaar is met vrienden selecteren, wordt deze methode opgeroepen.
 - (IBAction)friendAreSelected:(UIButton *)sender {
-    [self setView:inputView];
+    // Verwijder de volledige view, zodat alles opnieuw getekend moet worden!
+    UIView *parent = self.view.superview;
+    [self.view removeFromSuperview];
+    self.view = nil;
+    [parent addSubview:self.view];
 }
 
 // Maak de vrienden pagina aan.

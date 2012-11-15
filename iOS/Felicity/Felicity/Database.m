@@ -123,7 +123,6 @@ static Database * _database;
     NSArray *tempArray = [[[tempDictionary keysSortedByValueUsingSelector:@selector(compare:)] reverseObjectEnumerator] allObjects];
     NSMutableArray *returnArray = [[NSMutableArray alloc] init];
     for (int i = 0; i<number; i++) {
-        NSLog(@"person: %@, count: %@", tempArray[i],[tempDictionary objectForKey:tempArray[i]]);
         [returnArray addObject:tempArray[i]];
     }
     return [NSArray arrayWithArray:returnArray];
