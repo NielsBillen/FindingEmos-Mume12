@@ -35,7 +35,6 @@
 		041AB989163B1DA4002164D0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB973163B1DA4002164D0 /* Default@2x.png */; };
 		041AB98A163B1DA4002164D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041AB974163B1DA4002164D0 /* InfoPlist.strings */; };
 		041AB98B163B1DA4002164D0 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 041AB976163B1DA4002164D0 /* MainStoryboard.storyboard */; };
-		041AB98C163B1DA4002164D0 /* Felicity-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 041AB978163B1DA4002164D0 /* Felicity-Info.plist */; };
 		041AB98D163B1DA4002164D0 /* FelicityAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 041AB97B163B1DA4002164D0 /* FelicityAppDelegate.m */; };
 		041AB98E163B1DA4002164D0 /* FelicityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041AB97D163B1DA4002164D0 /* FelicityViewController.m */; };
 		041AB98F163B1DA4002164D0 /* InputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041AB97E163B1DA4002164D0 /* InputView.xib */; };
@@ -184,6 +183,7 @@
 		00D28987164D487B00AF914F /* EmotionStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmotionStatistics.h; sourceTree = "<group>"; };
 		00D28988164D487B00AF914F /* EmotionStatistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmotionStatistics.m; sourceTree = "<group>"; };
 		00F314391653A9B400D8642B /* UnknownProfile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UnknownProfile.png; path = ../../../../../Downloads/UnknownProfile.png; sourceTree = "<group>"; };
+		00F314401654D73300D8642B /* Felicity-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Felicity-Info.plist"; sourceTree = "<group>"; };
 		00F4A90B1646760900F4709F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		00F4A911164683B600F4709F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		041AB971163B1DA4002164D0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -191,7 +191,6 @@
 		041AB973163B1DA4002164D0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		041AB975163B1DA4002164D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		041AB977163B1DA4002164D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		041AB978163B1DA4002164D0 /* Felicity-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Felicity-Info.plist"; sourceTree = "<group>"; };
 		041AB979163B1DA4002164D0 /* Felicity-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Felicity-Prefix.pch"; sourceTree = "<group>"; };
 		041AB97A163B1DA4002164D0 /* FelicityAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FelicityAppDelegate.h; sourceTree = "<group>"; };
 		041AB97B163B1DA4002164D0 /* FelicityAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FelicityAppDelegate.m; sourceTree = "<group>"; };
@@ -426,8 +425,8 @@
 				041AB971163B1DA4002164D0 /* Default-568h@2x.png */,
 				041AB972163B1DA4002164D0 /* Default.png */,
 				041AB973163B1DA4002164D0 /* Default@2x.png */,
+				00F314401654D73300D8642B /* Felicity-Info.plist */,
 				041AB974163B1DA4002164D0 /* InfoPlist.strings */,
-				041AB978163B1DA4002164D0 /* Felicity-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -567,7 +566,6 @@
 				041AB989163B1DA4002164D0 /* Default@2x.png in Resources */,
 				041AB98A163B1DA4002164D0 /* InfoPlist.strings in Resources */,
 				041AB98B163B1DA4002164D0 /* MainStoryboard.storyboard in Resources */,
-				041AB98C163B1DA4002164D0 /* Felicity-Info.plist in Resources */,
 				041AB98F163B1DA4002164D0 /* InputView.xib in Resources */,
 				041AB992163B1DA4002164D0 /* OutputView.xib in Resources */,
 				04F8A9A9163B229B00EAABC5 /* angry_big.png in Resources */,

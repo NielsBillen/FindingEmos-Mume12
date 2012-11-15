@@ -42,8 +42,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[Database database] printCurrentHistory];
-
+    //[[Database database] printCurrentHistory];
     
     [self loadImages];
     [self createScrollingEmotions];
@@ -285,12 +284,10 @@
     [self setView:inputView];
 }
 
-//RootViewController.m
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [contactsList count];
 }
 
-//RootViewController.m
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
@@ -300,7 +297,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] ;
     }
     
-    // Set up the cell...
+    // Maak de cell
     int index = indexPath.row;
     NSArray *array =  [contactsList.allKeys sortedArrayUsingSelector:@selector(compare:)];
     
@@ -310,6 +307,8 @@
     NSString *cellValue = [array objectAtIndex:indexPath.row];
     cell.textLabel.textColor=[UIColor whiteColor];
     cell.textLabel.text = cellValue;
+    // Zet deze aan voor grijze selectiekadertjes
+    //cell.selectionStyle = UITableViewCellSelectionStyleGray;
     
     return cell;
 }

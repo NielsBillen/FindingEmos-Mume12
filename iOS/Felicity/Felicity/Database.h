@@ -11,7 +11,7 @@
 #import "Emotion.h"
 #import "EmotionStatistics.h"
 
-@interface Database : NSObject {
+@interface Database : NSObject <CLLocationManagerDelegate> {
 	CLLocationManager *locationManager;
     CLLocation *currentLocation;
 }
