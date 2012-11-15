@@ -135,7 +135,7 @@
         subview.image = image;
         [subview setUserInteractionEnabled:YES];
         
-        UITapGestureRecognizer * recognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleDoubleTap:)];
+        UITapGestureRecognizer * recognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleEmotionSelected:)];
         recognizer.cancelsTouchesInView = NO;
         [subview addGestureRecognizer:recognizer];
         

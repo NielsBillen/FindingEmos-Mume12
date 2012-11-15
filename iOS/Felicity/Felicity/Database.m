@@ -227,7 +227,7 @@ static Database * _database;
 - (void)openFMDBdatabase {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docsPath = [paths objectAtIndex:0];
-    NSString *path = [docsPath stringByAppendingPathComponent:@"database5.sqlite"];
+    NSString *path = [docsPath stringByAppendingPathComponent:@"database8.sqlite"];
     self.FMDBDatabase = [FMDatabase databaseWithPath:path];
     if (![self.FMDBDatabase open]) {
         NSLog(@"Error opening the database!");
