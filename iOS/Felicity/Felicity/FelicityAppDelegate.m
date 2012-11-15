@@ -19,8 +19,6 @@
 
 @implementation FelicityAppDelegate
 
-@synthesize emotionsCount;
-
 /*
  ** Deze methode wordt opgeroepen nadat de applicatie geladen is.
  ** Ze initialiseert de Array imagenames met de source name van elke emoticon.
@@ -30,8 +28,7 @@
  */
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
-    // Geef een melding weer dat Felicity de locatietrackt
+    // Geef een melding weer dat Felicity de locatie trackt
     if ([CLLocationManager locationServicesEnabled]== NO) {
         UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"You currently have all location services for this device disabled. If you proceed, you will be asked to confirm whether location services should be reenabled." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [servicesDisabledAlert show];

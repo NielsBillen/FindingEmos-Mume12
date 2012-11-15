@@ -38,7 +38,6 @@
 	for (id record in allPeople) {
 		NSString* contactName = (__bridge NSString *)ABRecordCopyCompositeName((__bridge ABRecordRef)record);
         
-		//[newPhone release];
         CFDataRef imageData = ABPersonCopyImageData((__bridge ABRecordRef)(record));
         UIImage *image = [UIImage imageWithData:(__bridge NSData *)imageData];
         if(!image)

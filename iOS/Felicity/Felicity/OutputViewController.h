@@ -9,14 +9,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FelicityAppDelegate.h"
 
-@interface OutputViewController : UIViewController {
-    
-    // Link naar de appDelegate;
-    FelicityAppDelegate *appDelegate;
-    
-}
+@interface OutputViewController : UIViewController
+
 @property (weak, nonatomic) IBOutlet UIScrollView *resultsScroller;
 
 @end

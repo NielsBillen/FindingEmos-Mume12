@@ -9,11 +9,11 @@
 //
 
 #import "OutputViewController.h"
-#import "FelicityAppDelegate.h"
 #import "Emotion.h"
 #import "Database.h"
 #import "FelicityUtil.h"
 
+// Private velden
 @interface OutputViewController ()
 @property int xPadding;
 @property int yPadding;
@@ -25,13 +25,9 @@
 @implementation OutputViewController
 
 @synthesize resultsScroller;
-
 @synthesize xPadding, yPadding, imageSize,yMargin,xWidthBar;
 
-/*
- ** Wordt aangeroepen wanneer de Results pagina geladen is.
- ** Creert de statistieken.
- */
+// Wordt aangeroepen wanneer de Results pagina geladen is.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -41,9 +37,7 @@
     imageSize = 50;
     yMargin = 70;
     xWidthBar = 230;
-    
-    appDelegate = (FelicityAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
+        
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
     
     int nbEmotions = [[Database database] nbOfEmotions];
@@ -55,9 +49,8 @@
     [self createStatistics];
 }
 
-/*
- ** Geeft de statistieken weer (hoe vaak een emoticon is geselecteerd).
- */
+
+// Geeft de statistieken weer
 - (void)createStatistics {
     
     for(UIView *subview in [self.resultsScroller subviews]) {

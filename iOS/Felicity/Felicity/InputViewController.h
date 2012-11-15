@@ -9,21 +9,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FelicityAppDelegate.h"
 
 @interface InputViewController : UIViewController
 {
-    
     // Mapping: source name van image - UIImageView van image
     NSMutableDictionary *images;
-    
-    NSMutableArray *selectedIndexPaths;
-    NSArray *favoritePersons;
-    
-    // Link naar de appDelegate;
-    FelicityAppDelegate *appDelegate;
-    
-    NSDictionary *contactsList;
     
     IBOutlet UIScrollView *emotionScroller;
     IBOutlet UIImageView *currentEmotionView;
@@ -40,8 +30,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *frequentPerson3;
 @property (weak, nonatomic) IBOutlet UITableView *personTableView;
 @property (weak, nonatomic) IBOutlet UIScrollView *whatDoingScrollView;
-
-- (IBAction)friendAreSelected:(UIButton *)sender;
 
 // De scrollview onderaan de Inputpagina.
 @property (retain, nonatomic) IBOutlet UIScrollView *emotionScroller;
@@ -63,16 +51,5 @@
 
 // De backbutton op de emotionsOverview view.
 @property (strong, nonatomic) IBOutlet UIButton *inputViewButton;
-
-
-/*
- ** Een klik op de emotionsButton geeft de emotionsOverview view weer.
- */
-- (IBAction)emotionsButtonPressed:(id)sender;
-
-/*
- ** Een klik op de inputViewButton geeft de inputView  weer.
- */
-- (IBAction)inputViewButtonPressed:(id)sender;
 
 @end

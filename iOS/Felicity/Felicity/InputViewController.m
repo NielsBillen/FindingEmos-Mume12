@@ -9,7 +9,6 @@
 //
 
 #import "InputViewController.h"
-#import "FelicityViewController.h"
 #import "Database.h"
 #import "Emotion.h"
 #import "FelicityUtil.h"
@@ -18,175 +17,40 @@
 @interface InputViewController ()
 @property NSString *currentActivy;
 @property Emotion *currentEmotion;
+@property NSArray *favoritePersons;
+@property NSDictionary *contactsList;
 @property BOOL favoriteOneSelected, favoriteTwoSelected, favoriteThreeSelected;
 @end
 
 @implementation InputViewController
 
-@class FelicityViewController;
-
-@synthesize emotionScroller, currentEmotionView, textLabel, emotionsOverviewView, inputView, emotionsButton, inputViewButton, whatDoingView;
+@synthesize emotionScroller, currentEmotionView, textLabel, emotionsOverviewView, inputView, emotionsButton, inputViewButton, whatDoingView,withWhoView;
 @synthesize currentActivy;
 @synthesize currentEmotion;
 @synthesize whatDoingScrollView;
-@synthesize withWhoView;
 @synthesize frequentPerson1, frequentPerson2, frequentPerson3;
 @synthesize favoriteOneSelected, favoriteTwoSelected, favoriteThreeSelected;
+@synthesize favoritePersons;
+@synthesize contactsList;
 
--(void)createWhatDoing {
-    NSArray *activities = [[Database database] retrieveActivities];
-    
-    int i = 0;
-    while(i < activities.count) {
-        NSString *activity = activities[i];
-        UIButton *but=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-        but.frame= CGRectMake(55, 30 + 70*i, 200, 50);
-        [but setTitle:activity forState:UIControlStateNormal];
-        [but addTarget:self action:@selector(whatDoingPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [self.whatDoingScrollView addSubview:but];
-        i++;
-    }
-    UIButton *but=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    but.frame= CGRectMake(55, 30 + 70*i, 200, 50);
-    [but setTitle:@"+" forState:UIControlStateNormal];
-    [but addTarget:self action:@selector(addActivity:) forControlEvents:UIControlEventTouchUpInside];
-    [self.whatDoingScrollView addSubview:but];
-}
-
--(void)addActivity:(UIButton *)sender {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"New Activiy" message:@"Enter the new activity:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alertView show];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        NSString *newActivity = [alertView textFieldAtIndex:0].text;
-        [[Database database] insertActivity:newActivity];
-        [self createWhatDoing];
-    }
-}
-
-- (IBAction)friendAreSelected:(UIButton *)sender {
-    [self setView:inputView];
-}
-
-
-/*
- ** Wordt opgeroepen wanneer de Input page geladen is.
- ** Laad de images van de emotions in, creeert de scrolling bar
- ** en de emotionsOverview pagina.
- */
+// Wordt opgeroepen wanneer de Input page geladen is.
 - (void)viewDidLoad {
     [super viewDidLoad];
         
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
     
-    int nbActivities = [[Database database] nbOfActivities];
-    whatDoingScrollView.contentSize = CGSizeMake(320, 40 + (nbActivities + 1) * 70);
-    whatDoingScrollView.backgroundColor = background;
-    [self.whatDoingView addSubview:whatDoingScrollView];
-    [self createWhatDoing];
-    
-    //[[Database database] printCurrentHistory];
-    
     [self loadImages];
-    [self createScrollingEmotions];
+    [self createScrollingEmotionsWithBackground:background];
     [self createEmotionsOverviewPage];
-    
-    contactsList = [FelicityUtil retrieveContactList];
-    
-    self.view.backgroundColor = background;
-    self.whatDoingView.backgroundColor = background;
-    self.withWhoView.backgroundColor = background;
-    
-    self.personTableView.allowsMultipleSelectionDuringEditing = YES;
-    
-    favoritePersons = [[Database database] getNbBestFriends:3];
-    frequentPerson1.image = [contactsList objectForKey:favoritePersons[0]];
-    frequentPerson1.tag = 1;
-    frequentPerson2.image = [contactsList objectForKey:favoritePersons[1]];
-    frequentPerson2.tag = 2;
-    frequentPerson3.image = [contactsList objectForKey:favoritePersons[2]];
-    frequentPerson3.tag = 3;
-    
-    UITapGestureRecognizer * singleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
-    singleTapRecognizer.numberOfTapsRequired = 1;
-    singleTapRecognizer.delaysTouchesEnded = YES;
-    singleTapRecognizer.cancelsTouchesInView = NO;
-    [frequentPerson1 addGestureRecognizer:singleTapRecognizer];
-    
-    UITapGestureRecognizer * singleTapRecognizer2 = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
-    singleTapRecognizer2.numberOfTapsRequired = 1;
-    singleTapRecognizer2.delaysTouchesEnded = YES;
-    singleTapRecognizer2.cancelsTouchesInView = NO;
-    [frequentPerson2 addGestureRecognizer:singleTapRecognizer2];
-    
-    
-    UITapGestureRecognizer * singleTapRecognizer3 = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
-    singleTapRecognizer3.numberOfTapsRequired = 1;
-    singleTapRecognizer3.delaysTouchesEnded = YES;
-    singleTapRecognizer3.cancelsTouchesInView = NO;
-    [frequentPerson3 addGestureRecognizer:singleTapRecognizer3];
+    [self createFriendViewWithBackground:background];
     
     // Nodig om te kunnen terugswitchen van de emotionsOverview Page naar de "gewone" view.
     inputView = self.view;
 }
 
-- (IBAction)handleFavoriteSelected:(UITapGestureRecognizer *)sender {
-    int tag = sender.view.tag;
-    switch (tag) {
-        case 1:
-            if(!favoriteOneSelected) {
-                [frequentPerson1.layer setBorderColor:[[UIColor blueColor] CGColor]];
-                [frequentPerson1.layer setBorderWidth: 5.0];
-                [[Database database] saveFriendSelected:favoritePersons[0]];
-                favoriteOneSelected = YES;
-            } else {
-                [frequentPerson1.layer setBorderColor:[[UIColor blackColor] CGColor]];
-                [frequentPerson1.layer setBorderWidth: 0];
-                [[Database database] deleteFriendSelected:favoritePersons[0]];
-                favoriteOneSelected = NO;
-            }
-            break;
-        case 2:
-            if(!favoriteTwoSelected) {
-                [frequentPerson2.layer setBorderColor:[[UIColor blueColor] CGColor]];
-                [frequentPerson2.layer setBorderWidth: 5.0];
-                [[Database database] saveFriendSelected:favoritePersons[1]];
-                favoriteTwoSelected = YES;
-            } else {
-                [frequentPerson2.layer setBorderColor:[[UIColor blackColor] CGColor]];
-                [frequentPerson2.layer setBorderWidth: 0];
-                [[Database database] deleteFriendSelected:favoritePersons[1]];
-                favoriteTwoSelected = NO;
-            }
-            break;
-        case 3:
-            if(!favoriteThreeSelected) {
-                [frequentPerson3.layer setBorderColor:[[UIColor blueColor] CGColor]];
-                [frequentPerson3.layer setBorderWidth: 5.0];
-                [[Database database] saveFriendSelected:favoritePersons[2]];
-                favoriteThreeSelected = YES;
-            } else {
-                [frequentPerson3.layer setBorderColor:[[UIColor blackColor] CGColor]];
-                [frequentPerson3.layer setBorderWidth: 0];
-                [[Database database] deleteFriendSelected:favoritePersons[2]];
-                favoriteThreeSelected = NO;
-            }
-            break;
-        default:
-            break;
-    }
-}
-
-- (IBAction)whatDoingPressed:(UIButton *)sender {
-    self.currentActivy = [sender currentTitle];
-    [[Database database] registerNewEmotionSelected:currentEmotion andActivity:currentActivy];
-    [self setView:withWhoView];
-    
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+//      Emotie overview pagina                                                         //
+/////////////////////////////////////////////////////////////////////////////////////////
 
 /*
  ** Initialiseert de mapping: source name van image - UIImageView van image
@@ -207,10 +71,9 @@
 /*
  ** Initialiseert de scrollView met emotions onderaan de Inputview.
  */
--(void) createScrollingEmotions {
+-(void) createScrollingEmotionsWithBackground:(UIColor *)background {
     NSArray *emotions = [[Database database] retrieveEmotionsFromDatabase];
     emotionScroller.contentSize = CGSizeMake(80*emotions.count, 64);
-    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"imageBackground.png"]];
     emotionScroller.backgroundColor = background;
     [self.view addSubview:emotionScroller];
     
@@ -285,7 +148,7 @@
  ** de emotionScroller onderaan de inputpagina.
  ** Geeft de naam van de emoticon in kwestie weer op het scherm.
  */
-- (IBAction)handleSingleTap:(UITapGestureRecognizer *)recognizer {
+- (IBAction)viewEmotionName:(UITapGestureRecognizer *)recognizer {
     UIImageView *tappedView = (UIImageView*) recognizer.view;
     Emotion *emotion = [images objectForKey:tappedView.image];
     
@@ -299,7 +162,7 @@
  ** de emotionsOverview pagina.
  ** Geeft de emoticon in kwestie en zijn naam weer op het scherm.
  */
-- (IBAction)handleDoubleTap:(UITapGestureRecognizer *)recognizer {
+- (IBAction)handleEmotionSelected:(UITapGestureRecognizer *)recognizer {
     UIImageView *tappedView = (UIImageView*) recognizer.view;
     Emotion *emotion = [images objectForKey:tappedView.image];
     
@@ -333,10 +196,161 @@
     [self setView:inputView];
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+//      What doing pagina                                                              //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+// Maak de What Doing pagina aan
+-(void)createWhatDoing {
+    NSArray *activities = [[Database database] retrieveActivities];
+    int i = 0;
+    while(i < activities.count) {
+        NSString *activity = activities[i];
+        UIButton *but=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        but.frame= CGRectMake(55, 30 + 70*i, 200, 50);
+        [but setTitle:activity forState:UIControlStateNormal];
+        [but addTarget:self action:@selector(whatDoingPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.whatDoingScrollView addSubview:but];
+        i++;
+    }
+    // Voeg als laatste nog een plus knop toe
+    UIButton *but=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    but.frame= CGRectMake(55, 30 + 70*i, 200, 50);
+    [but setTitle:@"+" forState:UIControlStateNormal];
+    [but addTarget:self action:@selector(addActivity:) forControlEvents:UIControlEventTouchUpInside];
+    [self.whatDoingScrollView addSubview:but];
+}
+
+// De gebruiker heeft een keuze gemaakt
+- (IBAction)whatDoingPressed:(UIButton *)sender {
+    self.currentActivy = [sender currentTitle];
+    [[Database database] registerNewEmotionSelected:currentEmotion andActivity:currentActivy];
+    [self setView:withWhoView];
+}
+
+// Laat de gebruiker zelf een activiteit toevoegen
+-(void)addActivity:(UIButton *)sender {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"New Activiy" message:@"Enter the new activity:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+}
+
+// Vraag de gebruiker de naam van de nieuwe activiteit
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        NSString *newActivity = [alertView textFieldAtIndex:0].text;
+        [[Database database] insertActivity:newActivity];
+        [self createWhatDoing];
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//      Vrienden pagina                                                                //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+// Indien de gebruiker klaar is met vrienden selecteren, wordt deze methode opgeroepen.
+- (IBAction)friendAreSelected:(UIButton *)sender {
+    [self setView:inputView];
+}
+
+// Maak de vrienden pagina aan.
+- (void)createFriendViewWithBackground:(UIColor *)background {
+    int nbActivities = [[Database database] nbOfActivities];
+    whatDoingScrollView.contentSize = CGSizeMake(320, 40 + (nbActivities + 1) * 70);
+    whatDoingScrollView.backgroundColor = background;
+    [self.whatDoingView addSubview:whatDoingScrollView];
+    [self createWhatDoing];
+    
+    contactsList = [FelicityUtil retrieveContactList];
+    
+    self.view.backgroundColor = background;
+    self.whatDoingView.backgroundColor = background;
+    self.withWhoView.backgroundColor = background;
+    
+    self.personTableView.allowsMultipleSelectionDuringEditing = YES;
+    
+    favoritePersons = [[Database database] getNbBestFriends:3];
+    frequentPerson1.image = [contactsList objectForKey:favoritePersons[0]];
+    frequentPerson1.tag = 1;
+    frequentPerson2.image = [contactsList objectForKey:favoritePersons[1]];
+    frequentPerson2.tag = 2;
+    frequentPerson3.image = [contactsList objectForKey:favoritePersons[2]];
+    frequentPerson3.tag = 3;
+    
+    UITapGestureRecognizer * singleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
+    singleTapRecognizer.numberOfTapsRequired = 1;
+    singleTapRecognizer.delaysTouchesEnded = YES;
+    singleTapRecognizer.cancelsTouchesInView = NO;
+    [frequentPerson1 addGestureRecognizer:singleTapRecognizer];
+    
+    UITapGestureRecognizer * singleTapRecognizer2 = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
+    singleTapRecognizer2.numberOfTapsRequired = 1;
+    singleTapRecognizer2.delaysTouchesEnded = YES;
+    singleTapRecognizer2.cancelsTouchesInView = NO;
+    [frequentPerson2 addGestureRecognizer:singleTapRecognizer2];
+    
+    
+    UITapGestureRecognizer * singleTapRecognizer3 = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
+    singleTapRecognizer3.numberOfTapsRequired = 1;
+    singleTapRecognizer3.delaysTouchesEnded = YES;
+    singleTapRecognizer3.cancelsTouchesInView = NO;
+    [frequentPerson3 addGestureRecognizer:singleTapRecognizer3];
+}
+
+- (IBAction)handleFavoriteSelected:(UITapGestureRecognizer *)sender {
+    int tag = sender.view.tag;
+    switch (tag) {
+        case 1:
+            if(!favoriteOneSelected) {
+                [frequentPerson1.layer setBorderColor:[[UIColor blueColor] CGColor]];
+                [frequentPerson1.layer setBorderWidth: 5.0];
+                [[Database database] saveFriendSelected:favoritePersons[0]];
+                favoriteOneSelected = YES;
+            } else {
+                [frequentPerson1.layer setBorderColor:[[UIColor blackColor] CGColor]];
+                [frequentPerson1.layer setBorderWidth: 0];
+                [[Database database] deleteFriendSelected:favoritePersons[0]];
+                favoriteOneSelected = NO;
+            }
+            break;
+        case 2:
+            if(!favoriteTwoSelected) {
+                [frequentPerson2.layer setBorderColor:[[UIColor blueColor] CGColor]];
+                [frequentPerson2.layer setBorderWidth: 5.0];
+                [[Database database] saveFriendSelected:favoritePersons[1]];
+                favoriteTwoSelected = YES;
+            } else {
+                [frequentPerson2.layer setBorderColor:[[UIColor blackColor] CGColor]];
+                [frequentPerson2.layer setBorderWidth: 0];
+                [[Database database] deleteFriendSelected:favoritePersons[1]];
+                favoriteTwoSelected = NO;
+            }
+            break;
+        case 3:
+            if(!favoriteThreeSelected) {
+                [frequentPerson3.layer setBorderColor:[[UIColor blueColor] CGColor]];
+                [frequentPerson3.layer setBorderWidth: 5.0];
+                [[Database database] saveFriendSelected:favoritePersons[2]];
+                favoriteThreeSelected = YES;
+            } else {
+                [frequentPerson3.layer setBorderColor:[[UIColor blackColor] CGColor]];
+                [frequentPerson3.layer setBorderWidth: 0];
+                [[Database database] deleteFriendSelected:favoritePersons[2]];
+                favoriteThreeSelected = NO;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+// Geef terug hoeveel contacten de gebruiker heeft.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [contactsList count];
 }
 
+// Maak de contactenlijst aan.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
@@ -346,7 +360,6 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] ;
     }
     
-    // Maak de cell
     int index = indexPath.row;
     NSArray *array =  [contactsList.allKeys sortedArrayUsingSelector:@selector(compare:)];
     
@@ -362,11 +375,13 @@
     return cell;
 }
 
+// De gebruiker heeft een vriend geselecteerd
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [[Database database] saveFriendSelected:[contactsList.allKeys sortedArrayUsingSelector:@selector(compare:)][indexPath.row]];
 }
 
+// De gebruiker heeft een vriend gedeselecteerd
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [[Database database] deleteFriendSelected:[contactsList.allKeys sortedArrayUsingSelector:@selector(compare:)][indexPath.row]];

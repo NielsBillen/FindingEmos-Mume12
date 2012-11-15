@@ -12,10 +12,13 @@
 #import "FMDatabaseAdditions.h"
 #import "FelicityUtil.h"
 
+
 @interface Database ()
 @property FMDatabase *FMDBDatabase;
 @property int nbEmotions;
 @property NSNumber *lastEpochtime;
+@property CLLocationManager *locationManager;
+@property CLLocation *currentLocation;
 @end
 
 @implementation Database
@@ -23,6 +26,8 @@
 @synthesize FMDBDatabase = _FMDBDatabase;
 @synthesize nbEmotions;
 @synthesize lastEpochtime;
+@synthesize locationManager;
+@synthesize currentLocation;
 
 /*
  * Maak database een singleton.
@@ -35,6 +40,7 @@ static Database * _database;
     return _database;
 }
 
+// Start de database op
 - (id)init {
     // Maak de database aan, of open deze als deze reeds bestaat.
     [self openFMDBdatabase];
@@ -46,12 +52,13 @@ static Database * _database;
     [self.FMDBDatabase executeUpdate:@"create table friends (idKey int primary key, epochtime int, friend text)"];
     // Maak deze database de delagete van de LocationManager, op deze manier kan de database altijd aan de locatie van de gebruiker.
     [self setLocationDelagate];
-    
+    // Maak de initiële activiteiten aan.
     [self setDefaultActivities];
     
     return self;
 }
 
+// Maak standaard activiteiten aan
 -(void)setDefaultActivities {
     if (![self.FMDBDatabase tableExists:@"activities"]) {
         [self.FMDBDatabase executeUpdate:@"create table activities (idKey int primary key, activity text)"];
@@ -62,6 +69,7 @@ static Database * _database;
     }
 }
 
+// Geef alle activiteiten terug
 -(NSArray *)retrieveActivities {
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
     FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from activities"];
@@ -72,10 +80,12 @@ static Database * _database;
     return [NSArray arrayWithArray:tempArray];
 }
 
+// Maak een nieuwe activiteit aan
 -(void)insertActivity:(NSString *)activity {
     [self.FMDBDatabase executeUpdate:@"INSERT INTO activities (activity) VALUES (?)",activity, nil];
 }
 
+// Geeft het aantal activiteiten terug
 -(int)nbOfActivities {
     return [self.FMDBDatabase intForQuery:@"select count(activity) from activities"];
 }
@@ -85,10 +95,8 @@ static Database * _database;
     return nbEmotions;
 }
 
+// Geef het gewenste aantal beste vrienden
 -(NSArray *)getNbBestFriends:(int)number {
-    if (![self.FMDBDatabase tableExists:@"friends"]) {
-        NSLog(@"De friends tabel bestaat nog niet!!");
-    }
     NSMutableDictionary *tempDictionary = [[NSMutableDictionary alloc] init];
     FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from friends"];
     int counter = 0;
@@ -103,6 +111,7 @@ static Database * _database;
             [tempDictionary setObject:[NSNumber numberWithInt:(primitiveValue + 1)] forKey:name];
         }
     }
+    // Indien nog niet genoeg favorieten, vul random aan!
     if(counter < number) {
         NSArray *array = [FelicityUtil retrieveContactList].allKeys;
         NSMutableArray *returnArray = [[NSMutableArray alloc] init];
@@ -123,10 +132,6 @@ static Database * _database;
 
 // Geef de statistieken terug
 - (EmotionStatistics *)retrieveEmotionStaticsForEmotion:(Emotion *)emotion {
-    if (![self.FMDBDatabase tableExists:@"history"]) {
-        NSLog(@"De history tabel bestaat nog niet!!");
-    }
-    
     FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from history"];
     int selectionCount = 0;
     int totalCount = 0;
@@ -142,7 +147,6 @@ static Database * _database;
     }
     return [[EmotionStatistics alloc] initWithEmotion:emotion andWithTimesSelected:selectionCount andWithTotalNbEmtionsSelected:totalCount];
 }
-
 
 // Geef alle emoties terug
 - (NSArray *)retrieveEmotionsFromDatabase {
@@ -172,10 +176,12 @@ static Database * _database;
     return [[Emotion alloc] initWithDisplayName:displayName andUniqueId:uniqueId AndDatabaseName:name AndSmallImage:smallImage AndLargeImage:largeImage AndNbSelected:nbSelected];
 }
 
+// Sla een friend op
 -(void)saveFriendSelected:(NSString *)friend {
     [self.FMDBDatabase executeUpdate:@"INSERT INTO friends (epochtime,friend) VALUES (?,?)",lastEpochtime, friend, nil];
 }
 
+// Een vriend is  gedeselecteerd
 -(void)deleteFriendSelected:(NSString *)friend {
     [self.FMDBDatabase executeUpdate:@"DELETE FROM friends WHERE epochtime=? AND friend=?",lastEpochtime,friend, nil];
 }
@@ -198,19 +204,14 @@ static Database * _database;
     }];
 }
 
-
-
-
-
-// Hulpmethodes bij de constructor
-
+// Maak de tabel met informatie van de emoties aan en vul deze.
 - (void)makeEmotionTable {
     // Let op opmerking hieronder !!!
     NSArray *emotionNames = [NSArray arrayWithObjects:@"angry", @"ashamed", @"bored", @"happy", @"hungry", @"in_love",@"irritated",@"sad", @"scared", @"sick", @"super_happy", @"tired", @"very_happy", @"very_sad", nil];
     nbEmotions = emotionNames.count;
     
     // Vermijd een hoop foutmeldingen door na te gaan of de emotiestabel al bestaat
-    // Let wel op dat indien nieuwe emoties toegevoegd worden, de database opnieuw aangemaakt moet worden.
+    // Let wel op dat indien nieuwe emoties toegevoegd worden, de database opnieuw aangemaakt moet worden!
     if (![self.FMDBDatabase tableExists:@"emotions"]) {
         [self.FMDBDatabase executeUpdate:@"create table emotions (displayName text ,uniqueId int primary key,name text ,smallImage text,largeImage text,nbSelected int)"];
         for (int i = 0; i < emotionNames.count; i++) {
@@ -223,6 +224,7 @@ static Database * _database;
     }
 }
 
+// Open de FMDBdatabase
 - (void)openFMDBdatabase {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docsPath = [paths objectAtIndex:0];
@@ -233,13 +235,12 @@ static Database * _database;
     }
 }
 
-// Print de huidige geschiedenis
+// Print de huidige geschiedenis (gebruikt om te TESTEN)
 - (void)printCurrentHistory {
     if (![self.FMDBDatabase tableExists:@"history"]) {
         NSLog(@"De history tabel bestaat nog niet!!");
         return;
     }
-    
     FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from history"];
     while ([results next]) {
         NSString *date = [results stringForColumn:@"date"];
@@ -252,7 +253,6 @@ static Database * _database;
         NSLog(@"History -- date: %@ -- time: %@ -- epochtime: %d -- country: %@ -- city: %@ -- emotion_id: %d -- activity: %@", date, time, epochtime, country, city, emoticon_id,activity);
     }
 }
-
 
 // Sluit de database
 - (void)close {
@@ -277,6 +277,7 @@ static Database * _database;
     if(!newLocation) currentLocation = newLocation;
 }
 
+// Geef een locatiefoutmelding weer
 - (void)locationManager:(CLLocationManager *)manager
        didFailWithError:(NSError *)error {
     NSLog(@"Error: %@", [error description]);
