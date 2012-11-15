@@ -21,13 +21,11 @@
 		0077C3E9164A5FED003DE80C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3E3164A5FED003DE80C /* FMResultSet.m */; };
 		00ACB3B01642E1FD007F75FB /* imageBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 00ACB3AE1642E1FD007F75FB /* imageBackground.png */; };
 		00CEAF071642E3FE001831B9 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 00CEAF051642E3FE001831B9 /* background.png */; };
-		00CEAF0B1642E59C001831B9 /* imageBackgroundReversed.png in Resources */ = {isa = PBXBuildFile; fileRef = 00CEAF091642E59C001831B9 /* imageBackgroundReversed.png */; };
 		00CEAF0E16432F78001831B9 /* Emotion.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CEAF0D16432F78001831B9 /* Emotion.m */; };
 		00CEAF1216453168001831B9 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CEAF1116453168001831B9 /* libsqlite3.0.dylib */; };
 		00CEAF171645343C001831B9 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CEAF161645343C001831B9 /* Database.m */; };
 		00D28985164D42BE00AF914F /* ResultStatistics.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D28984164D42BE00AF914F /* ResultStatistics.m */; };
 		00D28989164D487B00AF914F /* EmotionStatistics.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D28988164D487B00AF914F /* EmotionStatistics.m */; };
-		00F3143A1653A9B400D8642B /* UnknownProfile.png in Resources */ = {isa = PBXBuildFile; fileRef = 00F314391653A9B400D8642B /* UnknownProfile.png */; };
 		00F4A90C1646760900F4709F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F4A90B1646760900F4709F /* CoreLocation.framework */; };
 		00F4A912164683B600F4709F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 00F4A911164683B600F4709F /* icon.png */; };
 		041AB987163B1DA4002164D0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB971163B1DA4002164D0 /* Default-568h@2x.png */; };
@@ -172,7 +170,6 @@
 		0077C3E3164A5FED003DE80C /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		00ACB3AF1642E1FD007F75FB /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/imageBackground.png; sourceTree = "<group>"; };
 		00CEAF061642E3FE001831B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/background.png; sourceTree = "<group>"; };
-		00CEAF0A1642E59C001831B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/imageBackgroundReversed.png; sourceTree = "<group>"; };
 		00CEAF0C16432F78001831B9 /* Emotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emotion.h; sourceTree = "<group>"; };
 		00CEAF0D16432F78001831B9 /* Emotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emotion.m; sourceTree = "<group>"; };
 		00CEAF1116453168001831B9 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -182,7 +179,6 @@
 		00D28984164D42BE00AF914F /* ResultStatistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResultStatistics.m; path = Felicity/ResultStatistics.m; sourceTree = "<group>"; };
 		00D28987164D487B00AF914F /* EmotionStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmotionStatistics.h; sourceTree = "<group>"; };
 		00D28988164D487B00AF914F /* EmotionStatistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmotionStatistics.m; sourceTree = "<group>"; };
-		00F314391653A9B400D8642B /* UnknownProfile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UnknownProfile.png; path = ../../../../../Downloads/UnknownProfile.png; sourceTree = "<group>"; };
 		00F314401654D73300D8642B /* Felicity-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Felicity-Info.plist"; sourceTree = "<group>"; };
 		00F4A90B1646760900F4709F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		00F4A911164683B600F4709F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
@@ -471,10 +467,8 @@
 		04F8A96E163B229B00EAABC5 /* EmoticonSet */ = {
 			isa = PBXGroup;
 			children = (
-				00F314391653A9B400D8642B /* UnknownProfile.png */,
 				0001975116528F6C000B1BF6 /* morebutton.png */,
 				00ACB3AE1642E1FD007F75FB /* imageBackground.png */,
-				00CEAF091642E59C001831B9 /* imageBackgroundReversed.png */,
 				00CEAF051642E3FE001831B9 /* background.png */,
 				04F8A96F163B229B00EAABC5 /* angry_big.png */,
 				04F8A971163B229B00EAABC5 /* angry_small.png */,
@@ -599,10 +593,8 @@
 				04F8A9C5163B229B00EAABC5 /* very_sad_small.png in Resources */,
 				00ACB3B01642E1FD007F75FB /* imageBackground.png in Resources */,
 				00CEAF071642E3FE001831B9 /* background.png in Resources */,
-				00CEAF0B1642E59C001831B9 /* imageBackgroundReversed.png in Resources */,
 				00F4A912164683B600F4709F /* icon.png in Resources */,
 				0001975216528F6C000B1BF6 /* morebutton.png in Resources */,
-				00F3143A1653A9B400D8642B /* UnknownProfile.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,14 +641,6 @@
 				00CEAF061642E3FE001831B9 /* en */,
 			);
 			name = background.png;
-			sourceTree = "<group>";
-		};
-		00CEAF091642E59C001831B9 /* imageBackgroundReversed.png */ = {
-			isa = PBXVariantGroup;
-			children = (
-				00CEAF0A1642E59C001831B9 /* en */,
-			);
-			name = imageBackgroundReversed.png;
 			sourceTree = "<group>";
 		};
 		041AB974163B1DA4002164D0 /* InfoPlist.strings */ = {
