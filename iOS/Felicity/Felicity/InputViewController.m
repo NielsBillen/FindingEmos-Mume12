@@ -41,7 +41,10 @@
 */
 - (void)viewDidLoad {
     [super viewDidLoad];
-        
+    
+    [[Database database] printCurrentHistory];
+
+    
     [self loadImages];
     [self createScrollingEmotions];
     [self createEmotionsOverviewPage];
@@ -50,6 +53,8 @@
     
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
     self.view.backgroundColor = background;
+    self.whatDoingView.backgroundColor = background;
+    self.withWhoView.backgroundColor = background;
     
     self.personTableView.allowsMultipleSelectionDuringEditing = YES;
 
@@ -260,7 +265,7 @@
     currentEmotion = emotion;
     
     [self setView:inputView];
-    
+        
     [self performSelector:@selector(setView:) withObject:self.whatDoingView afterDelay:0.5];
 }
 

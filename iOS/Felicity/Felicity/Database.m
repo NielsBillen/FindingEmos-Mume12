@@ -10,6 +10,7 @@
 #import "Emotion.h"
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
+#import "FelicityUtil.h"
 
 @interface Database ()
 @property FMDatabase *FMDBDatabase;
@@ -42,7 +43,7 @@ static Database * _database;
     // Maak de geschiedenis tabel aan.
     [self.FMDBDatabase executeUpdate:@"create table history (idKey int primary key, date text, time text, epochtime int, country text, city text, emoticon_id int,activity text)"];
     // Maak de vrienden tabel aan.
-    [self.FMDBDatabase executeUpdate:@"create table friends (key int primary key, epochtime int, friend text)"];
+    [self.FMDBDatabase executeUpdate:@"create table friends (idKey int primary key, epochtime int, friend text)"];
     // Maak deze database de delagete van de LocationManager, op deze manier kan de database altijd aan de locatie van de gebruiker.
     [self setLocationDelagate];
     
@@ -60,27 +61,33 @@ static Database * _database;
     }
     NSMutableDictionary *tempDictionary = [[NSMutableDictionary alloc] init];
     FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from friends"];
+    int counter = 0;
     while ([results next]) {
         NSString *name = [results stringForColumn:@"friend"];
         NSNumber *currentCount = [tempDictionary objectForKey:name];
         if(!currentCount) {
             [tempDictionary setObject:[NSNumber numberWithInt:0] forKey:name];
+            counter++;
         } else {
             int primitiveValue = [currentCount integerValue];
             [tempDictionary setObject:[NSNumber numberWithInt:(primitiveValue + 1)] forKey:name];
         }
     }
-    if(tempDictionary.count > 0) {
-        NSArray *tempArray = [[[tempDictionary keysSortedByValueUsingSelector:@selector(compare:)] reverseObjectEnumerator] allObjects];
+    if(counter < number) {
+        NSArray *array = [FelicityUtil retrieveContactList].allKeys;
         NSMutableArray *returnArray = [[NSMutableArray alloc] init];
-        for (int i = 0; i<number; i++) {
-            NSLog(@"person: %@, count: %@", tempArray[i],[tempDictionary objectForKey:tempArray[i]]);
-            [returnArray addObject:tempArray[i]];
+        for(int i = 0; i < number; i++) {
+            [returnArray addObject:array[i]];
         }
-        return [NSArray arrayWithArray:returnArray];
-    } else {
-        return nil;
+        return returnArray;
     }
+    NSArray *tempArray = [[[tempDictionary keysSortedByValueUsingSelector:@selector(compare:)] reverseObjectEnumerator] allObjects];
+    NSMutableArray *returnArray = [[NSMutableArray alloc] init];
+    for (int i = 0; i<number; i++) {
+       NSLog(@"person: %@, count: %@", tempArray[i],[tempDictionary objectForKey:tempArray[i]]);
+       [returnArray addObject:tempArray[i]];
+    }
+    return [NSArray arrayWithArray:returnArray];
     
 }
 
@@ -189,7 +196,7 @@ static Database * _database;
 - (void)openFMDBdatabase {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docsPath = [paths objectAtIndex:0];
-    NSString *path = [docsPath stringByAppendingPathComponent:@"database3.sqlite"];
+    NSString *path = [docsPath stringByAppendingPathComponent:@"database5.sqlite"];
     self.FMDBDatabase = [FMDatabase databaseWithPath:path];
     if (![self.FMDBDatabase open]) {
         NSLog(@"Error opening the database!");
@@ -211,7 +218,8 @@ static Database * _database;
         NSString *country = [results stringForColumn:@"country"];
         NSString *city = [results stringForColumn:@"city"];
         NSInteger emoticon_id  = [results intForColumn:@"emoticon_id"];
-        NSLog([NSString stringWithFormat:@"History -- date: %@ -- time: %@ -- epochtime: %d -- country: %@ -- city: %@ -- emotion_id: %d", date, time, epochtime, country, city, emoticon_id]);
+        NSString *activity = [results stringForColumn:@"activity"];
+        NSLog(@"History -- date: %@ -- time: %@ -- epochtime: %d -- country: %@ -- city: %@ -- emotion_id: %d -- activity: %@", date, time, epochtime, country, city, emoticon_id,activity);
     }
 }
 

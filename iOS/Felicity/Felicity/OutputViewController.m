@@ -63,10 +63,12 @@
     for(UIView *subview in [self.resultsScroller subviews]) {
         [subview removeFromSuperview];
     }
-    
     NSArray *sortedStatistics = [FelicityUtil retrieveEmotionStatistics];
-    
+
     double maxPercentage = ((EmotionStatistics *)sortedStatistics[0]).percentageSelected;
+    
+    // isnan checking zonder math package!
+    if(maxPercentage != maxPercentage) return;
     
     for(int i = 0; i < sortedStatistics.count; i++) {
         // Nodige dynamische gegevens
@@ -98,8 +100,6 @@
         }];
         
         [resultsScroller addSubview:barSubView];
-        
-        
     }
 }
 

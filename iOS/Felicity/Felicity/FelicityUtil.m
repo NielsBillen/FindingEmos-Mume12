@@ -19,7 +19,6 @@
     for(Emotion *emotion in [[Database database] retrieveEmotionsFromDatabase]) {
         [arrayToSort addObject:[[Database database] retrieveEmotionStaticsForEmotion:emotion]];
     }
-    
     NSArray *sortedArray;
     sortedArray = [arrayToSort sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
         NSNumber *first = [NSNumber numberWithDouble:[(EmotionStatistics*)a percentageSelected]];
@@ -27,7 +26,6 @@
         // In deze volgorde om van groot naar klein te sorteren.
         return [second compare:first];
     }];
-    
     return sortedArray;
 }
 
