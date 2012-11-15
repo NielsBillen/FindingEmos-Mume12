@@ -20,10 +20,10 @@
 @property (nonatomic) int nbSelected;
 
 - (id)initWithDisplayName:(NSString *)displayName
-                andUniqueId:(int)uniqueId
-            AndDatabaseName:(NSString *)databaseName
-              AndSmallImage:(NSString *)smallImage
-              AndLargeImage:(NSString *)largeImage
-          AndNbSelected:(int)nbSelected;
+              andUniqueId:(int)uniqueId
+          AndDatabaseName:(NSString *)databaseName
+            AndSmallImage:(NSString *)smallImage
+            AndLargeImage:(NSString *)largeImage
+            AndNbSelected:(int)nbSelected;
 
 @end

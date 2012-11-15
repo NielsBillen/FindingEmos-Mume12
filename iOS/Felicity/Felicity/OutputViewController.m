@@ -15,7 +15,7 @@
 #import "FelicityUtil.h"
 
 @interface OutputViewController ()
-@property int xPadding; 
+@property int xPadding;
 @property int yPadding;
 @property int imageSize;
 @property int yMargin;
@@ -29,9 +29,9 @@
 @synthesize xPadding, yPadding, imageSize,yMargin,xWidthBar;
 
 /*
-** Wordt aangeroepen wanneer de Results pagina geladen is.
-** Creert de statistieken.
-*/
+ ** Wordt aangeroepen wanneer de Results pagina geladen is.
+ ** Creert de statistieken.
+ */
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -56,15 +56,15 @@
 }
 
 /*
-** Geeft de statistieken weer (hoe vaak een emoticon is geselecteerd).
-*/
+ ** Geeft de statistieken weer (hoe vaak een emoticon is geselecteerd).
+ */
 - (void)createStatistics {
     
     for(UIView *subview in [self.resultsScroller subviews]) {
         [subview removeFromSuperview];
     }
     NSArray *sortedStatistics = [FelicityUtil retrieveEmotionStatistics];
-
+    
     double maxPercentage = ((EmotionStatistics *)sortedStatistics[0]).percentageSelected;
     
     // isnan checking zonder math package!
@@ -104,9 +104,9 @@
 }
 
 /*
-** Wordt (handmatig!) opgeroepen wanneer deze pagina terug zichtbaar wordt.
-** Nodig om de statistieken te updaten.
-*/
+ ** Wordt (handmatig!) opgeroepen wanneer deze pagina terug zichtbaar wordt.
+ ** Nodig om de statistieken te updaten.
+ */
 - (void)viewDidAppear:(BOOL)animated {
     [self createStatistics];
 }

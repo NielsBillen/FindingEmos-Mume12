@@ -13,17 +13,17 @@
 #import <UIKit/UIKit.h>
 
 @interface FelicityAppDelegate : UIResponder <UIApplicationDelegate> {
-    NSMutableDictionary *emotionsCount;    
+    NSMutableDictionary *emotionsCount;
 }
 
 /*
-** Koppeling tussen de back-end en het scherm.
-*/
+ ** Koppeling tussen de back-end en het scherm.
+ */
 @property (strong, nonatomic) UIWindow *window;
 
 /*
-** Houdt voor elke emotion bij hoe vaak ze is geselecteerd gedurende deze sessie.
-*/
+ ** Houdt voor elke emotion bij hoe vaak ze is geselecteerd gedurende deze sessie.
+ */
 @property (strong, nonatomic) NSMutableDictionary *emotionsCount;
 
 

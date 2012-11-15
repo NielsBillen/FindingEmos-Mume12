@@ -114,8 +114,8 @@ static Database * _database;
     NSArray *tempArray = [[[tempDictionary keysSortedByValueUsingSelector:@selector(compare:)] reverseObjectEnumerator] allObjects];
     NSMutableArray *returnArray = [[NSMutableArray alloc] init];
     for (int i = 0; i<number; i++) {
-       NSLog(@"person: %@, count: %@", tempArray[i],[tempDictionary objectForKey:tempArray[i]]);
-       [returnArray addObject:tempArray[i]];
+        NSLog(@"person: %@, count: %@", tempArray[i],[tempDictionary objectForKey:tempArray[i]]);
+        [returnArray addObject:tempArray[i]];
     }
     return [NSArray arrayWithArray:returnArray];
     
@@ -205,7 +205,7 @@ static Database * _database;
 // Hulpmethodes bij de constructor
 
 - (void)makeEmotionTable {
-    // Let op opmerking hieronder !!! 
+    // Let op opmerking hieronder !!!
     NSArray *emotionNames = [NSArray arrayWithObjects:@"angry", @"ashamed", @"bored", @"happy", @"hungry", @"in_love",@"irritated",@"sad", @"scared", @"sick", @"super_happy", @"tired", @"very_happy", @"very_sad", nil];
     nbEmotions = emotionNames.count;
     
@@ -239,7 +239,7 @@ static Database * _database;
         NSLog(@"De history tabel bestaat nog niet!!");
         return;
     }
-
+    
     FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from history"];
     while ([results next]) {
         NSString *date = [results stringForColumn:@"date"];

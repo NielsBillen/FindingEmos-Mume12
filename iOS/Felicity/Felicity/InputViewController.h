@@ -13,7 +13,7 @@
 
 @interface InputViewController : UIViewController
 {
-        
+    
     // Mapping: source name van image - UIImageView van image
     NSMutableDictionary *images;
     
@@ -64,13 +64,13 @@
 
 
 /*
-** Een klik op de emotionsButton geeft de emotionsOverview view weer.
-*/
+ ** Een klik op de emotionsButton geeft de emotionsOverview view weer.
+ */
 - (IBAction)emotionsButtonPressed:(id)sender;
 
 /*
-** Een klik op de inputViewButton geeft de inputView  weer.
-*/
+ ** Een klik op de inputViewButton geeft de inputView  weer.
+ */
 - (IBAction)inputViewButtonPressed:(id)sender;
 
 @end

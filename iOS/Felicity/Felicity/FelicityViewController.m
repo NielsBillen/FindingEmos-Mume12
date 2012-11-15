@@ -19,8 +19,8 @@
 @synthesize scrollView, pageControl, navBar;
 
 /*
-** Initialiseert de Input- en Results Page op de juiste plaats in de scrollview.
-*/
+ ** Initialiseert de Input- en Results Page op de juiste plaats in de scrollview.
+ */
 - (void)initializePage:(UIViewController*)viewController atPageNumber:(NSInteger)pageNumber {
     
     CGRect pageFrame = viewController.view.frame;
@@ -30,10 +30,10 @@
 }
 
 /*
-** Wordt opgeroepen wanneer de view geladen is.
-** Initialiseert de scrollview.
-** Maakt de input- en results page aan.
-*/
+ ** Wordt opgeroepen wanneer de view geladen is.
+ ** Initialiseert de scrollview.
+ ** Maakt de input- en results page aan.
+ */
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -53,9 +53,9 @@
 }
 
 /*
-** Wordt opgeroepen wanneer de user scrollt in de scrollview.
-** Gaat na of de user tijdens het scrollen op een andere pagina terechtkomt.
-*/
+ ** Wordt opgeroepen wanneer de user scrollt in de scrollview.
+ ** Gaat na of de user tijdens het scrollen op een andere pagina terechtkomt.
+ */
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
     if(!usingPageControl) {
         CGFloat pageWidth = self.scrollView.frame.size.width;
@@ -73,8 +73,8 @@
 }
 
 /*
-** Wordt opgeroepen wanneer de user de pagina verandert dmv de UIPageControl.
-*/
+ ** Wordt opgeroepen wanneer de user de pagina verandert dmv de UIPageControl.
+ */
 - (IBAction)changePage:(id)sender {
     CGRect frame;
     frame.origin.x = self.scrollView.frame.size.width * self.pageControl.currentPage;
@@ -92,26 +92,26 @@
 }
 
 /*
-** Wordt opgeroepen wanneer de scrollview stopt met scrollen.
-** Zet usingPageControl op NO; dit is nodig om het flashen van UIPageControl
-** tegen te houden wanneer de gebruiker wisselt van pagina dmv deze UIPageControl
-*/
+ ** Wordt opgeroepen wanneer de scrollview stopt met scrollen.
+ ** Zet usingPageControl op NO; dit is nodig om het flashen van UIPageControl
+ ** tegen te houden wanneer de gebruiker wisselt van pagina dmv deze UIPageControl
+ */
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     usingPageControl = NO;
 }
 
 /*
-** Wordt opgeroepen wanneer de scrollview begint met scrollen.
-** Zet usingPageControl op NO; dit is nodig om het flashen van UIPageControl
-** tegen te houden wanneer de gebruiker wisselt van pagina dmv deze UIPageControl
-*/
+ ** Wordt opgeroepen wanneer de scrollview begint met scrollen.
+ ** Zet usingPageControl op NO; dit is nodig om het flashen van UIPageControl
+ ** tegen te houden wanneer de gebruiker wisselt van pagina dmv deze UIPageControl
+ */
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     usingPageControl = NO;
 }
 
 /*
-** Past de titel van de topbar aan aan de huidige pagina.
-*/
+ ** Past de titel van de topbar aan aan de huidige pagina.
+ */
 - (void)setTitle {
     if(self.pageControl.currentPage == 0) {
         navBar.topItem.title = @"Felicity";

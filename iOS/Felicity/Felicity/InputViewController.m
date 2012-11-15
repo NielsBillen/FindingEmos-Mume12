@@ -16,12 +16,10 @@
 #import "FelicityUtil.h"
 #import <QuartzCore/QuartzCore.h>
 
-
 @interface InputViewController ()
 @property NSString *currentActivy;
 @property Emotion *currentEmotion;
 @property BOOL favoriteOneSelected, favoriteTwoSelected, favoriteThreeSelected;
--(void)addActivity;
 @end
 
 @implementation InputViewController
@@ -72,10 +70,10 @@
 }
 
 /*
-** Wordt opgeroepen wanneer de Input page geladen is.
-** Laad de images van de emotions in, creeert de scrolling bar
-** en de emotionsOverview pagina.
-*/
+ ** Wordt opgeroepen wanneer de Input page geladen is.
+ ** Laad de images van de emotions in, creeert de scrolling bar
+ ** en de emotionsOverview pagina.
+ */
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -100,7 +98,7 @@
     self.withWhoView.backgroundColor = background;
     
     self.personTableView.allowsMultipleSelectionDuringEditing = YES;
-
+    
     favoritePersons = [[Database database] getNbBestFriends:3];
     frequentPerson1.image = [contactsList objectForKey:favoritePersons[0]];
     frequentPerson1.tag = 1;
@@ -114,20 +112,20 @@
     singleTapRecognizer.delaysTouchesEnded = YES;
     singleTapRecognizer.cancelsTouchesInView = NO;
     [frequentPerson1 addGestureRecognizer:singleTapRecognizer];
-
+    
     UITapGestureRecognizer * singleTapRecognizer2 = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
     singleTapRecognizer2.numberOfTapsRequired = 1;
     singleTapRecognizer2.delaysTouchesEnded = YES;
     singleTapRecognizer2.cancelsTouchesInView = NO;
     [frequentPerson2 addGestureRecognizer:singleTapRecognizer2];
-
+    
     
     UITapGestureRecognizer * singleTapRecognizer3 = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
     singleTapRecognizer3.numberOfTapsRequired = 1;
     singleTapRecognizer3.delaysTouchesEnded = YES;
     singleTapRecognizer3.cancelsTouchesInView = NO;
     [frequentPerson3 addGestureRecognizer:singleTapRecognizer3];
-
+    
     // Nodig om te kunnen terugswitchen van de emotionsOverview Page naar de "gewone" view.
     inputView = self.view;
 }
@@ -178,7 +176,7 @@
             break;
     }
 }
-    
+
 - (IBAction)whatDoingPressed:(UIButton *)sender {
     self.currentActivy = [sender currentTitle];
     [[Database database] registerNewEmotionSelected:currentEmotion andActivity:currentActivy];
@@ -187,11 +185,11 @@
 }
 
 /*
-** Initialiseert de mapping: source name van image - UIImageView van image
-*/
+ ** Initialiseert de mapping: source name van image - UIImageView van image
+ */
 -(void) loadImages {
     NSArray *emotions = [[Database database] retrieveEmotionsFromDatabase];
-
+    
     images = [[NSMutableDictionary alloc] init];
     NSMutableArray *imagesArray = [[NSMutableArray alloc] init];
     
@@ -203,8 +201,8 @@
 }
 
 /*
-** Initialiseert de scrollView met emotions onderaan de Inputview.
-*/
+ ** Initialiseert de scrollView met emotions onderaan de Inputview.
+ */
 -(void) createScrollingEmotions {
     NSArray *emotions = [[Database database] retrieveEmotionsFromDatabase];
     emotionScroller.contentSize = CGSizeMake(80*emotions.count, 64);
@@ -245,8 +243,8 @@
 }
 
 /*
-** Initialiseert de emotionsOverview pagina met de emoticons.
-*/
+ ** Initialiseert de emotionsOverview pagina met de emoticons.
+ */
 - (void)createEmotionsOverviewPage {
     NSArray *emotions = [[Database database] retrieveEmotionsFromDatabase];
     for(NSInteger i = 0; i < emotions.count; i++) {
@@ -265,7 +263,7 @@
         imageName.backgroundColor = [UIColor blackColor];
         [imageName setFont:[UIFont fontWithName:@"Arial" size:12]];
         [self.emotionsOverviewView addSubview:imageName];
-                
+        
         UIImageView *subview = [[UIImageView alloc] initWithFrame:frame];
         subview.image = image;
         [subview setUserInteractionEnabled:YES];
@@ -273,17 +271,17 @@
         UITapGestureRecognizer * recognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleDoubleTap:)];
         recognizer.cancelsTouchesInView = NO;
         [subview addGestureRecognizer:recognizer];
-       
+        
         [self.emotionsOverviewView addSubview:subview];
     };
 }
 
 /*
-** Wordt aangeroepen wanneer er eenmaal getapt wordt op een emoticon in
-** de emotionScroller onderaan de inputpagina.
-** Geeft de naam van de emoticon in kwestie weer op het scherm.
-*/
-- (IBAction)handleSingleTap:(UITapGestureRecognizer *)recognizer {    
+ ** Wordt aangeroepen wanneer er eenmaal getapt wordt op een emoticon in
+ ** de emotionScroller onderaan de inputpagina.
+ ** Geeft de naam van de emoticon in kwestie weer op het scherm.
+ */
+- (IBAction)handleSingleTap:(UITapGestureRecognizer *)recognizer {
     UIImageView *tappedView = (UIImageView*) recognizer.view;
     Emotion *emotion = [images objectForKey:tappedView.image];
     
@@ -291,13 +289,13 @@
     [textLabel setFont: [UIFont fontWithName:@"Arial" size:20.0]];
 }
 
-/* 
-** Wordt aangeroepen wanneer er tweemaal getapt wordt op een emoticon in
-** de emotionScroller onderaan de inputpagina of eenmaal op een emoticon in
-** de emotionsOverview pagina.
-** Geeft de emoticon in kwestie en zijn naam weer op het scherm.
-*/
-- (IBAction)handleDoubleTap:(UITapGestureRecognizer *)recognizer {    
+/*
+ ** Wordt aangeroepen wanneer er tweemaal getapt wordt op een emoticon in
+ ** de emotionScroller onderaan de inputpagina of eenmaal op een emoticon in
+ ** de emotionsOverview pagina.
+ ** Geeft de emoticon in kwestie en zijn naam weer op het scherm.
+ */
+- (IBAction)handleDoubleTap:(UITapGestureRecognizer *)recognizer {
     UIImageView *tappedView = (UIImageView*) recognizer.view;
     Emotion *emotion = [images objectForKey:tappedView.image];
     
@@ -311,21 +309,21 @@
     currentEmotion = emotion;
     
     [self setView:inputView];
-        
+    
     [self performSelector:@selector(setView:) withObject:self.whatDoingView afterDelay:0.5];
 }
 
 /*
-** Een klik op de emotionsButton geeft de emotionsOverview view weer.
-*/
+ ** Een klik op de emotionsButton geeft de emotionsOverview view weer.
+ */
 - (IBAction)emotionsButtonPressed:(id)sender {
     inputView = self.view;
     [self setView:emotionsOverviewView];
 }
 
 /*
-** Een klik op de inputViewButton geeft de inputView  weer.
-*/
+ ** Een klik op de inputViewButton geeft de inputView  weer.
+ */
 - (IBAction)inputViewButtonPressed:(id)sender {
     NSLog(@"InputViewButton pressed");
     [self setView:inputView];
@@ -369,8 +367,6 @@
 {
     [[Database database] deleteFriendSelected:[contactsList.allKeys sortedArrayUsingSelector:@selector(compare:)][indexPath.row]];
 }
-
-
 
 @end
 

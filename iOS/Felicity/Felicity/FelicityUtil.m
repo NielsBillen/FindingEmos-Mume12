@@ -43,8 +43,8 @@
         UIImage *image = [UIImage imageWithData:(__bridge NSData *)imageData];
         if(!image)
             image = [UIImage imageNamed:@"UnknownProfile.png"];
-        [contactList setObject:image forKey:contactName];    
-
+        [contactList setObject:image forKey:contactName];
+        
     }
 	CFRelease(myAddressBook);
     return [NSDictionary dictionaryWithDictionary:contactList];

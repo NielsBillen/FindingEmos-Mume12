@@ -16,7 +16,7 @@
 @class SettingsViewController;
 
 @interface FelicityViewController : UIViewController
-{    
+{
 	InputViewController *inputPage;
 	OutputViewController *outputPage;
     SettingsViewController *settingsPage;
@@ -34,8 +34,8 @@
 @property (strong, nonatomic) IBOutlet UINavigationBar *navBar;
 
 /*
-** Wordt opgeroepen wanneer je de pagina verandert dmv de UIPageControl.
-*/
+ ** Wordt opgeroepen wanneer je de pagina verandert dmv de UIPageControl.
+ */
 - (IBAction)changePage:(id)sender;
 
 @end
