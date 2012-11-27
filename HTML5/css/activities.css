@@ -1,0 +1,79 @@
+/*
+ * Makes the content div fill the entire space.
+ */
+#activities-content {
+	position: absolute;
+	left:0;
+	right:0;
+	top:44px;
+	bottom:0px;
+}
+
+/*
+ *
+ */
+#activities-centralwrapper {
+	position: absolute;
+	z-index:1;
+	left:0;
+	right:0;
+	top:64px;
+	bottom:64px;
+}
+
+#activitiescentralscroller {
+	position: absolute;
+	left:10%;
+	right:10%;
+
+}
+
+.activities-item {
+	margin-left:-36px;
+	list-style:none;
+}
+
+.activities-activitywrapper {
+	height:48px;
+	margin: 16px;
+    border: 1px solid rgba(230,230,230,0.5);
+    border-radius: 10px 10px 10px 10px;
+    background: rgba(0,0,0,0.25);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+    -o-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+}
+
+.activities-activitywrapper:hover {
+	background-color:gray;
+}
+
+.activities-activity {
+	font-size:24px;
+	position: relative;
+	top:10px;
+	bottom:8px;
+	left:0px;
+	right:0px;
+	text-align:center;
+	color:white;
+}
+$/*
+#addactivitybutton {
+	color:white;
+	text-align:center;
+	border: 1px solid gray;
+	padding:8px;
+	-moz-box-shadow: 0 0 10px rgb(64,64,64);
+	-webkit-box-shadow: 0 0 10px rgb(64,64,64);
+	box-shadow: 0 0 10px rgb(64,64,64);
+	border-radius: 8px 8px;
+	background-color: rgb(128,128,128);
+}
+
+#addactivitybutton:hover {
+	color:rgb(128,128,128);
+	background-color: #F9F9F9;
+}
+*/

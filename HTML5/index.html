@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Titel en favicon van Felicity-->
+		<title>Felicity</title>
+		<link rel="icon" href="favicon.ico" />
+
+		<!-- The CSS files should be loaded in the correct order to overwrite JQuery Mobile ones -->
+		<!-- Therefore you first load the JQuery files and then your own css files.-->
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="css/general.css" />
+		<link rel="stylesheet" href="css/felicity.css" />
+		<link rel="stylesheet" href="css/activities.css" />
+		<link rel="stylesheet" href="css/contacts.css" />
+		<link rel="stylesheet" href="css/visualisation.css" />
+
+		<!-- Deze tag zorgt ervoor dat op een mobiele site, de mobiele versie getoond wordt (waardoor niet gezoomd moet worden)-->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Belangrijk is dat deze bestanden in de juiste volgorde worden ingeladen-->
+		<!-- Merk op dat een oude versie van JQuery nodig is, omv Touch Punch -->
+		<script src="http://www.google.com/jsapi"></script>
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script> 
+		<script src="js/jquery/jquery-1.7.2.min.js"></script>
+		<script src="js/jquery/jquery-ui.min.js"></script>
+		<script src="js/jquery/jquery.mobile-1.2.0.min.js"></script>
+		<script src="js/jquery/jquery.ui.touch-punch.js"></script>
+		<script src="js/iscroll/iscroll.js"></script>
+		<script src="js/cordova/cordova-2.2.0.js"></script>
+		<script src="js/emotions.js"></script>
+		<script src="js/database.js"></script>
+		<script src="js/startpage.js"></script>
+		<script src="js/activities.js"></script>
+		<script src="js/visualization/visualization.js"></script>
+		<script src="js/visualization/barchart.js"></script>
+		<script src="js/contacts.js"></script>
+	</head>
+
+	<body>
+		<!-- Dit div element is het start scherm. Een aparte pagina in jQuery wordt aangegeven door data-role="page" -->
+		<!-- Het start scherm bevat drie elementen, namelijk div's met de header, een div met al de content en een div met de footer -->
+		<div data-role="page" id="startpage">
+			<!-- Header, toont de naam van het programma en naderhand ook de emoties.-->
+			<div data-role="header" id="startpage-header" >
+				<h1 id="topbar">Felicity</h1>
+				<a href="index.html" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+			</div>
+
+			<!-- Content -->
+			<div data-role="content" id = "startpage-content">
+				<!-- Afbeelding die de huidige view aangeeft -->
+				<p align="center" class="viewindicator"> 
+					<img src="img/tabs1.png" height="16px"/> 
+				</p>
+
+				<div id ="imagewrapper">
+					<!-- Afbeelding van de emotie-->
+					<img id="emptyface" src="img/empty_big.png"/>
+				</div>
+
+				<!-- Button, voor een dialog menu met meer iconen -->
+				<div id="moreIconsWrapper">
+					Drag and drop your feelings on the empty face
+	
+						<a href="#allemos" id="moreButton" data-transition="slideup">. . .</a>
+				
+				</div>
+			</div>
+
+			<!-- Footer, maar niet die van JQuery Mobile, anders maximum 5 elementen -->
+			<footer id="startpage-bottombar" id="footer">
+				<div id="bottomWrapper">
+					<img id="leftarrow" src="img/leftarrow.png" height="35px" onclick="leftClick()" />
+
+					<div id="emotionsbar">
+						<!-- Deze div wordt dynamisch gevuld en is nodig omdat als we emotionsbar leegmaken,
+						het niet meer mogelijk is hier opnieuw iets in te steken -->
+						<div id="wrapperBottom"></div>
+					</div>
+
+					<img id="rightarrow" src="img/rightarrow.png" height="35px" onclick="rightClick()"/>
+				</div>
+			</footer>
+		</div>
+		
+		<!-- De pagina die een lijst toont met alle opties van activiteiten-->
+		<div data-role = "page" id = "activities">
+			<!-- Header -->
+			<header data-role="header" id="visualisation-header">
+				<h1 id="topbar">Select your current activity</h1>
+				<a id="knopje" href="index.html" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+			</header>
+			
+			<!-- Content -->
+			<div data-role="content" id="activities-content">
+				<!-- Afbeelding die de huidige view aangeeft -->
+				<p align="center" class="viewindicator"> 
+					<img src="img/tabs1.png" height="16px"/> 
+				</p>
+				
+				<div id="activities-centralwrapper">
+					<div id="activitiescentralscroller">
+						<ul id = "activitylist">
+							
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div data-role="page" id="contacts">
+			<!-- Header -->
+			<header data-role="header" id="contacts-header">
+				<h1 id="topbar">Who are you with?</h1>
+				<a id="knopje" href="index.html" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+			</header>
+
+			<!-- Content -->
+			<div data-role="content" id="contacts-content">
+				<div id = "contacts-favorites" class ="contacts-text-left">Favorites</div>
+				
+				<div id = "contacts-favorites-wrapper">
+					<div class = "contacts-favorite-image" name="Jos" id = "contacts-favorite1" onclick = onClickFavorite("contacts-favorite1",0)>
+						<img src="img/default.png"/>
+						<div class = "contacts-favorite-text" id = "contacts-favorite1-text">Jos</div>
+					</div>
+					<div id = "contacts-favorite2" name="Jaak" class = "contacts-favorite-image" onclick = onClickFavorite("contacts-favorite2",1)> 
+						<img src="img/default.png"/>
+						<div class = "contacts-favorite-text" id = "contacts-favorite2-text">Jaak</div>
+					</div>
+					<div id = "contacts-favorite3" name = "Jef" class = "contacts-favorite-image" onclick = onClickFavorite("contacts-favorite3",2)> 
+						<img src="img/default.png"/>
+						<div class = "contacts-favorite-text" id = "contacts-favorite3-text">Jef</div>
+					</div>	
+				</div>
+				
+				<div id = "contacts-all" class ="contacts-text-left">Contacts</div>
+				
+				<div id = "beautifulcontactwrapper" class = "glaspane">
+					<div id = "contactswrapper">
+						<div id = "contactsscroller">
+							<div id="contactslist">
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div id = "contacts-bottombar">
+					<div id = "addcontactsbutton" class="glaspane" onclick = addContactClicked()>
+						<div id="addcontactsbuttontext">Add contact</div>
+					</div>
+					<div id = "contactsbutton" class="glaspane" onclick = continueClicked()>
+						<div id="contactsbuttontext">Continue</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- De tweede pagina, met visualisaties -->
+		<div data-role="page" id="visualisations">
+			<!-- Header -->
+			<header data-role="header" id="visualisation-header">
+				<h1 id="topbar">Felicity</h1>
+				<a id="knopje" href="index.html" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+			</header>
+
+			<!-- Content -->
+			<div data-role="content" id="visualisation-content">
+				<p align="center" class="viewindicator">
+					<img src="img/tabs2.png" height="15px"/>
+				</p>
+				
+				<div id = "timeselector" class = "glaspane">
+					<img src="img/leftarrow_white.png" width="15px" height="23px" id="leftarrowwhite" onclick = "timeFilterClickLeft()"/>
+					<div id = "timeindicator">Today</div>
+					<img src="img/rightarrow_white.png" width="15px" height="23px" id="rightarrowwhite" onclick = "timeFilterClickRight()"/>
+				</div>
+				
+				<div id="beautywrapper" class="glaspane">
+					<div id="canvaswrapper">
+						<canvas id = "visualizationcanvas" height=10000>
+							Sorry, your browser does not support a canvas!
+						</canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div data-role="dialog" id="addactivity">
+			<header data-role="header">
+				<h1>Add an activity</h1>
+			</header>
+
+			<div data-role="content">
+				<input type="text" name="activity" id="newactivity" value=""/>
+				<input id = "addactivitybutton"type="button" value="Add" onclick="activityAddClicked()"/>
+			</div>
+		</div>
+		
+		<div data-role="dialog" id="addcontactform">
+			<header data-role="header">
+				<h1>Add a contact</h1>
+			</header>
+
+			<div data-role="content">
+				<input type="text" name="firstname" id="form_firstname" value="First name"/>
+				<input type="text" name="lastname" id="form_lastname" value="Last name"/>
+				<input id = "addcontactformbutton "type="button" value="Add" onclick="addContactFormClicked()"/>
+			</div>
+		</div>
+		
+		
+		<!-- De derde pagina, of het dialoog venster -->
+		<div data-role="dialog" id="allemos">
+			<header data-role="header">
+				<h1>Select an emotion</h1>
+			</header>
+
+			<div data-role="content">
+				<!-- Grid c staat voor 4 elementen op een rij -->
+				<!-- Deze div wordt dynamisch gevuld -->
+				<div id="allemotions" class="ui-grid-c"></div>
+			</div>
+		</div>
+	</body>
+</html>
