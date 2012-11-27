@@ -32,7 +32,18 @@
 
 +(NSDictionary *)retrieveContactList
 {
+    __block BOOL accessGranted = NO;
 	ABAddressBookRef myAddressBook = ABAddressBookCreate();
+    if(ABAddressBookRequestAccessWithCompletion != NULL){
+        dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+        ABAddressBookRequestAccessWithCompletion(myAddressBook, ^(bool granted, CFErrorRef error) {
+        accessGranted = granted;
+        dispatch_semaphore_signal(sema);
+    });
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    } else {
+        accessGranted = YES;
+    }
 	NSArray *allPeople = (__bridge NSArray *)ABAddressBookCopyArrayOfAllPeople(myAddressBook);
 	NSMutableDictionary *contactList = [[NSMutableDictionary alloc]initWithCapacity:[allPeople count]];
 	for (id record in allPeople) {

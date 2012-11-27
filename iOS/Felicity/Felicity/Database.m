@@ -120,8 +120,10 @@ static Database * _database;
         }
         return returnArray;
     }
+
     NSArray *tempArray = [[[tempDictionary keysSortedByValueUsingSelector:@selector(compare:)] reverseObjectEnumerator] allObjects];
     NSMutableArray *returnArray = [[NSMutableArray alloc] init];
+
     for (int i = 0; i<number; i++) {
         [returnArray addObject:tempArray[i]];
     }

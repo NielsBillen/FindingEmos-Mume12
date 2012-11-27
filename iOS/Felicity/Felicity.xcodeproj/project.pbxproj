@@ -19,13 +19,13 @@
 		0077C3E7164A5FED003DE80C /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3E0164A5FED003DE80C /* FMDatabaseQueue.m */; };
 		0077C3E9164A5FED003DE80C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3E3164A5FED003DE80C /* FMResultSet.m */; };
 		00ACB3B01642E1FD007F75FB /* imageBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 00ACB3AE1642E1FD007F75FB /* imageBackground.png */; };
+		00BD782F1664ABE100D2F49F /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 00BD782D1664ABE100D2F49F /* checkmark.png */; };
+		00BD78361664ABF100D2F49F /* UnknownProfile.png in Resources */ = {isa = PBXBuildFile; fileRef = 00BD78331664ABF100D2F49F /* UnknownProfile.png */; };
 		00CEAF071642E3FE001831B9 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 00CEAF051642E3FE001831B9 /* background.png */; };
 		00CEAF0E16432F78001831B9 /* Emotion.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CEAF0D16432F78001831B9 /* Emotion.m */; };
 		00CEAF1216453168001831B9 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CEAF1116453168001831B9 /* libsqlite3.0.dylib */; };
 		00CEAF171645343C001831B9 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CEAF161645343C001831B9 /* Database.m */; };
 		00D28989164D487B00AF914F /* EmotionStatistics.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D28988164D487B00AF914F /* EmotionStatistics.m */; };
-		00F314491654F7A100D8642B /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 00F314481654F7A100D8642B /* checkmark.png */; };
-		00F3144B16552EF000D8642B /* UnknownProfile.png in Resources */ = {isa = PBXBuildFile; fileRef = 00F3144A16552EF000D8642B /* UnknownProfile.png */; };
 		00F4A90C1646760900F4709F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F4A90B1646760900F4709F /* CoreLocation.framework */; };
 		00F4A912164683B600F4709F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 00F4A911164683B600F4709F /* icon.png */; };
 		041AB987163B1DA4002164D0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB971163B1DA4002164D0 /* Default-568h@2x.png */; };
@@ -94,6 +94,8 @@
 		0077C3E2164A5FED003DE80C /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		0077C3E3164A5FED003DE80C /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		00ACB3AF1642E1FD007F75FB /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/imageBackground.png; sourceTree = "<group>"; };
+		00BD782E1664ABE100D2F49F /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = EmoticonSet/en.lproj/checkmark.png; sourceTree = "<group>"; };
+		00BD78341664ABF100D2F49F /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = EmoticonSet/en.lproj/UnknownProfile.png; sourceTree = "<group>"; };
 		00CEAF061642E3FE001831B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/background.png; sourceTree = "<group>"; };
 		00CEAF0C16432F78001831B9 /* Emotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emotion.h; sourceTree = "<group>"; };
 		00CEAF0D16432F78001831B9 /* Emotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emotion.m; sourceTree = "<group>"; };
@@ -103,8 +105,6 @@
 		00D28987164D487B00AF914F /* EmotionStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmotionStatistics.h; sourceTree = "<group>"; };
 		00D28988164D487B00AF914F /* EmotionStatistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmotionStatistics.m; sourceTree = "<group>"; };
 		00F314401654D73300D8642B /* Felicity-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Felicity-Info.plist"; sourceTree = "<group>"; };
-		00F314481654F7A100D8642B /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checkmark.png; path = ../../../../Desktop/checkmark.png; sourceTree = "<group>"; };
-		00F3144A16552EF000D8642B /* UnknownProfile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UnknownProfile.png; path = ../../../../Desktop/UnknownProfile.png; sourceTree = "<group>"; };
 		00F4A90B1646760900F4709F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		00F4A911164683B600F4709F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		041AB971163B1DA4002164D0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -267,34 +267,33 @@
 		00F314471654F79700D8642B /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				00F3144A16552EF000D8642B /* UnknownProfile.png */,
-				00F314481654F7A100D8642B /* checkmark.png */,
+				00BD78331664ABF100D2F49F /* UnknownProfile.png */,
+				00BD782D1664ABE100D2F49F /* checkmark.png */,
 			);
 			name = Other;
 			sourceTree = "<group>";
 		};
-		041AB970163B1DA4002164D0 /* Felicity */ = {
-			isa = PBXGroup;
-			children = (
-				00F314461654DE9D00D8642B /* Controller */,
-				00F314451654DE8C00D8642B /* Model */,
-				00F314441654DE7500D8642B /* Utilities */,
-				041AB97A163B1DA4002164D0 /* FelicityAppDelegate.h */,
-				041AB97B163B1DA4002164D0 /* FelicityAppDelegate.m */,
-				041AB995163B1DAF002164D0 /* XIB's */,
-				041AB996163B1DCC002164D0 /* Supporting Files */,
-			);
-			path = Felicity;
-			sourceTree = "<group>";
-		};
-		041AB995163B1DAF002164D0 /* XIB's */ = {
+		00F3144C165674CC00D8642B /* View */ = {
 			isa = PBXGroup;
 			children = (
 				041AB982163B1DA4002164D0 /* OutputView.xib */,
 				041AB97E163B1DA4002164D0 /* InputView.xib */,
 				041AB976163B1DA4002164D0 /* MainStoryboard.storyboard */,
 			);
-			name = "XIB's";
+			name = View;
+			sourceTree = "<group>";
+		};
+		041AB970163B1DA4002164D0 /* Felicity */ = {
+			isa = PBXGroup;
+			children = (
+				00F3144C165674CC00D8642B /* View */,
+				00F314461654DE9D00D8642B /* Controller */,
+				00F314451654DE8C00D8642B /* Model */,
+				00F314441654DE7500D8642B /* Utilities */,
+				041AB97A163B1DA4002164D0 /* FelicityAppDelegate.h */,
+				041AB97B163B1DA4002164D0 /* FelicityAppDelegate.m */,
+			);
+			path = Felicity;
 			sourceTree = "<group>";
 		};
 		041AB996163B1DCC002164D0 /* Supporting Files */ = {
@@ -310,6 +309,7 @@
 				041AB974163B1DA4002164D0 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			path = Felicity;
 			sourceTree = "<group>";
 		};
 		041F7EF51636CA3300E15F83 = {
@@ -320,6 +320,7 @@
 				041AB970163B1DA4002164D0 /* Felicity */,
 				041F7F031636CA3300E15F83 /* Frameworks */,
 				041F7F011636CA3300E15F83 /* Products */,
+				041AB996163B1DCC002164D0 /* Supporting Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -475,8 +476,8 @@
 				00CEAF071642E3FE001831B9 /* background.png in Resources */,
 				00F4A912164683B600F4709F /* icon.png in Resources */,
 				0001975216528F6C000B1BF6 /* morebutton.png in Resources */,
-				00F314491654F7A100D8642B /* checkmark.png in Resources */,
-				00F3144B16552EF000D8642B /* UnknownProfile.png in Resources */,
+				00BD782F1664ABE100D2F49F /* checkmark.png in Resources */,
+				00BD78361664ABF100D2F49F /* UnknownProfile.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,6 +516,22 @@
 			);
 			name = imageBackground.png;
 			path = EmoticonSet;
+			sourceTree = "<group>";
+		};
+		00BD782D1664ABE100D2F49F /* checkmark.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00BD782E1664ABE100D2F49F /* en */,
+			);
+			name = checkmark.png;
+			sourceTree = "<group>";
+		};
+		00BD78331664ABF100D2F49F /* UnknownProfile.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00BD78341664ABF100D2F49F /* en */,
+			);
+			name = UnknownProfile.png;
 			sourceTree = "<group>";
 		};
 		00CEAF051642E3FE001831B9 /* background.png */ = {
