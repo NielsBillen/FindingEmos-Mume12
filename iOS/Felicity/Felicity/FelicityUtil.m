@@ -45,6 +45,7 @@
         accessGranted = YES;
     }
 	NSArray *allPeople = (__bridge NSArray *)ABAddressBookCopyArrayOfAllPeople(myAddressBook);
+    if(allPeople.count == 0) return nil;
 	NSMutableDictionary *contactList = [[NSMutableDictionary alloc]initWithCapacity:[allPeople count]];
 	for (id record in allPeople) {
 		NSString* contactName = (__bridge NSString *)ABRecordCopyCompositeName((__bridge ABRecordRef)record);

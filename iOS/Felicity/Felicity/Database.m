@@ -115,8 +115,12 @@ static Database * _database;
     if(counter < number) {
         NSArray *array = [FelicityUtil retrieveContactList].allKeys;
         NSMutableArray *returnArray = [[NSMutableArray alloc] init];
-        for(int i = 0; i < number; i++) {
-            [returnArray addObject:array[i]];
+        if(array) {
+            for(int i = 0; i < number; i++) {
+                [returnArray addObject:array[i]];
+            }
+        } else  {
+            return nil;
         }
         return returnArray;
     }

@@ -275,12 +275,14 @@
     self.personTableView.allowsMultipleSelectionDuringEditing = YES;
     
     favoritePersons = [[Database database] getNbBestFriends:3];
-    frequentPerson1.image = [contactsList objectForKey:favoritePersons[0]];
-    frequentPerson1.tag = 1;
-    frequentPerson2.image = [contactsList objectForKey:favoritePersons[1]];
-    frequentPerson2.tag = 2;
-    frequentPerson3.image = [contactsList objectForKey:favoritePersons[2]];
-    frequentPerson3.tag = 3;
+    if(favoritePersons) {
+        frequentPerson1.image = [contactsList objectForKey:favoritePersons[0]];
+        frequentPerson1.tag = 1;
+        frequentPerson2.image = [contactsList objectForKey:favoritePersons[1]];
+        frequentPerson2.tag = 2;
+        frequentPerson3.image = [contactsList objectForKey:favoritePersons[2]];
+        frequentPerson3.tag = 3;
+    };
     
     UITapGestureRecognizer * singleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
     singleTapRecognizer.numberOfTapsRequired = 1;
