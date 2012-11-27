@@ -9,18 +9,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FelicityAppDelegate.h"
 
 @interface InputViewController : UIViewController
 {
-    // Lokale versie van de source names van de emotions.
-    NSMutableArray *imageNames;
-    
     // Mapping: source name van image - UIImageView van image
     NSMutableDictionary *images;
-    
-    // Link naar de appDelegate;
-    FelicityAppDelegate *appDelegate;
     
     IBOutlet UIScrollView *emotionScroller;
     IBOutlet UIImageView *currentEmotionView;
@@ -28,6 +21,15 @@
     IBOutlet UIView *emotionsOverviewView;
     IBOutlet UIButton *emotionsButton;
 }
+
+@property (strong, nonatomic) IBOutlet UIView *whatDoingView;
+@property (strong, nonatomic) IBOutlet UIView *withWhoView;
+@property (weak, nonatomic) IBOutlet UIImageView *mostFrequentFriends;
+@property (weak, nonatomic) IBOutlet UIImageView *frequentPerson1;
+@property (weak, nonatomic) IBOutlet UIImageView *frequentPerson2;
+@property (weak, nonatomic) IBOutlet UIImageView *frequentPerson3;
+@property (weak, nonatomic) IBOutlet UITableView *personTableView;
+@property (weak, nonatomic) IBOutlet UIScrollView *whatDoingScrollView;
 
 // De scrollview onderaan de Inputpagina.
 @property (retain, nonatomic) IBOutlet UIScrollView *emotionScroller;
@@ -49,16 +51,5 @@
 
 // De backbutton op de emotionsOverview view.
 @property (strong, nonatomic) IBOutlet UIButton *inputViewButton;
-
-
-/*
-** Een klik op de emotionsButton geeft de emotionsOverview view weer.
-*/
-- (IBAction)emotionsButtonPressed:(id)sender;
-
-/*
-** Een klik op de inputViewButton geeft de inputView  weer.
-*/
-- (IBAction)inputViewButtonPressed:(id)sender;
 
 @end

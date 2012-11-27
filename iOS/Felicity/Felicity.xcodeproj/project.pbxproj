@@ -7,12 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0001974C16523AD0000B1BF6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0001974B16523AD0000B1BF6 /* QuartzCore.framework */; };
+		0001974F16525FEE000B1BF6 /* FelicityUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0001974E16525FEE000B1BF6 /* FelicityUtil.m */; };
+		0001975216528F6C000B1BF6 /* morebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0001975116528F6C000B1BF6 /* morebutton.png */; };
+		003E5BC216529FAE009D0C9B /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 003E5BC116529FAE009D0C9B /* AddressBook.framework */; };
+		003E5BC516529FB6009D0C9B /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 003E5BC416529FB6009D0C9B /* AddressBookUI.framework */; };
+		005E99831646A466009D2FDB /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 005E99821646A466009D2FDB /* EventKit.framework */; };
+		0077C3E4164A5FED003DE80C /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3DA164A5FED003DE80C /* FMDatabase.m */; };
+		0077C3E5164A5FED003DE80C /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3DC164A5FED003DE80C /* FMDatabaseAdditions.m */; };
+		0077C3E6164A5FED003DE80C /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3DE164A5FED003DE80C /* FMDatabasePool.m */; };
+		0077C3E7164A5FED003DE80C /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3E0164A5FED003DE80C /* FMDatabaseQueue.m */; };
+		0077C3E9164A5FED003DE80C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0077C3E3164A5FED003DE80C /* FMResultSet.m */; };
+		00ACB3B01642E1FD007F75FB /* imageBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 00ACB3AE1642E1FD007F75FB /* imageBackground.png */; };
+		00BD782F1664ABE100D2F49F /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 00BD782D1664ABE100D2F49F /* checkmark.png */; };
+		00BD78361664ABF100D2F49F /* UnknownProfile.png in Resources */ = {isa = PBXBuildFile; fileRef = 00BD78331664ABF100D2F49F /* UnknownProfile.png */; };
+		00CEAF071642E3FE001831B9 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 00CEAF051642E3FE001831B9 /* background.png */; };
+		00CEAF0E16432F78001831B9 /* Emotion.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CEAF0D16432F78001831B9 /* Emotion.m */; };
+		00CEAF1216453168001831B9 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CEAF1116453168001831B9 /* libsqlite3.0.dylib */; };
+		00CEAF171645343C001831B9 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CEAF161645343C001831B9 /* Database.m */; };
+		00D28989164D487B00AF914F /* EmotionStatistics.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D28988164D487B00AF914F /* EmotionStatistics.m */; };
+		00F4A90C1646760900F4709F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F4A90B1646760900F4709F /* CoreLocation.framework */; };
+		00F4A912164683B600F4709F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 00F4A911164683B600F4709F /* icon.png */; };
 		041AB987163B1DA4002164D0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB971163B1DA4002164D0 /* Default-568h@2x.png */; };
 		041AB988163B1DA4002164D0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB972163B1DA4002164D0 /* Default.png */; };
 		041AB989163B1DA4002164D0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB973163B1DA4002164D0 /* Default@2x.png */; };
 		041AB98A163B1DA4002164D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041AB974163B1DA4002164D0 /* InfoPlist.strings */; };
 		041AB98B163B1DA4002164D0 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 041AB976163B1DA4002164D0 /* MainStoryboard.storyboard */; };
-		041AB98C163B1DA4002164D0 /* Felicity-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 041AB978163B1DA4002164D0 /* Felicity-Info.plist */; };
 		041AB98D163B1DA4002164D0 /* FelicityAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 041AB97B163B1DA4002164D0 /* FelicityAppDelegate.m */; };
 		041AB98E163B1DA4002164D0 /* FelicityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041AB97D163B1DA4002164D0 /* FelicityViewController.m */; };
 		041AB98F163B1DA4002164D0 /* InputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041AB97E163B1DA4002164D0 /* InputView.xib */; };
@@ -36,7 +56,7 @@
 		04F8A9B2163B229B00EAABC5 /* hungry_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A981163B229B00EAABC5 /* hungry_big.png */; };
 		04F8A9B3163B229B00EAABC5 /* hungry_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A983163B229B00EAABC5 /* hungry_small.png */; };
 		04F8A9B4163B229B00EAABC5 /* in_love_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A985163B229B00EAABC5 /* in_love_big.png */; };
-		04F8A9B5163B229B00EAABC5 /* inlove_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A987163B229B00EAABC5 /* inlove_small.png */; };
+		04F8A9B5163B229B00EAABC5 /* in_love_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A987163B229B00EAABC5 /* in_love_small.png */; };
 		04F8A9B6163B229B00EAABC5 /* irritated_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A989163B229B00EAABC5 /* irritated_big.png */; };
 		04F8A9B7163B229B00EAABC5 /* irritated_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A98B163B229B00EAABC5 /* irritated_small.png */; };
 		04F8A9B8163B229B00EAABC5 /* sad_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F8A98D163B229B00EAABC5 /* sad_big.png */; };
@@ -56,12 +76,42 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0001974B16523AD0000B1BF6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0001974D16525FEE000B1BF6 /* FelicityUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FelicityUtil.h; sourceTree = "<group>"; };
+		0001974E16525FEE000B1BF6 /* FelicityUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FelicityUtil.m; sourceTree = "<group>"; };
+		0001975116528F6C000B1BF6 /* morebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = morebutton.png; path = ../../../../Downloads/morebutton.png; sourceTree = "<group>"; };
+		003E5BC116529FAE009D0C9B /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		003E5BC416529FB6009D0C9B /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		005E99821646A466009D2FDB /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		0077C3D9164A5FED003DE80C /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		0077C3DA164A5FED003DE80C /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		0077C3DB164A5FED003DE80C /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		0077C3DC164A5FED003DE80C /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		0077C3DD164A5FED003DE80C /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		0077C3DE164A5FED003DE80C /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		0077C3DF164A5FED003DE80C /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		0077C3E0164A5FED003DE80C /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		0077C3E2164A5FED003DE80C /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		0077C3E3164A5FED003DE80C /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		00ACB3AF1642E1FD007F75FB /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/imageBackground.png; sourceTree = "<group>"; };
+		00BD782E1664ABE100D2F49F /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = EmoticonSet/en.lproj/checkmark.png; sourceTree = "<group>"; };
+		00BD78341664ABF100D2F49F /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = EmoticonSet/en.lproj/UnknownProfile.png; sourceTree = "<group>"; };
+		00CEAF061642E3FE001831B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/background.png; sourceTree = "<group>"; };
+		00CEAF0C16432F78001831B9 /* Emotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emotion.h; sourceTree = "<group>"; };
+		00CEAF0D16432F78001831B9 /* Emotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emotion.m; sourceTree = "<group>"; };
+		00CEAF1116453168001831B9 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		00CEAF151645343C001831B9 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
+		00CEAF161645343C001831B9 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		00D28987164D487B00AF914F /* EmotionStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmotionStatistics.h; sourceTree = "<group>"; };
+		00D28988164D487B00AF914F /* EmotionStatistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmotionStatistics.m; sourceTree = "<group>"; };
+		00F314401654D73300D8642B /* Felicity-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Felicity-Info.plist"; sourceTree = "<group>"; };
+		00F4A90B1646760900F4709F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		00F4A911164683B600F4709F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		041AB971163B1DA4002164D0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		041AB972163B1DA4002164D0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		041AB973163B1DA4002164D0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		041AB975163B1DA4002164D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		041AB977163B1DA4002164D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		041AB978163B1DA4002164D0 /* Felicity-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Felicity-Info.plist"; sourceTree = "<group>"; };
 		041AB979163B1DA4002164D0 /* Felicity-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Felicity-Prefix.pch"; sourceTree = "<group>"; };
 		041AB97A163B1DA4002164D0 /* FelicityAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FelicityAppDelegate.h; sourceTree = "<group>"; };
 		041AB97B163B1DA4002164D0 /* FelicityAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FelicityAppDelegate.m; sourceTree = "<group>"; };
@@ -92,7 +142,7 @@
 		04F8A982163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/hungry_big.png; sourceTree = "<group>"; };
 		04F8A984163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/hungry_small.png; sourceTree = "<group>"; };
 		04F8A986163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/in_love_big.png; sourceTree = "<group>"; };
-		04F8A988163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/inlove_small.png; sourceTree = "<group>"; };
+		04F8A988163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/in_love_small.png; sourceTree = "<group>"; };
 		04F8A98A163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/irritated_big.png; sourceTree = "<group>"; };
 		04F8A98C163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/irritated_small.png; sourceTree = "<group>"; };
 		04F8A98E163B229B00EAABC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/sad_big.png; sourceTree = "<group>"; };
@@ -116,6 +166,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				003E5BC516529FB6009D0C9B /* AddressBookUI.framework in Frameworks */,
+				003E5BC216529FAE009D0C9B /* AddressBook.framework in Frameworks */,
+				0001974C16523AD0000B1BF6 /* QuartzCore.framework in Frameworks */,
+				005E99831646A466009D2FDB /* EventKit.framework in Frameworks */,
+				00F4A90C1646760900F4709F /* CoreLocation.framework in Frameworks */,
+				00CEAF1216453168001831B9 /* libsqlite3.0.dylib in Frameworks */,
 				041F7F051636CA3300E15F83 /* UIKit.framework in Frameworks */,
 				041F7F071636CA3300E15F83 /* Foundation.framework in Frameworks */,
 				041F7F091636CA3300E15F83 /* CoreGraphics.framework in Frameworks */,
@@ -125,11 +181,77 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		041AB970163B1DA4002164D0 /* Felicity */ = {
+		0001975016528AD9000B1BF6 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				041AB97A163B1DA4002164D0 /* FelicityAppDelegate.h */,
-				041AB97B163B1DA4002164D0 /* FelicityAppDelegate.m */,
+				0077C3D7164A5FA8003DE80C /* FMDB */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		0077C3D7164A5FA8003DE80C /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				0077C3D9164A5FED003DE80C /* FMDatabase.h */,
+				0077C3DA164A5FED003DE80C /* FMDatabase.m */,
+				0077C3DB164A5FED003DE80C /* FMDatabaseAdditions.h */,
+				0077C3DC164A5FED003DE80C /* FMDatabaseAdditions.m */,
+				0077C3DD164A5FED003DE80C /* FMDatabasePool.h */,
+				0077C3DE164A5FED003DE80C /* FMDatabasePool.m */,
+				0077C3DF164A5FED003DE80C /* FMDatabaseQueue.h */,
+				0077C3E0164A5FED003DE80C /* FMDatabaseQueue.m */,
+				0077C3E2164A5FED003DE80C /* FMResultSet.h */,
+				0077C3E3164A5FED003DE80C /* FMResultSet.m */,
+			);
+			name = FMDB;
+			path = Felicity;
+			sourceTree = "<group>";
+		};
+		00F314421654D90400D8642B /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				00F314471654F79700D8642B /* Other */,
+				00F314431654D91200D8642B /* Backgrounds */,
+				04F8A96E163B229B00EAABC5 /* EmoticonSet */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		00F314431654D91200D8642B /* Backgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				0001975116528F6C000B1BF6 /* morebutton.png */,
+				00ACB3AE1642E1FD007F75FB /* imageBackground.png */,
+				00CEAF051642E3FE001831B9 /* background.png */,
+			);
+			name = Backgrounds;
+			sourceTree = "<group>";
+		};
+		00F314441654DE7500D8642B /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				0001974D16525FEE000B1BF6 /* FelicityUtil.h */,
+				0001974E16525FEE000B1BF6 /* FelicityUtil.m */,
+				00D28987164D487B00AF914F /* EmotionStatistics.h */,
+				00D28988164D487B00AF914F /* EmotionStatistics.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		00F314451654DE8C00D8642B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				00CEAF151645343C001831B9 /* Database.h */,
+				00CEAF161645343C001831B9 /* Database.m */,
+				00CEAF0C16432F78001831B9 /* Emotion.h */,
+				00CEAF0D16432F78001831B9 /* Emotion.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		00F314461654DE9D00D8642B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
 				041AB97C163B1DA4002164D0 /* FelicityViewController.h */,
 				041AB97D163B1DA4002164D0 /* FelicityViewController.m */,
 				041AB97F163B1DA4002164D0 /* InputViewController.h */,
@@ -138,43 +260,67 @@
 				041AB984163B1DA4002164D0 /* OutputViewController.m */,
 				041AB985163B1DA4002164D0 /* SettingsViewController.h */,
 				041AB986163B1DA4002164D0 /* SettingsViewController.m */,
-				041AB995163B1DAF002164D0 /* XIB's */,
-				041AB996163B1DCC002164D0 /* Supporting Files */,
 			);
-			path = Felicity;
+			name = Controller;
 			sourceTree = "<group>";
 		};
-		041AB995163B1DAF002164D0 /* XIB's */ = {
+		00F314471654F79700D8642B /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				00BD78331664ABF100D2F49F /* UnknownProfile.png */,
+				00BD782D1664ABE100D2F49F /* checkmark.png */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
+		00F3144C165674CC00D8642B /* View */ = {
 			isa = PBXGroup;
 			children = (
 				041AB982163B1DA4002164D0 /* OutputView.xib */,
 				041AB97E163B1DA4002164D0 /* InputView.xib */,
 				041AB976163B1DA4002164D0 /* MainStoryboard.storyboard */,
 			);
-			name = "XIB's";
+			name = View;
+			sourceTree = "<group>";
+		};
+		041AB970163B1DA4002164D0 /* Felicity */ = {
+			isa = PBXGroup;
+			children = (
+				00F3144C165674CC00D8642B /* View */,
+				00F314461654DE9D00D8642B /* Controller */,
+				00F314451654DE8C00D8642B /* Model */,
+				00F314441654DE7500D8642B /* Utilities */,
+				041AB97A163B1DA4002164D0 /* FelicityAppDelegate.h */,
+				041AB97B163B1DA4002164D0 /* FelicityAppDelegate.m */,
+			);
+			path = Felicity;
 			sourceTree = "<group>";
 		};
 		041AB996163B1DCC002164D0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				041AB979163B1DA4002164D0 /* Felicity-Prefix.pch */,
+				00F4A911164683B600F4709F /* icon.png */,
 				041AB981163B1DA4002164D0 /* main.m */,
 				041AB971163B1DA4002164D0 /* Default-568h@2x.png */,
 				041AB972163B1DA4002164D0 /* Default.png */,
 				041AB973163B1DA4002164D0 /* Default@2x.png */,
+				00F314401654D73300D8642B /* Felicity-Info.plist */,
 				041AB974163B1DA4002164D0 /* InfoPlist.strings */,
-				041AB978163B1DA4002164D0 /* Felicity-Info.plist */,
 			);
 			name = "Supporting Files";
+			path = Felicity;
 			sourceTree = "<group>";
 		};
 		041F7EF51636CA3300E15F83 = {
 			isa = PBXGroup;
 			children = (
-				04F8A96E163B229B00EAABC5 /* EmoticonSet */,
+				00F314421654D90400D8642B /* Images */,
+				0001975016528AD9000B1BF6 /* Libraries */,
 				041AB970163B1DA4002164D0 /* Felicity */,
 				041F7F031636CA3300E15F83 /* Frameworks */,
 				041F7F011636CA3300E15F83 /* Products */,
+				041AB996163B1DCC002164D0 /* Supporting Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -189,6 +335,12 @@
 		041F7F031636CA3300E15F83 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				003E5BC416529FB6009D0C9B /* AddressBookUI.framework */,
+				003E5BC116529FAE009D0C9B /* AddressBook.framework */,
+				0001974B16523AD0000B1BF6 /* QuartzCore.framework */,
+				005E99821646A466009D2FDB /* EventKit.framework */,
+				00CEAF1116453168001831B9 /* libsqlite3.0.dylib */,
+				00F4A90B1646760900F4709F /* CoreLocation.framework */,
 				041F7F041636CA3300E15F83 /* UIKit.framework */,
 				041F7F061636CA3300E15F83 /* Foundation.framework */,
 				041F7F081636CA3300E15F83 /* CoreGraphics.framework */,
@@ -211,7 +363,7 @@
 				04F8A981163B229B00EAABC5 /* hungry_big.png */,
 				04F8A983163B229B00EAABC5 /* hungry_small.png */,
 				04F8A985163B229B00EAABC5 /* in_love_big.png */,
-				04F8A987163B229B00EAABC5 /* inlove_small.png */,
+				04F8A987163B229B00EAABC5 /* in_love_small.png */,
 				04F8A989163B229B00EAABC5 /* irritated_big.png */,
 				04F8A98B163B229B00EAABC5 /* irritated_small.png */,
 				04F8A98D163B229B00EAABC5 /* sad_big.png */,
@@ -289,7 +441,6 @@
 				041AB989163B1DA4002164D0 /* Default@2x.png in Resources */,
 				041AB98A163B1DA4002164D0 /* InfoPlist.strings in Resources */,
 				041AB98B163B1DA4002164D0 /* MainStoryboard.storyboard in Resources */,
-				041AB98C163B1DA4002164D0 /* Felicity-Info.plist in Resources */,
 				041AB98F163B1DA4002164D0 /* InputView.xib in Resources */,
 				041AB992163B1DA4002164D0 /* OutputView.xib in Resources */,
 				04F8A9A9163B229B00EAABC5 /* angry_big.png in Resources */,
@@ -304,7 +455,7 @@
 				04F8A9B2163B229B00EAABC5 /* hungry_big.png in Resources */,
 				04F8A9B3163B229B00EAABC5 /* hungry_small.png in Resources */,
 				04F8A9B4163B229B00EAABC5 /* in_love_big.png in Resources */,
-				04F8A9B5163B229B00EAABC5 /* inlove_small.png in Resources */,
+				04F8A9B5163B229B00EAABC5 /* in_love_small.png in Resources */,
 				04F8A9B6163B229B00EAABC5 /* irritated_big.png in Resources */,
 				04F8A9B7163B229B00EAABC5 /* irritated_small.png in Resources */,
 				04F8A9B8163B229B00EAABC5 /* sad_big.png in Resources */,
@@ -321,6 +472,12 @@
 				04F8A9C3163B229B00EAABC5 /* very_happy_small.png in Resources */,
 				04F8A9C4163B229B00EAABC5 /* very_sad_big.png in Resources */,
 				04F8A9C5163B229B00EAABC5 /* very_sad_small.png in Resources */,
+				00ACB3B01642E1FD007F75FB /* imageBackground.png in Resources */,
+				00CEAF071642E3FE001831B9 /* background.png in Resources */,
+				00F4A912164683B600F4709F /* icon.png in Resources */,
+				0001975216528F6C000B1BF6 /* morebutton.png in Resources */,
+				00BD782F1664ABE100D2F49F /* checkmark.png in Resources */,
+				00BD78361664ABF100D2F49F /* UnknownProfile.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,12 +494,55 @@
 				041AB991163B1DA4002164D0 /* main.m in Sources */,
 				041AB993163B1DA4002164D0 /* OutputViewController.m in Sources */,
 				041AB994163B1DA4002164D0 /* SettingsViewController.m in Sources */,
+				00CEAF0E16432F78001831B9 /* Emotion.m in Sources */,
+				00CEAF171645343C001831B9 /* Database.m in Sources */,
+				0077C3E4164A5FED003DE80C /* FMDatabase.m in Sources */,
+				0077C3E5164A5FED003DE80C /* FMDatabaseAdditions.m in Sources */,
+				0077C3E6164A5FED003DE80C /* FMDatabasePool.m in Sources */,
+				0077C3E7164A5FED003DE80C /* FMDatabaseQueue.m in Sources */,
+				0077C3E9164A5FED003DE80C /* FMResultSet.m in Sources */,
+				00D28989164D487B00AF914F /* EmotionStatistics.m in Sources */,
+				0001974F16525FEE000B1BF6 /* FelicityUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		00ACB3AE1642E1FD007F75FB /* imageBackground.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00ACB3AF1642E1FD007F75FB /* en */,
+			);
+			name = imageBackground.png;
+			path = EmoticonSet;
+			sourceTree = "<group>";
+		};
+		00BD782D1664ABE100D2F49F /* checkmark.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00BD782E1664ABE100D2F49F /* en */,
+			);
+			name = checkmark.png;
+			sourceTree = "<group>";
+		};
+		00BD78331664ABF100D2F49F /* UnknownProfile.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00BD78341664ABF100D2F49F /* en */,
+			);
+			name = UnknownProfile.png;
+			sourceTree = "<group>";
+		};
+		00CEAF051642E3FE001831B9 /* background.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00CEAF061642E3FE001831B9 /* en */,
+			);
+			name = background.png;
+			path = EmoticonSet;
+			sourceTree = "<group>";
+		};
 		041AB974163B1DA4002164D0 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -455,12 +655,12 @@
 			name = in_love_big.png;
 			sourceTree = "<group>";
 		};
-		04F8A987163B229B00EAABC5 /* inlove_small.png */ = {
+		04F8A987163B229B00EAABC5 /* in_love_small.png */ = {
 			isa = PBXVariantGroup;
 			children = (
 				04F8A988163B229B00EAABC5 /* en */,
 			);
-			name = inlove_small.png;
+			name = in_love_small.png;
 			sourceTree = "<group>";
 		};
 		04F8A989163B229B00EAABC5 /* irritated_big.png */ = {
@@ -650,6 +850,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Felicity/Felicity-Prefix.pch";
 				INFOPLIST_FILE = "Felicity/Felicity-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Felicity\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Felicity;
 				WRAPPER_EXTENSION = app;
 			};
@@ -661,6 +866,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Felicity/Felicity-Prefix.pch";
 				INFOPLIST_FILE = "Felicity/Felicity-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Felicity\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Felicity;
 				WRAPPER_EXTENSION = app;
 			};

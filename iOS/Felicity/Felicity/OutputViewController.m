@@ -9,53 +9,97 @@
 //
 
 #import "OutputViewController.h"
-#import "FelicityAppDelegate.h"
+#import "Emotion.h"
+#import "Database.h"
+#import "FelicityUtil.h"
+
+// Private velden
+@interface OutputViewController ()
+@property int xPadding;
+@property int yPadding;
+@property int imageSize;
+@property int yMargin;
+@property int xWidthBar;
+@end
 
 @implementation OutputViewController
 
-/*
-** Wordt aangeroepen wanneer de Results pagina geladen is.
-** Creert de statistieken.
-*/
+@synthesize resultsScroller;
+@synthesize xPadding, yPadding, imageSize,yMargin,xWidthBar;
+
+// Wordt aangeroepen wanneer de Results pagina geladen is.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    appDelegate = (FelicityAppDelegate *)[[UIApplication sharedApplication] delegate];
-    imageNames = appDelegate.imageNames;
+    xPadding = 10;
+    yPadding = 10;
+    imageSize = 50;
+    yMargin = 70;
+    xWidthBar = 230;
+        
+    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    
+    int nbEmotions = [[Database database] nbOfEmotions];
+    
+    resultsScroller.contentSize = CGSizeMake(320, nbEmotions * 70);
+    resultsScroller.backgroundColor = background;
+    [self.view addSubview:resultsScroller];
     
     [self createStatistics];
 }
 
-/*
-** Geeft de statistieken weer (hoe vaak een emoticon is geselecteerd).
-*/
-- (void)createStatistics {
-    for(NSInteger i=0; i < appDelegate.emotionsCount.count; i++) {
-        UILabel *imageName = [[UILabel alloc] initWithFrame:CGRectMake(60, 20 + 22*i, 110, 20)];
-        imageName.text = [[appDelegate getImageNameFromSource:imageNames[i]] stringByAppendingString:@":"];
-        imageName.textAlignment = NSTextAlignmentRight;
-        imageName.textColor = [UIColor whiteColor];
-        imageName.backgroundColor = [UIColor blackColor];
-        imageName.numberOfLines = 1;
-        [imageName setFont:[UIFont fontWithName:@"Arial" size:14]];
-        [self.view addSubview:imageName];
 
-        UILabel *timesSelected = [[UILabel alloc] initWithFrame:CGRectMake(190, 20 + 22*i, 20, 20)];
-        timesSelected.text = [[NSString alloc] initWithFormat: @"%@", [appDelegate.emotionsCount objectForKey:imageNames[i]]];
-        timesSelected.textAlignment = NSTextAlignmentLeft;
-        timesSelected.textColor = [UIColor whiteColor];
-        timesSelected.backgroundColor = [UIColor blackColor];
-        timesSelected.numberOfLines = 1;
-        [timesSelected setFont:[UIFont fontWithName:@"Arial" size:14]];
-        [self.view addSubview:timesSelected];
+// Geeft de statistieken weer
+- (void)createStatistics {
+    
+    for(UIView *subview in [self.resultsScroller subviews]) {
+        [subview removeFromSuperview];
+    }
+    NSArray *sortedStatistics = [FelicityUtil retrieveEmotionStatistics];
+    
+    double maxPercentage = ((EmotionStatistics *)sortedStatistics[0]).percentageSelected;
+    
+    // isnan checking zonder math package!
+    if(maxPercentage != maxPercentage) return;
+    
+    for(int i = 0; i < sortedStatistics.count; i++) {
+        // Nodige dynamische gegevens
+        EmotionStatistics *statistics = (EmotionStatistics *)sortedStatistics[i];
+        Emotion *emotion = statistics.emotion;
+        double percentage = statistics.percentageSelected;
+        
+        // De afbeeldingen
+        CGRect Imageframe;
+        Imageframe.origin.x = xPadding;
+        Imageframe.origin.y = yPadding + yMargin*(i);
+        Imageframe.size = CGSizeMake(imageSize,imageSize);
+        UIImageView *imageSubView = [[UIImageView alloc] initWithFrame:Imageframe];
+        imageSubView.image = [UIImage imageNamed:emotion.smallImage];
+        [resultsScroller addSubview:imageSubView];
+        
+        // De bars
+        UILabel *barSubView = [[UILabel alloc] initWithFrame:CGRectMake(xPadding + 60, yPadding + yMargin*(i), (xWidthBar / maxPercentage) * percentage, imageSize)];
+        [barSubView setAlpha:0.0];
+        barSubView.text = [[NSString alloc] initWithFormat: @"%.2f %%", percentage*100];
+        barSubView.textAlignment = NSTextAlignmentRight;
+        barSubView.textColor = [UIColor whiteColor];
+        barSubView.backgroundColor = [UIColor darkGrayColor];
+        [barSubView setFont:[UIFont fontWithName:@"Arial" size:11]];
+        
+        // Animatie
+        [UIView animateWithDuration:(0.5 + i/2.f) animations:^{
+            [barSubView setAlpha:2.0];
+        }];
+        
+        [resultsScroller addSubview:barSubView];
     }
 }
 
 /*
-** Wordt (handmatig!) opgeroepen wanneer deze pagina terug zichtbaar wordt.
-** Nodig om de statistieken te updaten.
-*/
+ ** Wordt (handmatig!) opgeroepen wanneer deze pagina terug zichtbaar wordt.
+ ** Nodig om de statistieken te updaten.
+ */
 - (void)viewDidAppear:(BOOL)animated {
     [self createStatistics];
 }

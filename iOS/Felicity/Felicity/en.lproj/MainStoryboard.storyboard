@@ -26,7 +26,7 @@
                                     <action selector="changePage:" destination="2" eventType="valueChanged" id="EAm-EZ-Z5P"/>
                                 </connections>
                             </pageControl>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a2S-XF-8lF">
+                            <navigationBar contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="a2S-XF-8lF">
                                 <items>
                                     <navigationItem title="Title" id="EOq-I4-LJY">
                                         <barButtonItem key="rightBarButtonItem" title="Settings" id="ygH-bF-cId">
@@ -57,6 +57,7 @@
                         <outlet property="navBar" destination="a2S-XF-8lF" id="h66-hO-tMP"/>
                         <outlet property="pageControl" destination="n6S-uD-yLu" id="o7C-Db-5bQ"/>
                         <outlet property="scrollView" destination="s8r-sr-fwX" id="yHc-8b-hqf"/>
+                        <outlet property="settingsButton" destination="ygH-bF-cId" id="vva-mA-ZvS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -71,7 +72,7 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Le-qD-hlz">
+                            <navigationBar contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="9Le-qD-hlz">
                                 <items>
                                     <navigationItem title="Settings" id="bVC-8w-Lyd">
                                         <barButtonItem key="rightBarButtonItem" title="Back" id="kQh-eE-SGT">
@@ -82,7 +83,7 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Niet mijn probleem" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K8g-DX-Olq">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Niels' Probleem!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K8g-DX-Olq">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="217" id="Ofo-jM-tZB"/>
                                     <constraint firstAttribute="height" constant="122" id="XuM-oW-7AB"/>
@@ -96,8 +97,8 @@
                         <constraints>
                             <constraint firstItem="9Le-qD-hlz" firstAttribute="leading" secondItem="K0B-ku-NjU" secondAttribute="leading" type="default" id="95e-BD-b9m"/>
                             <constraint firstItem="9Le-qD-hlz" firstAttribute="top" secondItem="K0B-ku-NjU" secondAttribute="top" type="default" id="F8w-ya-paq"/>
+                            <constraint firstItem="K8g-DX-Olq" firstAttribute="centerX" secondItem="9Le-qD-hlz" secondAttribute="centerX" type="default" id="G09-6P-R36"/>
                             <constraint firstItem="9Le-qD-hlz" firstAttribute="trailing" secondItem="K0B-ku-NjU" secondAttribute="trailing" type="default" id="ucB-9o-cm4"/>
-                            <constraint firstItem="K8g-DX-Olq" firstAttribute="leading" secondItem="K0B-ku-NjU" secondAttribute="leading" constant="53" id="vTn-wb-meW"/>
                             <constraint firstItem="K8g-DX-Olq" firstAttribute="top" secondItem="K0B-ku-NjU" secondAttribute="top" constant="194" id="xT5-L9-71a"/>
                         </constraints>
                     </view>
@@ -108,22 +109,6 @@
             <point key="canvasLocation" x="239" y="101"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="FelicityViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FelicityViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="changePage:"/>
-                <relationship kind="action" name="settingsButtonPressed:"/>
-                <relationship kind="outlet" name="mainView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="navBar" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="pageControl" candidateClass="UIPageControl"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
