@@ -82,7 +82,9 @@ static Database * _database;
 
 // Maak een nieuwe activiteit aan
 -(void)insertActivity:(NSString *)activity {
-    [self.FMDBDatabase executeUpdate:@"INSERT INTO activities (activity) VALUES (?)",activity, nil];
+    NSArray *array = [self retrieveActivities];
+    if(![array containsObject:activity])
+        [self.FMDBDatabase executeUpdate:@"INSERT INTO activities (activity) VALUES (?)",activity, nil];
 }
 
 // Geeft het aantal activiteiten terug
