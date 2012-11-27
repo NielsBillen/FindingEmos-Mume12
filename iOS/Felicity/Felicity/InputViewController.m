@@ -283,6 +283,7 @@
         frequentPerson3.image = [contactsList objectForKey:favoritePersons[2]];
         frequentPerson3.tag = 3;
     };
+    // Else: hier kan eventueel code toegevoegd worden om vrienden toe te voegen!
     
     UITapGestureRecognizer * singleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
     singleTapRecognizer.numberOfTapsRequired = 1;
