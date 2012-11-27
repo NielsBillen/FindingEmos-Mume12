@@ -18,7 +18,7 @@
 @property NSString *currentActivy;
 @property Emotion *currentEmotion;
 @property NSArray *favoritePersons;
-@property NSDictionary *contactsList;
+@property NSMutableDictionary *contactsList;
 @property BOOL favoriteOneSelected, favoriteTwoSelected, favoriteThreeSelected;
 @end
 
@@ -282,6 +282,9 @@
         frequentPerson2.tag = 2;
         frequentPerson3.image = [contactsList objectForKey:favoritePersons[2]];
         frequentPerson3.tag = 3;
+        [contactsList removeObjectForKey:favoritePersons[0]];
+        [contactsList removeObjectForKey:favoritePersons[1]];
+        [contactsList removeObjectForKey:favoritePersons[2]];
     };
     // Else: hier kan eventueel code toegevoegd worden om vrienden toe te voegen!
     

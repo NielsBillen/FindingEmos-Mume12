@@ -30,7 +30,7 @@
 }
 
 
-+(NSDictionary *)retrieveContactList
++(NSMutableDictionary *)retrieveContactList
 {
     __block BOOL accessGranted = NO;
 	ABAddressBookRef myAddressBook = ABAddressBookCreate();
@@ -58,7 +58,7 @@
         
     }
 	CFRelease(myAddressBook);
-    return [NSDictionary dictionaryWithDictionary:contactList];
+    return contactList;
 }
 
 @end

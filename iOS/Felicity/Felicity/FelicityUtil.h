@@ -11,7 +11,7 @@
 @interface FelicityUtil : NSObject
 
 +(NSArray *)retrieveEmotionStatistics;
-+(NSDictionary *)retrieveContactList;
++(NSMutableDictionary *)retrieveContactList;
 
 
 @end
