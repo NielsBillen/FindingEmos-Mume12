@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -169,6 +170,7 @@ public class EmotionGallery extends View implements
 				Emotion emoticon = emoticons[index];
 				emoticon.incrementSelectionCount();
 				notifySelection(emoticon);
+				Log.i("Emoticon", "jep");
 			}
 		}
 		return super.onTouchEvent(event);
