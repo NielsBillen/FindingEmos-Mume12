@@ -168,7 +168,7 @@ public class EmotionGallery extends View implements
 			int index = row * iconsPerRow + column;
 			if (index < emoticons.length) {
 				Emotion emoticon = emoticons[index];
-				emoticon.incrementSelectionCount();
+				//emoticon.incrementSelectionCount();
 				notifySelection(emoticon);
 				Log.i("Emoticon", "jep");
 			}
