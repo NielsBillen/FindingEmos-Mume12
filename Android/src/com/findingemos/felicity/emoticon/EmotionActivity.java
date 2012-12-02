@@ -151,6 +151,7 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 		
 		// Initialize the location look-up.
 		initCurrentLocation();
+		
 	}
 	
 	/**
@@ -215,6 +216,7 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 			view.addListener(this);
 			layout.addView(view, layoutParameters);
 		}
+		
 	}
 	
 	

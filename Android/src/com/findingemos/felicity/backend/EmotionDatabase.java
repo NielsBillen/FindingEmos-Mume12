@@ -3,6 +3,7 @@ package com.findingemos.felicity.backend;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Set;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -45,7 +46,7 @@ public class EmotionDatabase {
 	private static final String CONTACTSCOUNT = "ContactsCount";
 	// alle instellingen
 	private static final String SETTINGS = "Settings";
-	
+
 	// The database itself
 	private SQLiteDatabase database;
 	// A helper class to initialize the database (see Notepad example)
@@ -58,7 +59,7 @@ public class EmotionDatabase {
 	 */
 	private String COUNT_KEY_ID = "_id";
 	private String COUNT_KEY_COUNT = "count";
-	
+
 	private String HISTORY_KEY_ID = "_id";
 	private String HISTORY_KEY_DATE = "date";
 	private String HISTORY_KEY_TIME = "time";
@@ -67,21 +68,21 @@ public class EmotionDatabase {
 	private String HISTORY_KEY_CITY = "city";
 	private String HISTORY_KEY_ACTIVITY = "activity";
 	private String HISTORY_KEY_EMOTICON = "emoticon_id";
-	
-	private String FRIENDS_KEY_ID ="_id";
+
+	private String FRIENDS_KEY_ID = "_id";
 	private String FRIENDS_KEY_NAME = "name";
-	private String FRIENDS_KEY_EMOTICON ="emoticon_id";
+	private String FRIENDS_KEY_EMOTICON = "emoticon_id";
 	private String FRIENDS_KEY_EPOCH = "epoch";
-	
+
 	private String ACTIVITIES_KEY_ID = "_id";
 	private String ACTIVITIES_KEY_NAME = "name";
 	private String ACTIVITIES_KEY_COUNT = "count";
-	
+
 	private String CONTACTS_KEY_ID = "_id";
 	private String CONTACTS_KEY_NAME = "name";
 	private String CONTACTS_KEY_IMAGE = "image";
-	private String CONTACTS_KEY_COUNT ="count";
-	
+	private String CONTACTS_KEY_COUNT = "count";
+
 	private String SETTINGS_KEY_ID = "_id";
 	private String SETTINGS_SETTING = "setting";
 	private String SETTINGS_VALUE = "settingsValue";
@@ -120,10 +121,10 @@ public class EmotionDatabase {
 		isClosed = true;
 		databaseHelper.close();
 	}
-	
-	/////////////////////////////////////////////////////////////////////
-	///											HISTORY TABLE 									///
-	////////////////////////////////////////////////////////////////////
+
+	// ///////////////////////////////////////////////////////////////////
+	// / HISTORY TABLE ///
+	// //////////////////////////////////////////////////////////////////
 
 	/**
 	 * Reads out the statistics for the emoticons from the "EmotionCount"
@@ -136,9 +137,10 @@ public class EmotionDatabase {
 					"@readEmotionDatabase: tried to read from closed database.");
 			return;
 		}
-		Cursor count = database.query(true, HISTORY, new String[] { HISTORY_KEY_EMOTICON,
-				HISTORY_KEY_DATE, HISTORY_KEY_TIME, HISTORY_KEY_CITY, HISTORY_KEY_COUNTRY,
-				HISTORY_KEY_ACTIVITY}, null, null, null, null, null, null);
+		Cursor count = database.query(true, HISTORY, new String[] {
+				HISTORY_KEY_EMOTICON, HISTORY_KEY_DATE, HISTORY_KEY_TIME,
+				HISTORY_KEY_CITY, HISTORY_KEY_COUNTRY, HISTORY_KEY_ACTIVITY },
+				null, null, null, null, null, null);
 		if (count != null && count.getCount() > 0) {
 			count.moveToFirst();
 
@@ -151,13 +153,14 @@ public class EmotionDatabase {
 				String activity = count.getString(5);
 
 				Emotion e = Emotion.getEmoticonByUniqueId(uniqueId);
-				Log.i(e.toString(), date + " " + time + " " + city + " " + country +" " + activity);
-				
+				Log.i(e.toString(), date + " " + time + " " + city + " "
+						+ country + " " + activity);
+
 				if (count.isLast())
 					break;
 				else
 					count.moveToNext();
-				}
+			}
 		}
 		count.close();
 	}
@@ -176,14 +179,15 @@ public class EmotionDatabase {
 	 *            The emotion which was selected.
 	 */
 	public synchronized long createEmotionEntry(Calendar calendar,
-			String country, String city, String activity, ArrayList<String> friends, Emotion emotion) {
+			String country, String city, String activity,
+			ArrayList<String> friends, Emotion emotion) {
 		if (isClosed) {
 			Log.i("EmotionDatabase",
 					"@createEmotionEntry: tried to add something to a closed database!");
 			return -1;
 		}
 		long epoch = calendar.getTimeInMillis();
-		
+
 		ContentValues entry = new ContentValues();
 		entry.put(HISTORY_KEY_DATE, dateString(calendar));
 		entry.put(HISTORY_KEY_TIME, timeString(calendar));
@@ -192,13 +196,13 @@ public class EmotionDatabase {
 		entry.put(HISTORY_KEY_CITY, city);
 		entry.put(HISTORY_KEY_ACTIVITY, activity);
 		entry.put(HISTORY_KEY_EMOTICON, emotion.getUniqueId());
-		
-		for(int i = 0; i < friends.size(); i++) {
+
+		for (int i = 0; i < friends.size(); i++) {
 			ContentValues friendsEntry = new ContentValues();
 			friendsEntry.put(FRIENDS_KEY_EMOTICON, emotion.getUniqueId());
 			friendsEntry.put(FRIENDS_KEY_NAME, friends.get(i));
 			friendsEntry.put(FRIENDS_KEY_EPOCH, epoch);
-			
+
 			database.insert(FRIENDS, null, friendsEntry);
 		}
 
@@ -219,17 +223,16 @@ public class EmotionDatabase {
 		}
 		return database.delete(HISTORY, "_id = " + rowId, null) > 0;
 	}
-	
-	/////////////////////////////////////////////////////////////////////
-	///											ACTIVITIES TABLE 									///
-	////////////////////////////////////////////////////////////////////
-	
+
+	// ///////////////////////////////////////////////////////////////////
+	// / ACTIVITIES TABLE ///
+	// //////////////////////////////////////////////////////////////////
+
 	/**
-	 * Creates an entry in the ACTIVITIES database and it stores the
-	 * activity
+	 * Creates an entry in the ACTIVITIES database and it stores the activity
 	 * 
-	 * @param 	activity
-	 * 					The new activity to be stored
+	 * @param activity
+	 *            The new activity to be stored
 	 */
 	public synchronized long createActivityEntry(String activity) {
 		if (isClosed) {
@@ -243,13 +246,13 @@ public class EmotionDatabase {
 
 		return database.insert(ACTIVITIES, null, entry);
 	}
-	
+
 	/**
 	 * Updates the count of an activity by one and stores it in the database.
 	 * 
-	 * @param 	activity
-	 *            		The activity to increase the count of.
-	 * @return 	the row which was updated.
+	 * @param activity
+	 *            The activity to increase the count of.
+	 * @return the row which was updated.
 	 */
 	public synchronized long updateActivityCount(String activity) {
 		if (isClosed) {
@@ -259,12 +262,12 @@ public class EmotionDatabase {
 		}
 
 		Cursor cursor = database.query(true, ACTIVITIES, new String[] {
-				ACTIVITIES_KEY_ID, ACTIVITIES_KEY_NAME , ACTIVITIES_KEY_COUNT },
-				ACTIVITIES_KEY_NAME + "='" + activity +"'", null, null, null,
+				ACTIVITIES_KEY_ID, ACTIVITIES_KEY_NAME, ACTIVITIES_KEY_COUNT },
+				ACTIVITIES_KEY_NAME + "='" + activity + "'", null, null, null,
 				null, null);
 
 		int count = 0;
-		
+
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
 			count = cursor.getInt(2);
@@ -272,8 +275,8 @@ public class EmotionDatabase {
 			values.put(ACTIVITIES_KEY_ID, cursor.getInt(0));
 			values.put(ACTIVITIES_KEY_NAME, activity);
 			values.put(ACTIVITIES_KEY_COUNT, count + 1);
-			long result = database.update(ACTIVITIES, values, ACTIVITIES_KEY_ID + "="
-					+ cursor.getInt(0), null);
+			long result = database.update(ACTIVITIES, values, ACTIVITIES_KEY_ID
+					+ "=" + cursor.getInt(0), null);
 			cursor.close();
 			return result;
 		} else {
@@ -285,13 +288,13 @@ public class EmotionDatabase {
 			return result;
 		}
 	}
-	
+
 	/**
 	 * Returns the amount of time an activity was selected.
 	 * 
-	 * @param 	activity
-	 *            		The activity to get the count from.
-	 * @return 	the amount of selections.
+	 * @param activity
+	 *            The activity to get the count from.
+	 * @return the amount of selections.
 	 */
 	public synchronized int getCountOfActivity(String activity) {
 		if (isClosed) {
@@ -301,9 +304,9 @@ public class EmotionDatabase {
 		}
 		Cursor cursor = database.query(true, ACTIVITIES, new String[] {
 				ACTIVITIES_KEY_ID, ACTIVITIES_KEY_NAME, ACTIVITIES_KEY_COUNT },
-				ACTIVITIES_KEY_NAME + "='" + activity +"'", null, null, null,
+				ACTIVITIES_KEY_NAME + "='" + activity + "'", null, null, null,
 				null, null);
-		
+
 		int count = 0;
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
@@ -320,52 +323,50 @@ public class EmotionDatabase {
 	 * Reads out the statistics for the activities from the "Activities"
 	 * database.
 	 * 
-	 * @return	A sorted Array, based on the count, of the activities. 
-	 * 					From most to less popular.
+	 * @return A sorted Array, based on the count, of the activities. From most
+	 *         to less popular.
 	 */
 	public synchronized String[] readActivities() {
 		String[] activities = new String[0];
-		
+
 		if (isClosed) {
 			Log.i("ActivityDatabase",
 					"@readActivities: database is already closed!");
 			return activities;
 		}
-		
+
 		Cursor cursor = database.query(true, ACTIVITIES, new String[] {
 				ACTIVITIES_KEY_ID, ACTIVITIES_KEY_NAME, ACTIVITIES_KEY_COUNT },
-				null, null, null, null, ACTIVITIES_KEY_COUNT  + " DESC", null);
-		
+				null, null, null, null, ACTIVITIES_KEY_COUNT + " DESC", null);
+
 		activities = new String[cursor.getCount()];
 		cursor.moveToFirst();
-		
-		if(cursor != null) {
-			for(int i = 0; i < cursor.getCount(); i++) {
+
+		if (cursor != null) {
+			for (int i = 0; i < cursor.getCount(); i++) {
 				activities[i] = cursor.getString(1);
-				
-				if(i < cursor.getCount() - 1) {
+
+				if (i < cursor.getCount() - 1) {
 					cursor.moveToNext();
 				}
 			}
 		}
-	
+
 		if (cursor != null)
 			cursor.close();
 
 		return activities;
 	}
-	
-	
-	/////////////////////////////////////////////////////////////////////
-	///											CONTACTS TABLE 								///
-	////////////////////////////////////////////////////////////////////
-	
+
+	// ///////////////////////////////////////////////////////////////////
+	// / CONTACTS TABLE ///
+	// //////////////////////////////////////////////////////////////////
+
 	/**
-	 * Creates an entry in the CONTACTSCOUNT database and it stores the
-	 * activity
+	 * Creates an entry in the CONTACTSCOUNT database and it stores the activity
 	 * 
-	 * @param 	contactName
-	 * 					The new contact to be stored
+	 * @param contactName
+	 *            The new contact to be stored
 	 */
 	public synchronized long createContactsEntry(Contact contact) {
 		if (isClosed) {
@@ -373,7 +374,7 @@ public class EmotionDatabase {
 					"@createContactEntry: tried to add something to a closed database!");
 			return -1;
 		}
-		
+
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		contact.getPhoto().compress(Bitmap.CompressFormat.PNG, 100, out);
 
@@ -384,13 +385,13 @@ public class EmotionDatabase {
 
 		return database.insert(CONTACTSCOUNT, null, entry);
 	}
-	
+
 	/**
 	 * Updates the count of a contact by one and stores it in the database.
 	 * 
-	 * @param 	contactName
-	 *            		The contact to increase the count of.
-	 * @return 	the row which was updated.
+	 * @param contactName
+	 *            The contact to increase the count of.
+	 * @return the row which was updated.
 	 */
 	public synchronized long updateContactCount(Contact contact) {
 		if (isClosed) {
@@ -400,12 +401,13 @@ public class EmotionDatabase {
 		}
 
 		Cursor cursor = database.query(true, CONTACTSCOUNT, new String[] {
-				CONTACTS_KEY_ID, CONTACTS_KEY_NAME , CONTACTS_KEY_IMAGE, CONTACTS_KEY_COUNT },
-				CONTACTS_KEY_NAME + "='" + contact.getName() +"'", null, null, null,
-				null, null);
+				CONTACTS_KEY_ID, CONTACTS_KEY_NAME, CONTACTS_KEY_IMAGE,
+				CONTACTS_KEY_COUNT },
+				CONTACTS_KEY_NAME + "='" + contact.getName() + "'", null, null,
+				null, null, null);
 
 		int count = 0;
-		
+
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
 			count = cursor.getInt(3);
@@ -414,19 +416,20 @@ public class EmotionDatabase {
 			values.put(CONTACTS_KEY_NAME, contact.getName());
 			values.put(CONTACTS_KEY_IMAGE, cursor.getBlob(2));
 			values.put(CONTACTS_KEY_COUNT, count + 1);
-			long result = database.update(CONTACTSCOUNT, values, CONTACTS_KEY_ID + "="
-					+ cursor.getInt(0), null);
+			long result = database.update(CONTACTSCOUNT, values,
+					CONTACTS_KEY_ID + "=" + cursor.getInt(0), null);
 			cursor.close();
 			return result;
 		} else {
 			ContentValues values = new ContentValues();
 			values.put(CONTACTS_KEY_COUNT, count + 1);
 			values.put(CONTACTS_KEY_NAME, contact.getName());
-			
-			if(contact.getPhoto() != null) {
+
+			if (contact.getPhoto() != null) {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				contact.getPhoto().compress(Bitmap.CompressFormat.PNG, 100, out);
-				values.put(CONTACTS_KEY_IMAGE,out.toByteArray());
+				contact.getPhoto()
+						.compress(Bitmap.CompressFormat.PNG, 100, out);
+				values.put(CONTACTS_KEY_IMAGE, out.toByteArray());
 			}
 
 			long result = database.insert(CONTACTSCOUNT, null, values);
@@ -434,7 +437,7 @@ public class EmotionDatabase {
 			return result;
 		}
 	}
-	
+
 	/**
 	 * Returns the amount of time a contact was selected.
 	 * 
@@ -450,9 +453,9 @@ public class EmotionDatabase {
 		}
 		Cursor cursor = database.query(true, CONTACTSCOUNT, new String[] {
 				CONTACTS_KEY_ID, CONTACTS_KEY_NAME, CONTACTS_KEY_COUNT },
-				CONTACTS_KEY_NAME + "='" + contact.getName() +"'", null, null, null,
-				null, null);
-		
+				CONTACTS_KEY_NAME + "='" + contact.getName() + "'", null, null,
+				null, null, null);
+
 		int count = 0;
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
@@ -464,82 +467,69 @@ public class EmotionDatabase {
 
 		return count;
 	}
-	
-	public synchronized boolean firstNameFirst() {
-		Cursor cursor = database.query(true, SETTINGS, new String[] {
-				SETTINGS_SETTING, SETTINGS_VALUE},
-				SETTINGS_SETTING + "='" + "firstname first'" , null, null, null, 
-				null, null);
-		int count = 0;
-		if (cursor != null && cursor.getCount() > 0) {
-			cursor.moveToFirst();
-			count = cursor.getInt(1);
-		}
-		
-		return count != 0;
-	}
 
 	/**
 	 * Reads out the statistics for the contacts from the "ContactsCount"
-	 * database. 
+	 * database.
 	 * 
-	 * @param	nbOfContactsToRead
-	 * 					The number of contacts to return
-	 * @return	A sorted Contact Array, based on the count, of the contacts with a length of nbOfContactsToRead. 
-	 * 					From most to less popular.
+	 * @param nbOfContactsToRead
+	 *            The number of contacts to return
+	 * @return A sorted Contact Array, based on the count, of the contacts with
+	 *         a length of nbOfContactsToRead. From most to less popular.
 	 */
 	public synchronized Contact[] readContacts(int nbOfContactsToRead) {
 		Contact[] contacts = new Contact[0];
-		
+
 		if (isClosed) {
 			Log.i("ContacsDatabase",
 					"@readContacts: database is already closed!");
 			return contacts;
 		}
-		
+
 		Cursor cursor = database.query(true, CONTACTSCOUNT, new String[] {
-				CONTACTS_KEY_ID, CONTACTS_KEY_NAME, CONTACTS_KEY_IMAGE, CONTACTS_KEY_COUNT },
-				null, null, null, null, CONTACTS_KEY_COUNT + " DESC", null);
-		
-		if(cursor.getCount() < nbOfContactsToRead) {
+				CONTACTS_KEY_ID, CONTACTS_KEY_NAME, CONTACTS_KEY_IMAGE,
+				CONTACTS_KEY_COUNT }, null, null, null, null,
+				CONTACTS_KEY_COUNT + " DESC", null);
+
+		if (cursor.getCount() < nbOfContactsToRead) {
 			contacts = new Contact[cursor.getCount()];
 		} else {
 			contacts = new Contact[nbOfContactsToRead];
 		}
-		
+
 		cursor.moveToFirst();
-		
-		if(cursor != null) {
-			for(int i = 0; i < cursor.getCount() && i < nbOfContactsToRead; i++) {
+
+		if (cursor != null) {
+			for (int i = 0; i < cursor.getCount() && i < nbOfContactsToRead; i++) {
 				String name = cursor.getString(1);
 				Bitmap photo = null;
-				
+
 				byte[] blob = cursor.getBlob(2);
-	            if(blob != null) {
-	            		photo = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-	            }
-				
-	            Contact contact = new Contact(name, photo);
+				if (blob != null) {
+					photo = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+				}
+
+				Contact contact = new Contact(name, photo);
 				contacts[i] = contact;
-				
-				if(i < cursor.getCount() - 1 && i < nbOfContactsToRead - 1) {
+
+				if (i < cursor.getCount() - 1 && i < nbOfContactsToRead - 1) {
 					cursor.moveToNext();
 				} else {
 					break;
 				}
 			}
 		}
-	
+
 		if (cursor != null)
 			cursor.close();
 
 		return contacts;
 	}
-	
-	/////////////////////////////////////////////////////////////////////
-	///											COUNT TABLE 										///
-	////////////////////////////////////////////////////////////////////
-	
+
+	// ///////////////////////////////////////////////////////////////////
+	// / COUNT TABLE ///
+	// //////////////////////////////////////////////////////////////////
+
 	/**
 	 * Reads out the statistics for the emoticons from the "EmotionCount"
 	 * database. The "selection count" of the emoticons will be set to the
@@ -572,7 +562,7 @@ public class EmotionDatabase {
 		}
 		count.close();
 	}
-	
+
 	/**
 	 * Updates the count of an emotion by one and stores it in the database.
 	 * 
@@ -644,11 +634,10 @@ public class EmotionDatabase {
 
 		return count;
 	}
-	
-		
-	/////////////////////////////////////////////////////////////////////
-	///											HELP FUNCTIONS									///
-	////////////////////////////////////////////////////////////////////
+
+	// ///////////////////////////////////////////////////////////////////
+	// / HELP FUNCTIONS ///
+	// //////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns a formatted date string from the calendar object.<br>
@@ -708,9 +697,46 @@ public class EmotionDatabase {
 
 	}
 	
-	/////////////////////////////////////////////////////////////////////
-	///											DATABASE HELPER								///
-	////////////////////////////////////////////////////////////////////
+	// ///////////////////////////////////////////////////////////////////
+	// / SETTINGS  ///
+	// //////////////////////////////////////////////////////////////////
+	public synchronized boolean firstNameFirst() {
+
+		if (isClosed) {
+			Log.i("SettingsDatabase",
+					"@firstNameFirst: database is already closed!");
+			return false;
+		}
+
+		Cursor cursor = database.query(true, SETTINGS, new String[] {
+				SETTINGS_KEY_ID, SETTINGS_SETTING, SETTINGS_VALUE },
+				SETTINGS_SETTING + "='" + "firstname first'", null, null, null,
+				null, null);
+		int count = 0;
+		if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToFirst();
+			count = cursor.getInt(2);
+		}
+
+		if (cursor != null)
+			cursor.close();
+
+		return count != 0;
+	}
+	
+	public synchronized void changeFirstNameFirst(boolean value) {	
+		int newValue = 0;
+		if(value) newValue = 1;
+		
+		String strFilter = SETTINGS_SETTING + "= 'firstname first'";
+		ContentValues args = new ContentValues();
+		args.put(SETTINGS_VALUE, newValue);		
+		database.update(SETTINGS, args, strFilter, null);
+	}
+
+	// ///////////////////////////////////////////////////////////////////
+	// / DATABASE HELPER ///
+	// //////////////////////////////////////////////////////////////////
 
 	/**
 	 * 
@@ -748,30 +774,27 @@ public class EmotionDatabase {
 					+ " integer primary key, " + COUNT_KEY_COUNT + " integer);");
 			db.execSQL("create table " + FRIENDS + "(" + FRIENDS_KEY_ID
 					+ " integer primary key, " + FRIENDS_KEY_NAME
-					+ " text not null," + FRIENDS_KEY_EMOTICON 
-					+ " integer, " + FRIENDS_KEY_EPOCH + " integer not null);");
+					+ " text not null," + FRIENDS_KEY_EMOTICON + " integer, "
+					+ FRIENDS_KEY_EPOCH + " integer not null);");
 			db.execSQL("create table " + ACTIVITIES + "(" + ACTIVITIES_KEY_ID
 					+ " integer primary key, " + ACTIVITIES_KEY_NAME
 					+ " text not null, " + ACTIVITIES_KEY_COUNT + " integer);");
 			db.execSQL("create table " + CONTACTSCOUNT + "(" + CONTACTS_KEY_ID
 					+ " integer primary key, " + CONTACTS_KEY_NAME
-					+ " text not null," + CONTACTS_KEY_IMAGE 
-					+ " blob, " + CONTACTS_KEY_COUNT + " integer);");
+					+ " text not null," + CONTACTS_KEY_IMAGE + " blob, "
+					+ CONTACTS_KEY_COUNT + " integer);");
 			db.execSQL("create table " + SETTINGS + "(" + SETTINGS_KEY_ID
 					+ " integer primary key, " + SETTINGS_SETTING
-					+ "text not null" + SETTINGS_VALUE
-					+ "text not null");
-			
-			db.execSQL("INSERT INTO " + ACTIVITIES + 
-					" VALUES (0, 'Work', 0);");
-			db.execSQL("INSERT INTO " + ACTIVITIES + 
-					" VALUES (1, 'Study', 0);");
-			db.execSQL("INSERT INTO " + ACTIVITIES + 
-					" VALUES (2, 'Spare time', 0);");
-			
-			db.execSQL("INSERT INTO " + SETTINGS +
-					" VALUES (0, 'firstname first'):");
-			
+					+ " text not null, " + SETTINGS_VALUE + " integer);");
+
+			db.execSQL("INSERT INTO " + ACTIVITIES + " VALUES (0, 'Work', 0);");
+			db.execSQL("INSERT INTO " + ACTIVITIES + " VALUES (1, 'Study', 0);");
+			db.execSQL("INSERT INTO " + ACTIVITIES
+					+ " VALUES (2, 'Spare time', 1);");
+
+			db.execSQL("INSERT INTO " + SETTINGS
+					+ " VALUES (0, 'firstname first',1);");
+
 			Log.i("Creating DB", "Done");
 		}
 
