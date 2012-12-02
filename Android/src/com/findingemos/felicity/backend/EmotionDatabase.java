@@ -43,6 +43,8 @@ public class EmotionDatabase {
 	private static final String ACTIVITIES = "Activities";
 	// Geselecteerde contacten en hun count
 	private static final String CONTACTSCOUNT = "ContactsCount";
+	// alle instellingen
+	private static final String SETTINGS = "Settings";
 	
 	// The database itself
 	private SQLiteDatabase database;
@@ -79,6 +81,10 @@ public class EmotionDatabase {
 	private String CONTACTS_KEY_NAME = "name";
 	private String CONTACTS_KEY_IMAGE = "image";
 	private String CONTACTS_KEY_COUNT ="count";
+	
+	private String SETTINGS_KEY_ID = "_id";
+	private String SETTINGS_SETTING = "setting";
+	private String SETTINGS_VALUE = "settingsValue";
 
 	/**
 	 * Creates a new database for the given context.
@@ -458,6 +464,20 @@ public class EmotionDatabase {
 
 		return count;
 	}
+	
+	public synchronized boolean firstNameFirst() {
+		Cursor cursor = database.query(true, SETTINGS, new String[] {
+				SETTINGS_SETTING, SETTINGS_VALUE},
+				SETTINGS_SETTING + "='" + "firstname first'" , null, null, null, 
+				null, null);
+		int count = 0;
+		if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToFirst();
+			count = cursor.getInt(1);
+		}
+		
+		return count != 0;
+	}
 
 	/**
 	 * Reads out the statistics for the contacts from the "ContactsCount"
@@ -737,6 +757,10 @@ public class EmotionDatabase {
 					+ " integer primary key, " + CONTACTS_KEY_NAME
 					+ " text not null," + CONTACTS_KEY_IMAGE 
 					+ " blob, " + CONTACTS_KEY_COUNT + " integer);");
+			db.execSQL("create table " + SETTINGS + "(" + SETTINGS_KEY_ID
+					+ " integer primary key, " + SETTINGS_SETTING
+					+ "text not null" + SETTINGS_VALUE
+					+ "text not null");
 			
 			db.execSQL("INSERT INTO " + ACTIVITIES + 
 					" VALUES (0, 'Work', 0);");
@@ -744,6 +768,9 @@ public class EmotionDatabase {
 					" VALUES (1, 'Study', 0);");
 			db.execSQL("INSERT INTO " + ACTIVITIES + 
 					" VALUES (2, 'Spare time', 0);");
+			
+			db.execSQL("INSERT INTO " + SETTINGS +
+					" VALUES (0, 'firstname first'):");
 			
 			Log.i("Creating DB", "Done");
 		}

@@ -22,6 +22,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -323,8 +324,15 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 		currentEmotion = emoticon;
 		drawEmoticion(currentEmotion);
 		
-		Intent intent = new Intent(this, DoingActivity.class);
-		startActivityForResult(intent, EXTRA_INFORMATION_CODE);
+		final Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+		  @Override
+		  public void run() {
+			  Intent intent = new Intent(EmotionActivity.this, DoingActivity.class);
+			  startActivityForResult(intent, EXTRA_INFORMATION_CODE);
+		  }
+		}, 1500);
+		
 	}
 
 	
