@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Felicity</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
@@ -9,7 +10,7 @@
     <string name="emoticon_description">Emoticon</string>
     <string name="emoticon_smile">Smile</string>
     <string name="emoticon_bored">Bored</string>
-  	<string name="emoticon_love">Love</string>
+    <string name="emoticon_love">Love</string>
     <string name="emoticon_angry">Angry</string>
     <string name="emoticon_happy">Happy</string>
     <string name="emoticon_excited">Excited</string>
@@ -23,4 +24,13 @@
     <string name="emoticon_confused">Confused</string>
     <string name="emoticon_releaved">Releaved</string>
     <string name="emoticon_afraid">Afraid</string>
+    <string name="title_activity_location_finder">LocationFinderActivity</string>
+    <string name="title_activity_with_who">WithWhoActivity</string>
+    <string name="no_contacts">There are no contacts available</string>
+    <string name="contacts_view_no_contact_name">Default Name</string>
+    <string name="contacts_view_title">Who are you with?</string>
+    <string name="contacts_view_favorites">Favorites</string>
+    <string name="contacts_view_all_contacts">All contacts</string>
+    <string name="title_activity_doing">DoingActivity</string>
+
 </resources>

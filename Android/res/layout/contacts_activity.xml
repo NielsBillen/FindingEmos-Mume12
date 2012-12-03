@@ -1,0 +1,140 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/emotionbackground"
+    android:orientation="vertical" >
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		xmlns:tools="http://schemas.android.com/tools"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content" 
+    		android:orientation="vertical" 
+    		android:gravity="center"
+    		android:background="@drawable/emotionbackground">
+    		
+        <TextView android:id="@+id/contacts_view_favorites"
+          	android:layout_width="fill_parent"
+        		android:layout_height="wrap_content"
+        		android:text="@string/contacts_view_favorites"
+        		android:textColor= "#FFFFFF"
+        		android:textSize="12dp"
+        		android:layout_marginBottom="5dp"
+        		android:layout_marginTop="5dp"
+        		android:layout_marginLeft="10dp"
+        		android:background="@drawable/emotionbackground"
+ 		/>
+        
+        <View android:layout_height="3dp"
+    			android:layout_width="fill_parent"
+    			android:background="#90909090"/>
+        
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    			xmlns:tools="http://schemas.android.com/tools"
+	    		android:layout_width="fill_parent"
+	    		android:layout_height="wrap_content" 
+	    		android:orientation="horizontal" 
+	    		android:gravity="center">
+	    		
+	        <ImageView android:id="@+id/contacts_view_first_contact"
+	        		android:layout_width="64dp"
+	        		android:layout_height="64dp"
+	        		android:layout_margin="10dp"
+	        		android:src="@drawable/default_avatar"
+	        		android:clickable="true"
+	        		android:background="@layout/friends_favorites_background"/>
+	        
+	        <ImageView android:id="@+id/contacts_view_second_contact"
+	        		android:layout_width="64dp"
+	        		android:layout_height="64dp"
+	        		android:layout_margin="10dp"
+	        		android:src="@drawable/default_avatar"
+				android:clickable="true"
+	        		android:background="@layout/friends_favorites_background"/>
+	        
+	        <ImageView android:id="@+id/contacts_view_third_contact"
+	        		android:layout_width="64dp"
+	        		android:layout_height="64dp"
+	        		android:layout_margin="10dp"
+	        		android:src="@drawable/default_avatar"
+				android:clickable="true"
+	        		android:background="@layout/friends_favorites_background"/>
+	        
+	    </LinearLayout>
+	</LinearLayout>
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		xmlns:tools="http://schemas.android.com/tools"
+    		android:layout_width="fill_parent"
+    		android:layout_height="0dp"
+    		android:layout_weight="1"
+    		android:orientation="vertical" 
+    		android:gravity="center"
+    		android:background="@drawable/emotionbackground">
+    
+    		<TextView android:id="@+id/contacts_view_all_contacts"
+          	android:layout_width="fill_parent"
+        		android:layout_height="wrap_content"
+        		android:text="@string/contacts_view_all_contacts"
+        		android:textColor= "#FFFFFF"
+        		android:textSize="12dp"
+        		android:layout_marginBottom="5dp"
+        		android:layout_marginTop="5dp"
+        		android:layout_marginLeft="10dp"
+        		android:background="@drawable/emotionbackground"
+ 		/>
+    		
+    		<View android:layout_height="3px"
+   			android:layout_width="fill_parent"
+    			android:background="#90909090"/>
+    
+    		<ListView android:id="@+id/contacts_view:list"
+          	android:layout_width="fill_parent"
+        		android:layout_height="wrap_content" 
+        		android:fastScrollEnabled ="true" 
+        		android:scrollingCache="false"/>
+  	</LinearLayout>
+  	
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		xmlns:tools="http://schemas.android.com/tools"
+    		android:layout_width="fill_parent"
+    		android:layout_height="40dp" 
+    		android:orientation="horizontal" 
+    		android:background="@drawable/emotionscroller">
+
+        <Button
+            android:id="@+id/contacts_list_button_ok"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="60dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor= "#FFFFFF"
+            android:text="Ok" />
+
+        <TextView
+            android:id="@+id/contacts_list_friends_selected"
+            android:layout_width="50dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/contacts_list_button_ok"
+            android:layout_marginRight="5dp"
+            android:textColor = "@color/White"
+            android:textSize = "9dp"
+            android:lines="2"
+            android:gravity="center"
+            android:text="0 friends selected" />
+
+        <ImageView
+            android:id="@+id/contacts_list_search_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/search_icon" />
+        
+   	</RelativeLayout>
+  		
+</LinearLayout>

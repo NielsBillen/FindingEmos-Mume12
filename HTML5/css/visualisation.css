@@ -1,0 +1,73 @@
+#timeselector {	
+	position:absolute;
+	left:16px;
+	right:16px;
+	top:32px;
+	height:32px;
+	
+}
+
+#timeindicator {
+	position: absolute;
+	left:40px;
+	right:40px;
+	top:6px;
+	color:white;
+	text-align:center;
+	font-family: Verdana;
+	font-size:16px;
+	//font-weight:bold;
+}
+
+#leftarrowwhite {
+	position:absolute;
+	left:10px;
+	width:15px;
+	top:4px;
+	bottom:8px;
+}
+
+#rightarrowwhite {
+	position:absolute;
+	right:10px;
+	width:15px;
+	top:4px;
+	bottom:8px;
+}
+
+
+#visualisations {
+	overflow:hidden;
+}
+
+#visualisation-content {
+	position:absolute;
+	top:44px;
+	left:0;
+	right:0;
+	bottom:8px;
+}
+
+#beautywrapper {
+	position: absolute;
+	top:76px;
+	bottom:16px;
+	left:16px;
+	right:16px;
+}
+
+#canvaswrapper {
+    /* iscroll */
+	position: absolute;
+	z-index:1;
+	left:5px;
+	right:5px;
+	top:12px;
+	bottom:12px;
+}
+
+
+#visualizationcanvas {
+	position: absolute;
+	width:100%;
+}

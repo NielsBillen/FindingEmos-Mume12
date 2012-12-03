@@ -288,11 +288,11 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 		if (event.getAction() == DragEvent.ACTION_DRAG_STARTED)
 			return true;
 		else if (event.getAction() == DragEvent.ACTION_DROP) {
-			emoticon.incrementSelectionCount();
+			//emoticon.incrementSelectionCount();
 			view.setVisibility(View.VISIBLE);
 			Log.i("Emoticon", "Emoticon: " + emoticon.getName()
 					+ " was dragged succesfully!");
-			view.notifyDeSelection();
+			//view.notifyDeSelection();
 			FadeThread imageUpdater = new FadeThread(this, EMOTICONPAINTER,
 					emoticonChange, fps) {
 				/*
