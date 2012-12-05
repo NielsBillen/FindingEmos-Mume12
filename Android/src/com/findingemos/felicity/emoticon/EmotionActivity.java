@@ -37,6 +37,7 @@ import com.findingemos.felicity.doing.DoingActivity;
 import com.findingemos.felicity.emoticonselector.EmotionSelectorActivity;
 import com.findingemos.felicity.general.ActivityIndicator;
 import com.findingemos.felicity.general.ActivitySwitchListener;
+import com.findingemos.felicity.settings.SettingsActivity;
 import com.findingemos.felicity.util.SimpleSwipeListener;
 import com.findingemos.felicity.util.Swipeable;
 import com.findingemos.felicity.visualization.VisualizationActivity;
