@@ -385,7 +385,7 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 	 */
 	@Override
 	public void onEmotionDoubleTapped(final Emotion emoticon) {
-		emoticon.incrementSelectionCount();
+		//emoticon.incrementSelectionCount();
 		Log.i("Emoticon", "Emoticon: " + emoticon.getName()
 				+ " was double tapped succesfully!");
 		FadeThread imageUpdater = new FadeThread(this, EMOTICONPAINTER,

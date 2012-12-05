@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.findingemos.felicity.R;
 import com.findingemos.felicity.backend.EmotionDatabase;
@@ -37,7 +38,6 @@ import com.findingemos.felicity.doing.DoingActivity;
 import com.findingemos.felicity.emoticonselector.EmotionSelectorActivity;
 import com.findingemos.felicity.general.ActivityIndicator;
 import com.findingemos.felicity.general.ActivitySwitchListener;
-import com.findingemos.felicity.settings.SettingsActivity;
 import com.findingemos.felicity.util.SimpleSwipeListener;
 import com.findingemos.felicity.util.Swipeable;
 import com.findingemos.felicity.visualization.VisualizationActivity;
@@ -51,8 +51,9 @@ import com.findingemos.felicity.visualization.VisualizationActivity;
  * @version 0.1
  */
 @SuppressLint("NewApi")
-public class EmotionActivity extends Activity implements Swipeable, EmotionSelectionListener {
-	
+public class EmotionActivity extends Activity implements Swipeable,
+		EmotionSelectionListener {
+
 	// Final boolean variable to check whether drag and drop is enabled.
 	public static final boolean DRAG_AND_DROP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 	// The database to call
@@ -62,7 +63,7 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 	public static final int EMOTION_REQUEST_CODE = 1;
 	// Code for requesting extra information (activity)
 	public static final int EXTRA_INFORMATION_CODE = 2;
-	
+
 	// Variable to indicate the current city the user is in.
 	private String currentCity = "Not known yet";
 	// Variable to indicate the current country the user is in.
@@ -79,7 +80,7 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 	public void onCreate(Bundle savedInstanceState) {
 		// This method is called when the activity is first created.
 		super.onCreate(savedInstanceState);
-		
+
 		Log.i("Activity", "EmotionActivity started");
 
 		// Create the database
@@ -149,12 +150,12 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 
 		overridePendingTransition(R.anim.lefttoright_emotion,
 				R.anim.righttoleft_emotion);
-		
+
 		// Initialize the location look-up.
 		initCurrentLocation();
-		
+
 	}
-	
+
 	/**
 	 * Start de visualisatie activiteit.
 	 */
@@ -162,7 +163,7 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 		Intent intent = new Intent(this, VisualizationActivity.class);
 		startActivity(intent);
 	}
-	
+
 	/**
 	 * Start de emotiongallery activiteit.
 	 */
@@ -172,7 +173,7 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 				R.anim.downtoup_emotion);
 		startActivityForResult(intent, EMOTION_REQUEST_CODE);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -217,13 +218,12 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 			view.addListener(this);
 			layout.addView(view, layoutParameters);
 		}
-		
+
 	}
-	
-	
-	//////////////////////////////////////////////////////
-	///							Activity Life Cycle					 		///
-	//////////////////////////////////////////////////////
+
+	// ////////////////////////////////////////////////////
+	// / Activity Life Cycle ///
+	// ////////////////////////////////////////////////////
 
 	/*
 	 * (non-Javadoc)
@@ -257,11 +257,10 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 		super.onPause();
 		DATABASE.close();
 	}
-	
-	
-	//////////////////////////////////////////////////////
-	///								Activity Result					 		///
-	//////////////////////////////////////////////////////
+
+	// ////////////////////////////////////////////////////
+	// / Activity Result ///
+	// ////////////////////////////////////////////////////
 
 	/*
 	 * (non-Javadoc)
@@ -285,8 +284,8 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 	/**
 	 * Methode die de terugkeer van de emotionGallery afhandelt.
 	 * 
-	 * @param 	data
-	 * 					De bijgevoegde data.
+	 * @param data
+	 *            De bijgevoegde data.
 	 */
 	private void emotionGalleryReturned(Intent data) {
 		Log.i("Result", "Got the result!");
@@ -294,85 +293,97 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 		Emotion emotion = Emotion.getEmoticonByUniqueId(uniqueEmotionId);
 		userSelectedEmoticon(emotion);
 	}
-	
+
 	/**
 	 * Methode die de terugkeer van de extraInformation afhandelt.
 	 * 
-	 * @param 	data
-	 * 					De bijgevoegde data.
+	 * @param data
+	 *            De bijgevoegde data.
 	 */
 	private void extraInformationReturned(Intent data) {
 		String activity = data.getStringExtra("activity");
 		ArrayList<String> friends = data.getStringArrayListExtra("friends");
-		
+
 		DATABASE.open();
-		DATABASE.createEmotionEntry(Calendar.getInstance(), currentCountry, currentCity, activity, friends, currentEmotion);
-		
+		DATABASE.createEmotionEntry(Calendar.getInstance(), currentCountry,
+				currentCity, activity, friends, currentEmotion);
+
 		Log.i("Emotion", currentEmotion.toString());
 		Log.i("Date & Time", Calendar.getInstance().getTime() + "");
 		Log.i("Epoch", Calendar.getInstance().getTimeInMillis() + "");
 		Log.i("Country", currentCountry);
 		Log.i("City", currentCity);
 	}
-	
+
 	/**
-	 * Deze methode dient te worden aangeroepen wanneer de gebruiker zijn (nieuwe) emotie aangaf.
-	 * Deze methode update de currentEmotion variable en tekent de desbetreffende emotie op het scherm.
-	 * Bovendien start ze de DoingActivity op om na te gaan wat te gebruiker aan het doen is en bij wie hij is.
+	 * Deze methode dient te worden aangeroepen wanneer de gebruiker zijn
+	 * (nieuwe) emotie aangaf. Deze methode update de currentEmotion variable en
+	 * tekent de desbetreffende emotie op het scherm. Bovendien start ze de
+	 * DoingActivity op om na te gaan wat te gebruiker aan het doen is en bij
+	 * wie hij is.
 	 * 
-	 * @param 	emoticon
-	 * 					De nieuwe emotie van de gebruiker.
+	 * @param emoticon
+	 *            De nieuwe emotie van de gebruiker.
 	 */
+	
+	public static boolean doingStarted = false;
+	
 	private void userSelectedEmoticon(Emotion emoticon) {
 		currentEmotion = emoticon;
 		drawEmoticion(currentEmotion);
+
 		
-		final Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
-		  @Override
-		  public void run() {
-			  Intent intent = new Intent(EmotionActivity.this, DoingActivity.class);
-			  startActivityForResult(intent, EXTRA_INFORMATION_CODE);
-		  }
-		}, 1500);
-		
+		if (!doingStarted) {
+			doingStarted = true;
+			final Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					currentEmotion.incrementSelectionCount();
+					Intent intent = new Intent(EmotionActivity.this,
+							DoingActivity.class);
+					startActivityForResult(intent, EXTRA_INFORMATION_CODE);
+				}
+			}, 1500);
+		}
+
 	}
 
-	
 	/**
 	 * Methode die de meegegeven emoticon tekent op het scherm.
 	 * 
-	 * @param 	emoticon
-	 * 					De emoticon die getekend dient te worden op het scherm.
+	 * @param emoticon
+	 *            De emoticon die getekend dient te worden op het scherm.
 	 */
 	private void drawEmoticion(Emotion emoticon) {
 		EmotionDrawer drawer = (EmotionDrawer) findViewById(R.id.emoticonDrawer);
 		drawer.onEmotionSelected(emoticon);
 		drawer.onEmotionDoubleTapped(emoticon);
 	}
-	
-	
-	//////////////////////////////////////////////////////
-	///									Locatie							 		///
-	//////////////////////////////////////////////////////	
+
+	// ////////////////////////////////////////////////////
+	// / Locatie ///
+	// ////////////////////////////////////////////////////
 
 	/**
-	* Deze methode initialiseert het opzoeken van de locatie.
-	* 
-	* De primaire methode is het bepalen van de locatie via Netwerkgegevens.
-	* Als dit niet lukt, wordt er gebruikgemaakt van de GPS (als deze aanstaat).
-	* Is er geen internetverbinding en staat de GPS af, dan wordt de locatie niet opgezocht.
-	*/
+	 * Deze methode initialiseert het opzoeken van de locatie.
+	 * 
+	 * De primaire methode is het bepalen van de locatie via Netwerkgegevens.
+	 * Als dit niet lukt, wordt er gebruikgemaakt van de GPS (als deze
+	 * aanstaat). Is er geen internetverbinding en staat de GPS af, dan wordt de
+	 * locatie niet opgezocht.
+	 */
 	private void initCurrentLocation() {
 		LocationManager locationManager;
 		String svcName = Context.LOCATION_SERVICE;
-		locationManager = (LocationManager)getSystemService(svcName);
-		
+		locationManager = (LocationManager) getSystemService(svcName);
+
 		String provider;
-		boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean gpsEnabled = locationManager
+				.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		boolean internetEnabled = isNetworkConnected();
-		
-		if(internetEnabled) {
+
+		if (internetEnabled) {
 			Log.i("Location Method", "Internet");
 			Criteria criteria = new Criteria();
 			criteria.setAccuracy(Criteria.ACCURACY_FINE);
@@ -382,22 +393,23 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 			criteria.setSpeedRequired(false);
 			criteria.setCostAllowed(true);
 			provider = locationManager.getBestProvider(criteria, true);
-			locationManager.requestSingleUpdate(provider, locationListener, null);	
-		}
-		else if(gpsEnabled) {
+			locationManager.requestSingleUpdate(provider, locationListener,
+					null);
+		} else if (gpsEnabled) {
 			Log.i("Location Method", "GPS");
 			provider = LocationManager.GPS_PROVIDER;
-			locationManager.requestSingleUpdate(provider, locationListener, null);
+			locationManager.requestSingleUpdate(provider, locationListener,
+					null);
 		} else {
 			Log.i("Location Method", "none");
 		}
 	}
-	
+
 	/**
-	* Methode die nagaat of de gebruiker met internet verbonden is.
-	* 
-	* @return	True als de gebruiker met internet verbonden is.
-	*/
+	 * Methode die nagaat of de gebruiker met internet verbonden is.
+	 * 
+	 * @return True als de gebruiker met internet verbonden is.
+	 */
 	private boolean isNetworkConnected() {
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -405,24 +417,26 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 			// Geen actieve netwerken
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
-	* Methode die de currentCity en currentCountry variable invult, gebaseerd op het meegegeven Location object.
-	* 
-	* @param 	currentLocation
-	* 					De huidige locatie.
-	*/
+	 * Methode die de currentCity en currentCountry variable invult, gebaseerd
+	 * op het meegegeven Location object.
+	 * 
+	 * @param currentLocation
+	 *            De huidige locatie.
+	 */
 	private void getCityOfLocation(Location currentLocation) {
 		double lat = currentLocation.getLatitude();
 		double lng = currentLocation.getLongitude();
-		
-		Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+
+		Geocoder geocoder = new Geocoder(getApplicationContext(),
+				Locale.getDefault());
 		List<Address> addresses;
 		try {
-			if(isNetworkConnected()) {
+			if (isNetworkConnected()) {
 				addresses = geocoder.getFromLocation(lat, lng, 1);
 				Address first = addresses.get(0);
 				currentCity = first.getLocality();
@@ -430,57 +444,65 @@ public class EmotionActivity extends Activity implements Swipeable, EmotionSelec
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			currentCity =  "No location Found";
-			currentCountry =  "No location Found";
+			currentCity = "No location Found";
+			currentCountry = "No location Found";
 		}
 	}
-	
+
 	/**
-	* Variabele die ervoor zorgt dat de huidige locatie wordt geupdated indien nodig.
-	* Dit is wanneer de huidige locatie verandert of wanneer de gebruiker verbinding maakt met het internet.
-	*/
+	 * Variabele die ervoor zorgt dat de huidige locatie wordt geupdated indien
+	 * nodig. Dit is wanneer de huidige locatie verandert of wanneer de
+	 * gebruiker verbinding maakt met het internet.
+	 */
 	private final LocationListener locationListener = new LocationListener() {
 		public void onLocationChanged(Location location) {
 			getCityOfLocation(location);
 			Log.i("Location", "Updated location");
 		}
-		
-		public void onProviderDisabled(String provider) {}
+
+		public void onProviderDisabled(String provider) {
+		}
+
 		public void onProviderEnabled(String provider) {
 			Log.i("Provider", provider);
 			initCurrentLocation();
 		}
-		public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+		}
 	};
 
-	
-	//////////////////////////////////////////////////////
-	///					EmotionSelectionListener				 		///
-	//////////////////////////////////////////////////////	
-	
+	// ////////////////////////////////////////////////////
+	// / EmotionSelectionListener ///
+	// ////////////////////////////////////////////////////
+
 	// Aangeroepen wanneer de gebruiker een emotie opneemt (Android 4.0).
 	@Override
-	public void onEmotionSelected(Emotion emoticon) {	
+	public void onEmotionSelected(Emotion emoticon) {
 		// Doe niets
 	}
 
 	// Aangeroepen wanneer de gebruiker dubbelklikt op een emotie (Android 2.3).
 	@Override
 	public void onEmotionDoubleTapped(Emotion emoticon) {
-		userSelectedEmoticon(emoticon);
+		if(!DRAG_AND_DROP)
+			userSelectedEmoticon(emoticon);
+		else
+			Toast.makeText(getApplicationContext(), "Drag and drop your emotion", Toast.LENGTH_SHORT).show();
 	}
 
-	// Aangeroepen wanneer de gebruiker een emotie dropt op de grote (lege) emoticon (Android 4.0).
+	// Aangeroepen wanneer de gebruiker een emotie dropt op de grote (lege)
+	// emoticon (Android 4.0).
 	@Override
 	public void onEmotionDeselected(Emotion emoticon) {
-		userSelectedEmoticon(emoticon);
+		if (DRAG_AND_DROP)
+			userSelectedEmoticon(emoticon);
 	}
-	
-	
-	//////////////////////////////////////////////////////
-	///								Swipeable							   		///
-	//////////////////////////////////////////////////////
-	
+
+	// ////////////////////////////////////////////////////
+	// / Swipeable ///
+	// ////////////////////////////////////////////////////
+
 	/*
 	 * (non-Javadoc)
 	 * 

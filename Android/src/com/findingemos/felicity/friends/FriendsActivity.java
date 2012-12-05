@@ -308,6 +308,7 @@ public class FriendsActivity extends Activity {
 					Intent result = new Intent();
 					result.putExtra("friends", selectedContactsNames);
 					setResult(RESULT_OK, result);
+					EmotionActivity.doingStarted = false;
 					finish();
 				}
 			});
