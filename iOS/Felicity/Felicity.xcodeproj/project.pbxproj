@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0001974C16523AD0000B1BF6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0001974B16523AD0000B1BF6 /* QuartzCore.framework */; };
 		0001974F16525FEE000B1BF6 /* FelicityUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0001974E16525FEE000B1BF6 /* FelicityUtil.m */; };
-		0001975216528F6C000B1BF6 /* morebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0001975116528F6C000B1BF6 /* morebutton.png */; };
 		003E5BC216529FAE009D0C9B /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 003E5BC116529FAE009D0C9B /* AddressBook.framework */; };
 		003E5BC516529FB6009D0C9B /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 003E5BC416529FB6009D0C9B /* AddressBookUI.framework */; };
 		005E99831646A466009D2FDB /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 005E99821646A466009D2FDB /* EventKit.framework */; };
@@ -26,6 +25,7 @@
 		00CEAF1216453168001831B9 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CEAF1116453168001831B9 /* libsqlite3.0.dylib */; };
 		00CEAF171645343C001831B9 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CEAF161645343C001831B9 /* Database.m */; };
 		00D28989164D487B00AF914F /* EmotionStatistics.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D28988164D487B00AF914F /* EmotionStatistics.m */; };
+		00EBA824166CE3EC00813260 /* morebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 00EBA822166CE3EC00813260 /* morebutton.png */; };
 		00F4A90C1646760900F4709F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F4A90B1646760900F4709F /* CoreLocation.framework */; };
 		00F4A912164683B600F4709F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 00F4A911164683B600F4709F /* icon.png */; };
 		041AB987163B1DA4002164D0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041AB971163B1DA4002164D0 /* Default-568h@2x.png */; };
@@ -79,7 +79,6 @@
 		0001974B16523AD0000B1BF6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0001974D16525FEE000B1BF6 /* FelicityUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FelicityUtil.h; sourceTree = "<group>"; };
 		0001974E16525FEE000B1BF6 /* FelicityUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FelicityUtil.m; sourceTree = "<group>"; };
-		0001975116528F6C000B1BF6 /* morebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = morebutton.png; path = ../../../../Downloads/morebutton.png; sourceTree = "<group>"; };
 		003E5BC116529FAE009D0C9B /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		003E5BC416529FB6009D0C9B /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		005E99821646A466009D2FDB /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
@@ -104,6 +103,7 @@
 		00CEAF161645343C001831B9 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
 		00D28987164D487B00AF914F /* EmotionStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmotionStatistics.h; sourceTree = "<group>"; };
 		00D28988164D487B00AF914F /* EmotionStatistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmotionStatistics.m; sourceTree = "<group>"; };
+		00EBA823166CE3EC00813260 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = EmoticonSet/en.lproj/morebutton.png; sourceTree = "<group>"; };
 		00F314401654D73300D8642B /* Felicity-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Felicity-Info.plist"; sourceTree = "<group>"; };
 		00F4A90B1646760900F4709F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		00F4A911164683B600F4709F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
@@ -220,8 +220,8 @@
 		00F314431654D91200D8642B /* Backgrounds */ = {
 			isa = PBXGroup;
 			children = (
-				0001975116528F6C000B1BF6 /* morebutton.png */,
 				00ACB3AE1642E1FD007F75FB /* imageBackground.png */,
+				00EBA822166CE3EC00813260 /* morebutton.png */,
 				00CEAF051642E3FE001831B9 /* background.png */,
 			);
 			name = Backgrounds;
@@ -475,9 +475,9 @@
 				00ACB3B01642E1FD007F75FB /* imageBackground.png in Resources */,
 				00CEAF071642E3FE001831B9 /* background.png in Resources */,
 				00F4A912164683B600F4709F /* icon.png in Resources */,
-				0001975216528F6C000B1BF6 /* morebutton.png in Resources */,
 				00BD782F1664ABE100D2F49F /* checkmark.png in Resources */,
 				00BD78361664ABF100D2F49F /* UnknownProfile.png in Resources */,
+				00EBA824166CE3EC00813260 /* morebutton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,6 +541,14 @@
 			);
 			name = background.png;
 			path = EmoticonSet;
+			sourceTree = "<group>";
+		};
+		00EBA822166CE3EC00813260 /* morebutton.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00EBA823166CE3EC00813260 /* en */,
+			);
+			name = morebutton.png;
 			sourceTree = "<group>";
 		};
 		041AB974163B1DA4002164D0 /* InfoPlist.strings */ = {
