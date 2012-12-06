@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
@@ -39,6 +38,7 @@ import com.findingemos.felicity.emoticonselector.EmotionSelectorActivity;
 import com.findingemos.felicity.general.ActivityIndicator;
 import com.findingemos.felicity.general.ActivitySwitchListener;
 import com.findingemos.felicity.util.SimpleSwipeListener;
+import com.findingemos.felicity.util.SlideActivity;
 import com.findingemos.felicity.util.Swipeable;
 import com.findingemos.felicity.visualization.VisualizationActivity;
 
@@ -51,7 +51,7 @@ import com.findingemos.felicity.visualization.VisualizationActivity;
  * @version 0.1
  */
 @SuppressLint("NewApi")
-public class EmotionActivity extends Activity implements Swipeable,
+public class EmotionActivity extends SlideActivity implements Swipeable,
 		EmotionSelectionListener {
 
 	// Final boolean variable to check whether drag and drop is enabled.

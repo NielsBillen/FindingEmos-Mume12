@@ -2,7 +2,6 @@ package com.findingemos.felicity.visualization;
 
 import java.util.Arrays;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.general.ActivityIndicator;
 import com.findingemos.felicity.general.ActivitySwitchListener;
 import com.findingemos.felicity.util.SimpleSwipeListener;
+import com.findingemos.felicity.util.SlideActivity;
 import com.findingemos.felicity.util.Swipeable;
 
 /**
@@ -30,7 +30,7 @@ import com.findingemos.felicity.util.Swipeable;
  * @author Niels
  * @version 0.1
  */
-public class VisualizationActivity extends Activity implements Swipeable {
+public class VisualizationActivity extends SlideActivity implements Swipeable {
 	
 	/*
 	 * (non-Javadoc)
