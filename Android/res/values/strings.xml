@@ -32,5 +32,11 @@
     <string name="contacts_view_favorites">Favorites</string>
     <string name="contacts_view_all_contacts">All contacts</string>
     <string name="title_activity_doing">DoingActivity</string>
+    <string name="visualizations_filter">Filter</string>
+    <string name="visualizations_time">All Time</string>
+    <string name="visualizations_location">Everywhere</string>
+    <string name="visualizations_who">Everyone</string>
+    <string name="visualizations_doing">All</string>
+    <string name="visualizations_arrow">\u00A0\u00A0>\u00A0\u00A0</string>
 
 </resources>

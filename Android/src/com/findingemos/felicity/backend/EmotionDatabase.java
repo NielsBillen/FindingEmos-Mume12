@@ -34,6 +34,8 @@ import com.findingemos.felicity.friends.Contact;
 public class EmotionDatabase {
 	// Context to create the database in.
 	private final Context context;
+	
+	private static final String FELICITY_DATABASE = "FelicityDatabase";
 	// Name of the database with the time/date/location
 	private static final String HISTORY = "EmotionDatabase";
 	// Name of the database with the counts for the emoticons.
@@ -120,6 +122,26 @@ public class EmotionDatabase {
 			return;
 		isClosed = true;
 		databaseHelper.close();
+	}
+
+	public synchronized void emty() {
+		System.out.println("EMMMMMMMMMMMTPYYYYYYYYY");
+		
+		open();
+		
+		database.execSQL("DROP TABLE IF EXISTS " + HISTORY + " ;");
+		database.execSQL("DROP TABLE IF EXISTS " + ACTIVITIES + " ;");
+		database.execSQL("DROP TABLE IF EXISTS " + FRIENDS + " ;");
+		database.execSQL("DROP TABLE IF EXISTS " + SETTINGS + " ;");
+		database.execSQL("DROP TABLE IF EXISTS " + COUNT + " ;");
+		database.execSQL("DROP TABLE IF EXISTS " + CONTACTSCOUNT + " ;");
+		
+		databaseHelper.onCreate(database);
+		
+		close();
+		open();
+
+
 	}
 
 	// ///////////////////////////////////////////////////////////////////
@@ -696,9 +718,9 @@ public class EmotionDatabase {
 		return hourStr + "-" + minuteStr + "-" + secondStr;
 
 	}
-	
+
 	// ///////////////////////////////////////////////////////////////////
-	// / SETTINGS  ///
+	// / SETTINGS ///
 	// //////////////////////////////////////////////////////////////////
 	public synchronized boolean firstNameFirst() {
 
@@ -723,14 +745,15 @@ public class EmotionDatabase {
 
 		return count != 0;
 	}
-	
-	public synchronized void changeFirstNameFirst(boolean value) {	
+
+	public synchronized void changeFirstNameFirst(boolean value) {
 		int newValue = 0;
-		if(value) newValue = 1;
-		
+		if (value)
+			newValue = 1;
+
 		String strFilter = SETTINGS_SETTING + "= 'firstname first'";
 		ContentValues args = new ContentValues();
-		args.put(SETTINGS_VALUE, newValue);		
+		args.put(SETTINGS_VALUE, newValue);
 		database.update(SETTINGS, args, strFilter, null);
 	}
 
@@ -750,7 +773,7 @@ public class EmotionDatabase {
 		 * @param context
 		 */
 		public EmotionDatabaseHelper(Context context) {
-			super(context, HISTORY, null, DatabaseVersionCodes.EMOTION_CURRENT);
+			super(context, FELICITY_DATABASE, null, DatabaseVersionCodes.EMOTION_CURRENT);
 		}
 
 		/*

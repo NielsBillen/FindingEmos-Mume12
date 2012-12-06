@@ -30,7 +30,7 @@
         </activity>
         <activity
             android:name="com.findingemos.felicity.visualization.VisualizationActivity"
-            android:label="@string/title_activity_visualization" >
+            android:label="@string/title_activity_visualization">
         </activity>
         <activity
             android:name="com.findingemos.felicity.emoticonselector.EmotionSelectorActivity"
@@ -58,7 +58,7 @@
                 android:value="com.android.activity" />
         </activity>
         <activity
-            android:name="com.findingemos.felicity.SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.findingemos.felicity.emoticon.EmotionActivity" >
             <meta-data

@@ -24,8 +24,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.LinearLayout;
@@ -181,9 +183,23 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_emotion, menu);
+		super.onCreateOptionsMenu(menu);
+		menu.add(0, 0, 0, "Settings");
 		return true;
 	}
+	
+	 @Override
+	    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	        switch(item.getItemId()) {
+	            case 0:
+	                DATABASE.emty();
+	        		DATABASE.readEmotionCount();
+	        		DATABASE.readEmotionDatabase();
+	                return true;
+	        }
+
+	        return super.onMenuItemSelected(featureId, item);
+	    }
 
 	/**
 	 * This method fills the horizontal scroller with all the emoticons.<br>

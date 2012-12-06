@@ -24,9 +24,13 @@ public class DatabaseVersionCodes {
 	public static final int EMOTION_V3_STIJN_15_11_2012 = 3;
 	public static final int EMOTION_V4_STIJN_16_11_2012 = 4;
 	public static final int EMOTION_V5_STIJN_18_11_2012 = 5;
+	// Settings tabel toegevoegd
+	public static final int EMOTION_V6_ROBIN_06_12_2012 = 6;
+	// De database een echte naam gegeven, nodig om te kunnen resetten
+	public static final int EMOTION_V7_ROBIN_06_12_2012 = 7;
 
 	// The current version of the emoticon database.
-	public static final int EMOTION_CURRENT = EMOTION_V5_STIJN_18_11_2012;
+	public static final int EMOTION_CURRENT = EMOTION_V7_ROBIN_06_12_2012;
 
 	/**
 	 * Performs an update for the given sql database from the given version to

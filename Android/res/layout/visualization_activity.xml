@@ -1,55 +1,101 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/visualization_main_screen"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     android:background="@drawable/emotionbackground"
-    android:id = "@+id/visualization_main_screen" >
+    android:orientation="vertical" >
 
     <!-- Add the custom activity indicator -->
+
     <com.findingemos.felicity.general.ActivityIndicator
         android:id="@+id/activityIndicator"
         android:layout_width="fill_parent"
         android:layout_height="32dp" />
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:id="@+id/topSelector"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
-        
-        <com.findingemos.felicity.visualization.ArrowButton
-            android:id="@+id/topArrowLeft"
-            android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:clickable="true"
+        android:paddingLeft="10dp" >
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            />
-        
-        <com.findingemos.felicity.visualization.OptionSpinner
-            android:id="@+id/topSpinner"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="@string/visualizations_time"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/arrow1"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            />
-        
-        <com.findingemos.felicity.visualization.ArrowButton
-            android:id="@+id/topArrowRight"
-            android:layout_width="40dp"
+            android:layout_gravity="center"
+            android:text="@string/visualizations_arrow"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/where"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            />
-        
+            android:layout_gravity="center"
+            android:text="@string/visualizations_location"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/arrow2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="@string/visualizations_arrow"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/who"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="@string/visualizations_who"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/arrow3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="@string/visualizations_arrow"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/what"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="@string/visualizations_doing"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
     </LinearLayout>
-	
+
     <com.findingemos.felicity.util.VerticalScrollView
-        android:id = "@+id/visualization_emo_scrollview"
+        android:id="@+id/visualization_emo_scrollview"
         android:layout_width="fill_parent"
-    	    android:layout_height="0dp"
-	    	android:layout_weight="1" >
-        
-	    <LinearLayout android:id = "@+id/visualization_layout"
-	        android:layout_width = "fill_parent"
-	        android:layout_height = "wrap_content"
-	        android:orientation="vertical">
-		</LinearLayout>
-		
-	  </com.findingemos.felicity.util.VerticalScrollView>
-    
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:id="@+id/visualization_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </com.findingemos.felicity.util.VerticalScrollView>
+
 </LinearLayout>

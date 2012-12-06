@@ -223,6 +223,9 @@ containing a value of this type.
     public static final class id {
         public static final int EmotionSelectionLinearLayout=0x7f0b000f;
         public static final int activityIndicator=0x7f0b0011;
+        public static final int arrow1=0x7f0b0019;
+        public static final int arrow2=0x7f0b001b;
+        public static final int arrow3=0x7f0b001d;
         public static final int contacts_list_button_ok=0x7f0b0006;
         public static final int contacts_list_friends_selected=0x7f0b0007;
         public static final int contacts_list_search_icon=0x7f0b0008;
@@ -243,14 +246,15 @@ containing a value of this type.
         public static final int emotionExpander=0x7f0b0013;
         public static final int horizontalEmoticonScrollerLayout=0x7f0b0015;
         public static final int horizontalEmotionScroller=0x7f0b0014;
-        public static final int menu_settings=0x7f0b001d;
-        public static final int topArrowLeft=0x7f0b0018;
-        public static final int topArrowRight=0x7f0b001a;
+        public static final int menu_settings=0x7f0b0021;
+        public static final int time=0x7f0b0018;
         public static final int topSelector=0x7f0b0017;
-        public static final int topSpinner=0x7f0b0019;
-        public static final int visualization_emo_scrollview=0x7f0b001b;
-        public static final int visualization_layout=0x7f0b001c;
+        public static final int visualization_emo_scrollview=0x7f0b001f;
+        public static final int visualization_layout=0x7f0b0020;
         public static final int visualization_main_screen=0x7f0b0016;
+        public static final int what=0x7f0b001e;
+        public static final int where=0x7f0b001a;
+        public static final int who=0x7f0b001c;
     }
     public static final class layout {
         public static final int contacts_activity=0x7f030000;
@@ -296,33 +300,39 @@ containing a value of this type.
         public static final int menu_settings=0x7f070002;
         public static final int no_contacts=0x7f07001a;
         public static final int no_emoticons=0x7f070006;
-        public static final int pref_default_display_name=0x7f070025;
-        public static final int pref_description_social_recommendations=0x7f070023;
+        public static final int pref_default_display_name=0x7f07002b;
+        public static final int pref_description_social_recommendations=0x7f070029;
         /**  Example settings for Data & Sync 
          */
-        public static final int pref_header_data_sync=0x7f070027;
+        public static final int pref_header_data_sync=0x7f07002d;
         /**  Strings related to Settings 
  Example General settings 
          */
-        public static final int pref_header_general=0x7f070021;
+        public static final int pref_header_general=0x7f070027;
         /**  Example settings for Notifications 
          */
-        public static final int pref_header_notifications=0x7f07002a;
-        public static final int pref_ringtone_silent=0x7f07002d;
-        public static final int pref_title_add_friends_to_messages=0x7f070026;
-        public static final int pref_title_display_name=0x7f070024;
-        public static final int pref_title_new_message_notifications=0x7f07002b;
-        public static final int pref_title_ringtone=0x7f07002c;
-        public static final int pref_title_social_recommendations=0x7f070022;
-        public static final int pref_title_sync_frequency=0x7f070028;
-        public static final int pref_title_system_sync_settings=0x7f070029;
-        public static final int pref_title_vibrate=0x7f07002e;
+        public static final int pref_header_notifications=0x7f070030;
+        public static final int pref_ringtone_silent=0x7f070033;
+        public static final int pref_title_add_friends_to_messages=0x7f07002c;
+        public static final int pref_title_display_name=0x7f07002a;
+        public static final int pref_title_new_message_notifications=0x7f070031;
+        public static final int pref_title_ringtone=0x7f070032;
+        public static final int pref_title_social_recommendations=0x7f070028;
+        public static final int pref_title_sync_frequency=0x7f07002e;
+        public static final int pref_title_system_sync_settings=0x7f07002f;
+        public static final int pref_title_vibrate=0x7f070034;
         public static final int title_activity_doing=0x7f07001f;
         public static final int title_activity_emotion=0x7f070003;
         public static final int title_activity_location_finder=0x7f070018;
-        public static final int title_activity_settings=0x7f070020;
+        public static final int title_activity_settings=0x7f070026;
         public static final int title_activity_visualization=0x7f070004;
         public static final int title_activity_with_who=0x7f070019;
+        public static final int visualizations_arrow=0x7f070025;
+        public static final int visualizations_doing=0x7f070024;
+        public static final int visualizations_filter=0x7f070020;
+        public static final int visualizations_location=0x7f070022;
+        public static final int visualizations_time=0x7f070021;
+        public static final int visualizations_who=0x7f070023;
     }
     public static final class style {
         public static final int AppTheme=0x7f090000;

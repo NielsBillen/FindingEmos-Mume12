@@ -2,12 +2,14 @@ package com.findingemos.felicity.visualization;
 
 import java.util.Arrays;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,6 +22,7 @@ import com.findingemos.felicity.R;
 import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.general.ActivityIndicator;
 import com.findingemos.felicity.general.ActivitySwitchListener;
+import com.findingemos.felicity.settings.SettingsActivity;
 import com.findingemos.felicity.util.SimpleSwipeListener;
 import com.findingemos.felicity.util.SlideActivity;
 import com.findingemos.felicity.util.Swipeable;
@@ -31,6 +34,9 @@ import com.findingemos.felicity.util.Swipeable;
  * @version 0.1
  */
 public class VisualizationActivity extends SlideActivity implements Swipeable {
+	
+	// Code voor het opvragen met welke vrienden de gebruiker is.
+	private final static int VISUALIZATION_ACTIVITY_CODE = 2;
 	
 	/*
 	 * (non-Javadoc)
@@ -47,7 +53,7 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 		setContentView(R.layout.visualization_activity);
 		
 		initActivityIndicator();
-		initSpinner();
+		initFilter();
 		addSwipeListener();
 		
 		drawVisualizations();
@@ -92,15 +98,26 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 	/**
 	 * Initialiseert de spinner.
 	 */
-	private void initSpinner() {
-		ArrowButton left = (ArrowButton) findViewById(R.id.topArrowLeft);
-		left.setArrowDirection(ArrowButton.DIRECTION_LEFT);
-		ArrowButton right = (ArrowButton) findViewById(R.id.topArrowRight);
-		right.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
-		OptionSpinner spinner = (OptionSpinner) findViewById(R.id.topSpinner);
-		spinner.setLeftButton(left);
-		spinner.setRightButton(right);
-		spinner.setOptions("Pie chart", "Bar chart", "Timeline", "Map");
+	private void initFilter() {
+		final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.topSelector);
+		linearLayout.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				linearLayout.removeAllViews();
+				Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+				startActivityForResult(intent,VISUALIZATION_ACTIVITY_CODE);
+				
+			}
+		});
+//		ArrowButton left = (ArrowButton) findViewById(R.id.topArrowLeft);
+//		left.setArrowDirection(ArrowButton.DIRECTION_LEFT);
+//		ArrowButton right = (ArrowButton) findViewById(R.id.topArrowRight);
+//		right.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
+//		OptionSpinner spinner = (OptionSpinner) findViewById(R.id.topSpinner);
+////		spinner.setLeftButton(left);
+////		spinner.setRightButton(right);
+//		spinner.setOptions("Pie chart", "Bar chart", "Timeline", "Map");
 	}
 	
 	
