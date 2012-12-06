@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.findingemos.felicity"
+<manifest package="com.findingemos.felicity"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -30,19 +29,19 @@
         </activity>
         <activity
             android:name="com.findingemos.felicity.visualization.VisualizationActivity"
-            android:label="@string/title_activity_visualization">
+            android:label="@string/title_activity_visualization" >
         </activity>
         <activity
             android:name="com.findingemos.felicity.emoticonselector.EmotionSelectorActivity"
             android:label="@string/title_activity_visualization" >
         </activity>
-        <activity
+        <!-- <activity
             android:name="com.findingemos.felicity.LocationFinderActivity"
             android:label="@string/title_activity_location_finder" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.Activity" />
-        </activity>
+        </activity> -->
         <activity
             android:name="com.findingemos.felicity.friends.FriendsActivity"
             android:label="@string/title_activity_with_who" >
@@ -52,18 +51,23 @@
         </activity>
         <activity
             android:name="com.findingemos.felicity.doing.DoingActivity"
-            android:label="@string/title_activity_doing" android:launchMode="singleInstance">
+            android:label="@string/title_activity_doing"
+            android:launchMode="singleInstance" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.activity" />
         </activity>
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name="com.findingemos.felicity.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.findingemos.felicity.emoticon.EmotionActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.findingemos.felicity.emoticon.EmotionActivity" />
+        </activity>
+        <activity
+            android:name="com.findingemos.felicity.visualization.FilterActivity"
+            android:label="@string/title_activity_main" >
         </activity>
     </application>
 

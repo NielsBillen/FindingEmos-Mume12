@@ -22,7 +22,6 @@ import com.findingemos.felicity.R;
 import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.general.ActivityIndicator;
 import com.findingemos.felicity.general.ActivitySwitchListener;
-import com.findingemos.felicity.settings.SettingsActivity;
 import com.findingemos.felicity.util.SimpleSwipeListener;
 import com.findingemos.felicity.util.SlideActivity;
 import com.findingemos.felicity.util.Swipeable;
@@ -105,9 +104,8 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 			@Override
 			public void onClick(View v) {
 				linearLayout.removeAllViews();
-				Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+				Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
 				startActivityForResult(intent,VISUALIZATION_ACTIVITY_CODE);
-				
 			}
 		});
 //		ArrowButton left = (ArrowButton) findViewById(R.id.topArrowLeft);

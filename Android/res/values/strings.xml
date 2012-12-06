@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Felicity</string>
@@ -38,5 +39,6 @@
     <string name="visualizations_who">Everyone</string>
     <string name="visualizations_doing">All</string>
     <string name="visualizations_arrow">\u00A0\u00A0>\u00A0\u00A0</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>

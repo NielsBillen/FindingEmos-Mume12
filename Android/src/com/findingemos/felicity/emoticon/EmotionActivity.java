@@ -195,6 +195,11 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	                DATABASE.emty();
 	        		DATABASE.readEmotionCount();
 	        		DATABASE.readEmotionDatabase();
+	        		
+	        		for(Emotion e : Emotion.values()) {
+	        			e.setSelectionCount(0);
+	        		}
+	        		
 	                return true;
 	        }
 

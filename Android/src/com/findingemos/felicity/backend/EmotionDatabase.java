@@ -563,16 +563,19 @@ public class EmotionDatabase {
 					"@readEmotionDatabase: tried to read from closed database.");
 			return;
 		}
+
 		Cursor count = database.query(true, COUNT, new String[] { COUNT_KEY_ID,
 				COUNT_KEY_COUNT }, null, null, null, null, null, null);
 		if (count != null && count.getCount() > 0) {
 			count.moveToFirst();
-
 			while (true) {
 				for (int i = 0; i < count.getColumnCount(); ++i) {
 					int uniqueId = count.getInt(0);
 					int value = count.getInt(1);
-
+					
+					System.out.println(value);
+					Log.i("EmotionDatabase",
+							"Value: " + value + "reading!!!!!!!!!!!!!!!");
 					Emotion e = Emotion.getEmoticonByUniqueId(uniqueId);
 					e.setSelectionCount(value);
 				}
