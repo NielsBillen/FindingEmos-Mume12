@@ -106,7 +106,7 @@ public class DoingActivity extends Activity {
 	    newButton.setTextSize(18);
         
         LinearLayout ll = (LinearLayout) findViewById(R.id.doing_linearlayout);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 80);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, 80);
         lp.setMargins(15, 15, 15, 0);
         ll.addView(newButton, lp);
         

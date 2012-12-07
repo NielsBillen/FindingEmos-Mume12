@@ -109,7 +109,7 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 	private final int fps = 60;
 
 	// The average sleeptime for the animation.
-	private final long sleepTime = (long) (1000.0 / (double) fps);
+	private final long sleepTime = (long) (1000.0 / fps);
 
 	// The time of the last update
 	private long lastUpdate;

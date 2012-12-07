@@ -22,8 +22,6 @@ import android.support.v4.app.NavUtils;
 import java.util.List;
 
 import com.findingemos.felicity.R;
-import com.findingemos.felicity.R.string;
-import com.findingemos.felicity.R.xml;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

@@ -27,7 +27,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.LinearLayout;
@@ -230,7 +229,7 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 		for (int i = 0; i < sorted.length; ++i) {
 			// Create the layout paramters
 			LayoutParams layoutParameters = new LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 			EmotionView view = new EmotionView(this, sorted[i]);
 			view.setMinimumWidth(80);
 
@@ -476,19 +475,23 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 * gebruiker verbinding maakt met het internet.
 	 */
 	private final LocationListener locationListener = new LocationListener() {
+		@Override
 		public void onLocationChanged(Location location) {
 			getCityOfLocation(location);
 			Log.i("Location", "Updated location");
 		}
 
+		@Override
 		public void onProviderDisabled(String provider) {
 		}
 
+		@Override
 		public void onProviderEnabled(String provider) {
 			Log.i("Provider", provider);
 			initCurrentLocation();
 		}
 
+		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 		}
 	};
@@ -529,6 +532,7 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 * 
 	 * @see com.findingemos.felicity.general.SimpleSwipeListener#onSwipeLeft()
 	 */
+	@Override
 	public void onSwipeLeft() {
 		Log.d("--scrolled--", "scrolled to the right!");
 	}
@@ -538,6 +542,7 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 * 
 	 * @see com.findingemos.felicity.general.SimpleSwipeListener#onSwipeRight()
 	 */
+	@Override
 	public void onSwipeRight() {
 		Log.d("--scrolled--", "scrolled to the left!");
 		switchToVisualization();

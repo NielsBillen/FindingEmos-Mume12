@@ -6,8 +6,6 @@
     android:background="@drawable/emotionbackground"
     android:orientation="vertical" >
 
-    <!-- Add the custom activity indicator -->
-
     <com.findingemos.felicity.general.ActivityIndicator
         android:id="@+id/activityIndicator"
         android:layout_width="fill_parent"

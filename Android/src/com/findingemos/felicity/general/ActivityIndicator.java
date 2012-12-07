@@ -203,6 +203,7 @@ public class ActivityIndicator extends View implements
 	 * 
 	 * @param listener
 	 */
+	@Override
 	public void addListener(ActivitySwitchListener listener) {
 		if (listener != null)
 			listeners.add(listener);
@@ -211,6 +212,7 @@ public class ActivityIndicator extends View implements
 	/**
 	 * 
 	 */
+	@Override
 	public void removeListener(ActivitySwitchListener listener) {
 		listeners.remove(listener);
 	}

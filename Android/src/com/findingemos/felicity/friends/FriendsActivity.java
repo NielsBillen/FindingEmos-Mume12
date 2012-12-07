@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.util.Log;
@@ -159,11 +160,11 @@ public class FriendsActivity extends Activity {
 
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
         String[] projection    = new String[] {ContactsContract.Contacts.DISPLAY_NAME,
-        		ContactsContract.Contacts._ID, ContactsContract.Contacts.HAS_PHONE_NUMBER};
+        		BaseColumns._ID, ContactsContract.Contacts.HAS_PHONE_NUMBER};
         Cursor people = getContentResolver().query(uri, projection, null, null, ContactsContract.Contacts.DISPLAY_NAME);
 
         int indexName = people.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-        int indexId = people.getColumnIndex(ContactsContract.Contacts._ID);
+        int indexId = people.getColumnIndex(BaseColumns._ID);
         int indexHasNumber = people.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
 
         while (people.moveToNext()) {

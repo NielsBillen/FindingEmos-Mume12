@@ -103,19 +103,10 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 			
 			@Override
 			public void onClick(View v) {
-				linearLayout.removeAllViews();
 				Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
 				startActivityForResult(intent,VISUALIZATION_ACTIVITY_CODE);
 			}
 		});
-//		ArrowButton left = (ArrowButton) findViewById(R.id.topArrowLeft);
-//		left.setArrowDirection(ArrowButton.DIRECTION_LEFT);
-//		ArrowButton right = (ArrowButton) findViewById(R.id.topArrowRight);
-//		right.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
-//		OptionSpinner spinner = (OptionSpinner) findViewById(R.id.topSpinner);
-////		spinner.setLeftButton(left);
-////		spinner.setRightButton(right);
-//		spinner.setOptions("Pie chart", "Bar chart", "Timeline", "Map");
 	}
 	
 	
@@ -182,7 +173,7 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 		drawBar(emoVis, barWidth);
 		drawPercentage(percentage, totalCount, emoVis);
 		
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, 64);
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT, 64);
 		lp.setMargins(5, 8, 5, 8);
 		ll.addView(emoVis, lp);
 	}

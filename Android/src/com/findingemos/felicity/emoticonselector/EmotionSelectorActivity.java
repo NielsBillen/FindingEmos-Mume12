@@ -95,7 +95,7 @@ public class EmotionSelectorActivity extends Activity {
 				}
 			});
 		LinearLayout layout = (LinearLayout) findViewById(R.id.EmotionSelectionLinearLayout);
-		layout.addView(gallery,new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
+		layout.addView(gallery,new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.MATCH_PARENT));
 	}
 
 	/*

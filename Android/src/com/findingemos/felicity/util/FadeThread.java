@@ -44,10 +44,10 @@ public abstract class FadeThread extends Thread {
 		this.view = view;
 		this.paintObject = paintObject;
 		this.sleepTime = (long) Math.max(
-				Math.ceil(1000.0 / (double) framesPerSecond), 1);
+				Math.ceil(1000.0 / framesPerSecond), 1);
 		this.nbOfFrames = Math.max(1,
 				(int) ((double) timeout / (double) sleepTime));
-		this.alphaChange = (int) Math.max((510.0 / (double) nbOfFrames), 1);
+		this.alphaChange = (int) Math.max((510.0 / nbOfFrames), 1);
 	}
 
 	/*

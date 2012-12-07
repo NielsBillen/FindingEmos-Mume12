@@ -39,6 +39,7 @@
     <string name="visualizations_who">Everyone</string>
     <string name="visualizations_doing">All</string>
     <string name="visualizations_arrow">\u00A0\u00A0>\u00A0\u00A0</string>
+    <string name="visualizations_adjust_filters">Adjust your filters here!</string>
     <string name="title_activity_main">MainActivity</string>
 
 </resources>
