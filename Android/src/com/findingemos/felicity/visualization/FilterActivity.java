@@ -1,9 +1,15 @@
 package com.findingemos.felicity.visualization;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.BaseColumns;
+import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
@@ -13,6 +19,7 @@ import android.widget.Button;
 import com.findingemos.felicity.R;
 import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.emoticon.EmotionActivity;
+import com.findingemos.felicity.friends.Contact;
 
 public class FilterActivity extends FragmentActivity {
 
@@ -42,13 +49,16 @@ public class FilterActivity extends FragmentActivity {
 
 			@Override
 			public void onClick(View v) {
-				List<VisualizationResult> results = EmotionActivity.DATABASE.readWithFilters(currentFilter[0],
-						currentFilter[1], currentFilter[2], currentFilter[3],
-						getApplicationContext());
+				List<VisualizationResult> results = EmotionActivity.DATABASE
+						.readWithFilters(currentFilter[0], currentFilter[1],
+								currentFilter[2], currentFilter[3],
+								getApplicationContext());
 				transformToSelectionCount(results);
-				Intent intent =  new Intent(getApplicationContext(),VisualizationActivity.class);
+				Intent intent = new Intent(getApplicationContext(),
+						VisualizationActivity.class);
 				startActivity(intent);
-				
+				finish();
+
 			}
 		});
 
@@ -93,13 +103,16 @@ public class FilterActivity extends FragmentActivity {
 		OptionSpinner whoSpinner = (OptionSpinner) findViewById(R.id.whoSpinner);
 		whoSpinner.setLeftButton(leftWho);
 		whoSpinner.setRightButton(rightWho);
-		whoSpinner.setOptions(WHO, "Robin");
-		locationSpinner.addListener(new SpinnerListener() {
+		whoSpinner.setOptions(loadContactNames());
+		whoSpinner.addListener(new SpinnerListener() {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				if (name != WHO)
+				System.out.println("Option changed!!!!!!!");
+				if (name != WHO) {
+					System.out.println("NameFilter: " + name);
 					currentFilter[2] = name;
+				}
 			}
 		});
 
@@ -122,19 +135,19 @@ public class FilterActivity extends FragmentActivity {
 	}
 
 	protected void transformToSelectionCount(List<VisualizationResult> results) {
-		
+
 		int[] counts = new int[Emotion.values().length];
-		for(VisualizationResult result : results) {
+		for (VisualizationResult result : results) {
 			int id = result.getEmotionId();
 			int oldCount = counts[id];
 			counts[id] = oldCount + 1;
 		}
-		
-		Emotion[] resultSet  = Emotion.values();
-		for(Emotion emotion : resultSet) {
+
+		Emotion[] resultSet = Emotion.values();
+		for (Emotion emotion : resultSet) {
 			emotion.setSelectionCount(counts[emotion.getUniqueId()]);
 		}
-		
+
 		VisualizationActivity.setCurrentData(resultSet);
 	}
 
@@ -143,5 +156,37 @@ public class FilterActivity extends FragmentActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
+	}
+
+	private String[] loadContactNames() {
+		Uri uri = ContactsContract.Contacts.CONTENT_URI;
+		String[] projection = new String[] {
+				ContactsContract.Contacts.DISPLAY_NAME, BaseColumns._ID,
+				ContactsContract.Contacts.HAS_PHONE_NUMBER };
+		Cursor people = getContentResolver().query(uri, projection, null, null,
+				ContactsContract.Contacts.DISPLAY_NAME);
+
+		int indexName = people
+				.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+		int indexHasNumber = people
+				.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
+
+		List<String> contacts = new ArrayList<String>();
+		contacts.add(WHO);
+		while (people.moveToNext()) {
+			String hasNumber = people.getString(indexHasNumber);
+			if (hasNumber.equals("1")) {
+				contacts.add(people.getString(indexName));
+			}
+		}
+
+		String[] resultSet = new String[contacts.size()];
+		int i = 0;
+		for (String contact : contacts) {
+			resultSet[i] = contact;
+			i++;
+		}
+
+		return resultSet;
 	}
 }

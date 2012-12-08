@@ -388,7 +388,7 @@ public class EmotionDatabase {
 	 *         to less popular.
 	 */
 	public synchronized List<VisualizationResult> readWithFilters(
-			String timeFilter, String locationFilter, String whoFiler,
+			String timeFilter, String locationFilter, String whoFilter,
 			String doingFilter, Context context) {
 		String activity = null;
 
@@ -403,7 +403,7 @@ public class EmotionDatabase {
 
 		cursor.moveToFirst();
 
-		if (whoFiler == null)
+		if (whoFilter == null)
 			System.out.println("whoFiler is null");
 		if (doingFilter == null)
 			System.out.println("doingFilter is null");
@@ -420,13 +420,15 @@ public class EmotionDatabase {
 					String location = cursor.getString(0);
 					String doing = cursor.getString(1);
 					String who = cursor.getString(2);
+					System.out.println("Friends: " + who);
 					String time = cursor.getString(3);
 					int emotionId = cursor.getInt(4);
 					if (((location.equalsIgnoreCase(locationFilter)) || (locationFilter == null))
 							&& ((doing.equalsIgnoreCase(doingFilter)) || (doingFilter == null))
 							&& ((time.equalsIgnoreCase(timeFilter)) || (timeFilter == null))) {
-						if (whoFiler != null) {
-							if (whoFiler.contains(who)) {
+						if (whoFilter != null) {
+							if (who.contains(whoFilter)) {
+								System.out.println("En HIER??");
 								VisualizationResult result = new VisualizationResult(
 										location, doing, who, time, emotionId);
 								resultSet.add(result);
