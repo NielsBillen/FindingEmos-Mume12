@@ -32,7 +32,7 @@ import com.findingemos.felicity.friends.Contact;
 public class EmotionDatabase {
 	// Context to create the database in.
 	private final Context context;
-	
+
 	private static final String FELICITY_DATABASE = "FelicityDatabase";
 	// Name of the database with the time/date/location
 	private static final String HISTORY = "EmotionDatabase";
@@ -124,21 +124,20 @@ public class EmotionDatabase {
 
 	public synchronized void emty() {
 		System.out.println("EMMMMMMMMMMMTPYYYYYYYYY");
-		
+
 		open();
-		
+
 		database.execSQL("DROP TABLE IF EXISTS " + HISTORY + " ;");
 		database.execSQL("DROP TABLE IF EXISTS " + ACTIVITIES + " ;");
 		database.execSQL("DROP TABLE IF EXISTS " + FRIENDS + " ;");
 		database.execSQL("DROP TABLE IF EXISTS " + SETTINGS + " ;");
 		database.execSQL("DROP TABLE IF EXISTS " + COUNT + " ;");
 		database.execSQL("DROP TABLE IF EXISTS " + CONTACTSCOUNT + " ;");
-		
+
 		databaseHelper.onCreate(database);
-		
+
 		close();
 		open();
-
 
 	}
 
@@ -378,6 +377,58 @@ public class EmotionDatabase {
 		return activities;
 	}
 
+	/**
+	 * Reads out the statistics for the activities from the "Activities"
+	 * database.
+	 * 
+	 * @return A sorted Array, based on the count, of the activities. From most
+	 *         to less popular.
+	 */
+	public synchronized String readActivity(String doingFilter,
+			String locationFilter, String whoFiler, String timeFilter) {
+		String activity = null;
+
+		System.out.println("Reading started");
+		
+		if (isClosed) {
+			Log.i("ActivityDatabase",
+					"@readActivity: database is already closed!");
+			return null;
+		}
+
+		// Cursor cursor = database.query(true, HISTORY, new String[] {
+		// HISTORY_KEY_ACTIVITY, HISTORY_KEY_CITY, HISTORY_KEY_COUNTRY,
+		// HISTORY_KEY_DATE, HISTORY_KEY_EMOTICON, HISTORY_KEY_EPOCH,
+		// HISTORY_KEY_TIME }, HISTORY_KEY_ACTIVITY + " = ? AND "
+		// + HISTORY_KEY_CITY + " = ? AND " + HISTORY_KEY_DATE
+		// + " = ? AND " + HISTORY_KEY_EPOCH + " = ? ", new String[] {
+		// doingFilter, locationFilter, whoFiler, timeFilter }, null,
+		// null, null, null);
+
+		Cursor cursor = database.query(true, HISTORY, new String[] {
+				HISTORY_KEY_ACTIVITY, HISTORY_KEY_CITY, HISTORY_KEY_COUNTRY,
+				HISTORY_KEY_DATE, HISTORY_KEY_EMOTICON, HISTORY_KEY_EPOCH,
+				HISTORY_KEY_TIME }, HISTORY_KEY_ACTIVITY + " = ?",
+				new String[] { doingFilter }, null, null, null, null);
+
+		cursor.moveToFirst();
+
+		if (cursor != null) {
+			for (int i = 0; i < cursor.getCount(); i++) {
+				System.out.println("EMOTICON: " + cursor.getString(4));
+
+				if (i < cursor.getCount() - 1) {
+					cursor.moveToNext();
+				}
+			}
+		}
+
+		if (cursor != null)
+			cursor.close();
+
+		return activity;
+	}
+
 	// ///////////////////////////////////////////////////////////////////
 	// / CONTACTS TABLE ///
 	// //////////////////////////////////////////////////////////////////
@@ -570,10 +621,10 @@ public class EmotionDatabase {
 				for (int i = 0; i < count.getColumnCount(); ++i) {
 					int uniqueId = count.getInt(0);
 					int value = count.getInt(1);
-					
+
 					System.out.println(value);
-					Log.i("EmotionDatabase",
-							"Value: " + value + "reading!!!!!!!!!!!!!!!");
+					Log.i("EmotionDatabase", "Value: " + value
+							+ "reading!!!!!!!!!!!!!!!");
 					Emotion e = Emotion.getEmoticonByUniqueId(uniqueId);
 					e.setSelectionCount(value);
 				}
@@ -774,7 +825,8 @@ public class EmotionDatabase {
 		 * @param context
 		 */
 		public EmotionDatabaseHelper(Context context) {
-			super(context, FELICITY_DATABASE, null, DatabaseVersionCodes.EMOTION_CURRENT);
+			super(context, FELICITY_DATABASE, null,
+					DatabaseVersionCodes.EMOTION_CURRENT);
 		}
 
 		/*

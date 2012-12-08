@@ -186,24 +186,24 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 		menu.add(0, 0, 0, "Settings");
 		return true;
 	}
-	
-	 @Override
-	    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-	        switch(item.getItemId()) {
-	            case 0:
-	                DATABASE.emty();
-	        		DATABASE.readEmotionCount();
-	        		DATABASE.readEmotionDatabase();
-	        		
-	        		for(Emotion e : Emotion.values()) {
-	        			e.setSelectionCount(0);
-	        		}
-	        		
-	                return true;
-	        }
 
-	        return super.onMenuItemSelected(featureId, item);
-	    }
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+		case 0:
+			DATABASE.emty();
+			DATABASE.readEmotionCount();
+			DATABASE.readEmotionDatabase();
+
+			for (Emotion e : Emotion.values()) {
+				e.setSelectionCount(0);
+			}
+
+			return true;
+		}
+
+		return super.onMenuItemSelected(featureId, item);
+	}
 
 	/**
 	 * This method fills the horizontal scroller with all the emoticons.<br>
@@ -229,7 +229,8 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 		for (int i = 0; i < sorted.length; ++i) {
 			// Create the layout paramters
 			LayoutParams layoutParameters = new LayoutParams(
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+					android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 			EmotionView view = new EmotionView(this, sorted[i]);
 			view.setMinimumWidth(80);
 
@@ -290,13 +291,18 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		 super.onActivityResult(requestCode, resultCode, data);
 		Log.i("Result", "Got a result!");
-		if (resultCode != RESULT_OK)
+		if (resultCode != RESULT_OK) {
+			System.out.println("RESULT NOT OKE");
 			return;
+		}
 
 		if (requestCode == EMOTION_REQUEST_CODE) {
+			System.out.println("EMOTIONREQUESTCODE");
 			emotionGalleryReturned(data);
 		} else if (requestCode == EXTRA_INFORMATION_CODE) {
+			System.out.println("EXTRAINFORMATIONCODE");
 			extraInformationReturned(data);
 		}
 	}
@@ -321,6 +327,9 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 *            De bijgevoegde data.
 	 */
 	private void extraInformationReturned(Intent data) {
+
+		System.out.println("EXTRAINFORMATIONRETURNED!!!");
+
 		String activity = data.getStringExtra("activity");
 		ArrayList<String> friends = data.getStringArrayListExtra("friends");
 
@@ -345,14 +354,13 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 * @param emoticon
 	 *            De nieuwe emotie van de gebruiker.
 	 */
-	
+
 	public static boolean doingStarted = false;
-	
+
 	private void userSelectedEmoticon(Emotion emoticon) {
 		currentEmotion = emoticon;
 		drawEmoticion(currentEmotion);
 
-		
 		if (!doingStarted) {
 			doingStarted = true;
 			final Handler handler = new Handler();
@@ -366,7 +374,6 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 				}
 			}, 1500);
 		}
-
 	}
 
 	/**
@@ -509,10 +516,11 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	// Aangeroepen wanneer de gebruiker dubbelklikt op een emotie (Android 2.3).
 	@Override
 	public void onEmotionDoubleTapped(Emotion emoticon) {
-		if(!DRAG_AND_DROP)
+		if (!DRAG_AND_DROP)
 			userSelectedEmoticon(emoticon);
 		else
-			Toast.makeText(getApplicationContext(), "Drag and drop your emotion", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(),
+					"Drag and drop your emotion", Toast.LENGTH_SHORT).show();
 	}
 
 	// Aangeroepen wanneer de gebruiker een emotie dropt op de grote (lege)

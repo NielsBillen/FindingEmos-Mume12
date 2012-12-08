@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 
 import com.findingemos.felicity.R;
+import com.findingemos.felicity.emoticon.EmotionActivity;
 
 public class FilterActivity extends FragmentActivity {
 
@@ -14,7 +15,6 @@ public class FilterActivity extends FragmentActivity {
 	private String DOING;
 
 	private String[] currentFilter = new String[4];
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +96,8 @@ public class FilterActivity extends FragmentActivity {
 			@Override
 			public void optionChanged(int index, String name) {
 				currentFilter[3] = name;
+				EmotionActivity.DATABASE.readActivity(name, null, null, null);
+
 			}
 		});
 	}
