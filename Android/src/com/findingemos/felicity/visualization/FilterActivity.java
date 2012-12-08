@@ -1,10 +1,17 @@
 package com.findingemos.felicity.visualization;
 
+import java.util.List;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.findingemos.felicity.R;
+import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.emoticon.EmotionActivity;
 
 public class FilterActivity extends FragmentActivity {
@@ -30,10 +37,20 @@ public class FilterActivity extends FragmentActivity {
 		DOING = getApplicationContext().getResources().getString(
 				R.string.visualizations_doing);
 
-		currentFilter[0] = TIME;
-		currentFilter[1] = LOCATION;
-		currentFilter[2] = WHO;
-		currentFilter[3] = DOING;
+		Button filterButton = (Button) findViewById(R.id.filterButton);
+		filterButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				List<VisualizationResult> results = EmotionActivity.DATABASE.readWithFilters(currentFilter[0],
+						currentFilter[1], currentFilter[2], currentFilter[3],
+						getApplicationContext());
+				transformToSelectionCount(results);
+				Intent intent =  new Intent(getApplicationContext(),VisualizationActivity.class);
+				startActivity(intent);
+				
+			}
+		});
 
 		ArrowButton leftTime = (ArrowButton) findViewById(R.id.timeArrowLeft);
 		leftTime.setArrowDirection(ArrowButton.DIRECTION_LEFT);
@@ -42,12 +59,13 @@ public class FilterActivity extends FragmentActivity {
 		OptionSpinner timeSpinner = (OptionSpinner) findViewById(R.id.timeSpinner);
 		timeSpinner.setLeftButton(leftTime);
 		timeSpinner.setRightButton(rightTime);
-		timeSpinner.setOptions(TIME,"Today","Week");
+		timeSpinner.setOptions(TIME, "Today", "Week");
 		timeSpinner.addListener(new SpinnerListener() {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				currentFilter[0] = name;
+				if (name != TIME)
+					currentFilter[0] = name;
 			}
 		});
 
@@ -58,12 +76,13 @@ public class FilterActivity extends FragmentActivity {
 		OptionSpinner locationSpinner = (OptionSpinner) findViewById(R.id.locationSpinner);
 		locationSpinner.setLeftButton(leftLocation);
 		locationSpinner.setRightButton(rightLocation);
-		locationSpinner.setOptions(LOCATION,"Lanaken");
+		locationSpinner.setOptions(LOCATION, "Lanaken");
 		locationSpinner.addListener(new SpinnerListener() {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				currentFilter[1] = name;
+				if (name != LOCATION)
+					currentFilter[1] = name;
 			}
 		});
 
@@ -74,12 +93,13 @@ public class FilterActivity extends FragmentActivity {
 		OptionSpinner whoSpinner = (OptionSpinner) findViewById(R.id.whoSpinner);
 		whoSpinner.setLeftButton(leftWho);
 		whoSpinner.setRightButton(rightWho);
-		whoSpinner.setOptions(WHO,"Robin");
+		whoSpinner.setOptions(WHO, "Robin");
 		locationSpinner.addListener(new SpinnerListener() {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				currentFilter[2] = name;
+				if (name != WHO)
+					currentFilter[2] = name;
 			}
 		});
 
@@ -90,16 +110,32 @@ public class FilterActivity extends FragmentActivity {
 		OptionSpinner doingSpinner = (OptionSpinner) findViewById(R.id.doingSpinner);
 		doingSpinner.setLeftButton(leftDoing);
 		doingSpinner.setRightButton(rightDoing);
-		doingSpinner.setOptions(DOING,"Work");
+		doingSpinner.setOptions(EmotionActivity.DATABASE.readActivities());
 		doingSpinner.addListener(new SpinnerListener() {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				currentFilter[3] = name;
-				EmotionActivity.DATABASE.readActivity(name, null, null, null);
-
+				if (name != DOING)
+					currentFilter[3] = name;
 			}
 		});
+	}
+
+	protected void transformToSelectionCount(List<VisualizationResult> results) {
+		
+		int[] counts = new int[Emotion.values().length];
+		for(VisualizationResult result : results) {
+			int id = result.getEmotionId();
+			int oldCount = counts[id];
+			counts[id] = oldCount + 1;
+		}
+		
+		Emotion[] resultSet  = Emotion.values();
+		for(Emotion emotion : resultSet) {
+			emotion.setSelectionCount(counts[emotion.getUniqueId()]);
+		}
+		
+		VisualizationActivity.setCurrentData(resultSet);
 	}
 
 	@Override

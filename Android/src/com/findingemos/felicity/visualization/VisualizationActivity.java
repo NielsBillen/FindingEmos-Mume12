@@ -36,6 +36,16 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 	// Code voor het opvragen met welke vrienden de gebruiker is.
 	private final static int VISUALIZATION_ACTIVITY_CODE = 2;
 	
+	private static Emotion[] currentData = Emotion.values();
+	
+	public static Emotion[] getCurrentData() {
+		return currentData;
+	}
+
+	public static void setCurrentData(Emotion[] currentData) {
+		VisualizationActivity.currentData = currentData;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -115,16 +125,17 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 	
 	/**
 	 * Deze methode tekent de visualisatie.
+	 * @param values 
 	 */
 	@SuppressWarnings("deprecation")
-	private void drawVisualizations() {
+	public void drawVisualizations() {
 		// Bepaald de maximaal mogelijke breedte van de balk.
 		Display display = getWindowManager().getDefaultDisplay();
 		int width = display.getWidth();
 		int maxWidth = width - 72 - 16 - 72;
 	    
 		// Haal de count van de emotions op.
-	    Emotion[] sorted = Emotion.values();
+	    Emotion[] sorted = currentData;
 		Arrays.sort(sorted, Emotion.getComparator());
 		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.visualization_layout);
 		

@@ -28,9 +28,10 @@ public class DatabaseVersionCodes {
 	public static final int EMOTION_V6_ROBIN_06_12_2012 = 6;
 	// De database een echte naam gegeven, nodig om te kunnen resetten
 	public static final int EMOTION_V7_ROBIN_06_12_2012 = 7;
-
+	// Friends tabel verwijderd.
+	public static final int EMOTION_V8_ROBIN_08_12_2012 = 8;
 	// The current version of the emoticon database.
-	public static final int EMOTION_CURRENT = EMOTION_V7_ROBIN_06_12_2012;
+	public static final int EMOTION_CURRENT = EMOTION_V8_ROBIN_08_12_2012;
 
 	/**
 	 * Performs an update for the given sql database from the given version to

@@ -3,6 +3,8 @@ package com.findingemos.felicity.backend;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,6 +16,7 @@ import android.util.Log;
 
 import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.friends.Contact;
+import com.findingemos.felicity.visualization.VisualizationResult;
 
 /**
  * Database which stores all the data about emotions.<br>
@@ -68,6 +71,7 @@ public class EmotionDatabase {
 	private String HISTORY_KEY_CITY = "city";
 	private String HISTORY_KEY_ACTIVITY = "activity";
 	private String HISTORY_KEY_EMOTICON = "emoticon_id";
+	private String HISTORY_KEY_FRIENDS = "friends";
 
 	private String FRIENDS_KEY_ID = "_id";
 	private String FRIENDS_KEY_NAME = "name";
@@ -215,15 +219,16 @@ public class EmotionDatabase {
 		entry.put(HISTORY_KEY_CITY, city);
 		entry.put(HISTORY_KEY_ACTIVITY, activity);
 		entry.put(HISTORY_KEY_EMOTICON, emotion.getUniqueId());
+		entry.put(HISTORY_KEY_FRIENDS, friends.toString());
 
-		for (int i = 0; i < friends.size(); i++) {
-			ContentValues friendsEntry = new ContentValues();
-			friendsEntry.put(FRIENDS_KEY_EMOTICON, emotion.getUniqueId());
-			friendsEntry.put(FRIENDS_KEY_NAME, friends.get(i));
-			friendsEntry.put(FRIENDS_KEY_EPOCH, epoch);
-
-			database.insert(FRIENDS, null, friendsEntry);
-		}
+		// for (int i = 0; i < friends.size(); i++) {
+		// ContentValues friendsEntry = new ContentValues();
+		// friendsEntry.put(FRIENDS_KEY_EMOTICON, emotion.getUniqueId());
+		// friendsEntry.put(FRIENDS_KEY_NAME, friends.get(i));
+		// friendsEntry.put(FRIENDS_KEY_EPOCH, epoch);
+		//
+		// database.insert(FRIENDS, null, friendsEntry);
+		// }
 
 		return database.insert(HISTORY, null, entry);
 	}
@@ -349,9 +354,7 @@ public class EmotionDatabase {
 		String[] activities = new String[0];
 
 		if (isClosed) {
-			Log.i("ActivityDatabase",
-					"@readActivities: database is already closed!");
-			return activities;
+			open();
 		}
 
 		Cursor cursor = database.query(true, ACTIVITIES, new String[] {
@@ -384,41 +387,56 @@ public class EmotionDatabase {
 	 * @return A sorted Array, based on the count, of the activities. From most
 	 *         to less popular.
 	 */
-	public synchronized String readActivity(String doingFilter,
-			String locationFilter, String whoFiler, String timeFilter) {
+	public synchronized List<VisualizationResult> readWithFilters(
+			String timeFilter, String locationFilter, String whoFiler,
+			String doingFilter, Context context) {
 		String activity = null;
 
-		System.out.println("Reading started");
-		
 		if (isClosed) {
-			Log.i("ActivityDatabase",
-					"@readActivity: database is already closed!");
-			return null;
+			open();
 		}
 
-		// Cursor cursor = database.query(true, HISTORY, new String[] {
-		// HISTORY_KEY_ACTIVITY, HISTORY_KEY_CITY, HISTORY_KEY_COUNTRY,
-		// HISTORY_KEY_DATE, HISTORY_KEY_EMOTICON, HISTORY_KEY_EPOCH,
-		// HISTORY_KEY_TIME }, HISTORY_KEY_ACTIVITY + " = ? AND "
-		// + HISTORY_KEY_CITY + " = ? AND " + HISTORY_KEY_DATE
-		// + " = ? AND " + HISTORY_KEY_EPOCH + " = ? ", new String[] {
-		// doingFilter, locationFilter, whoFiler, timeFilter }, null,
-		// null, null, null);
-
 		Cursor cursor = database.query(true, HISTORY, new String[] {
-				HISTORY_KEY_ACTIVITY, HISTORY_KEY_CITY, HISTORY_KEY_COUNTRY,
-				HISTORY_KEY_DATE, HISTORY_KEY_EMOTICON, HISTORY_KEY_EPOCH,
-				HISTORY_KEY_TIME }, HISTORY_KEY_ACTIVITY + " = ?",
-				new String[] { doingFilter }, null, null, null, null);
+				HISTORY_KEY_CITY, HISTORY_KEY_ACTIVITY, HISTORY_KEY_FRIENDS,
+				HISTORY_KEY_DATE, HISTORY_KEY_EMOTICON }, null, null, null,
+				null, null, null);
 
 		cursor.moveToFirst();
 
+		if (whoFiler == null)
+			System.out.println("whoFiler is null");
+		if (doingFilter == null)
+			System.out.println("doingFilter is null");
+		if (timeFilter == null)
+			System.out.println("timeFilter is null");
+		if (locationFilter == null)
+			System.out.println("locationFilter is null");
+
+		List<VisualizationResult> resultSet = new ArrayList<VisualizationResult>();
 		if (cursor != null) {
 			for (int i = 0; i < cursor.getCount(); i++) {
-				System.out.println("EMOTICON: " + cursor.getString(4));
-
 				if (i < cursor.getCount() - 1) {
 					cursor.moveToNext();
+					String location = cursor.getString(0);
+					String doing = cursor.getString(1);
+					String who = cursor.getString(2);
+					String time = cursor.getString(3);
+					int emotionId = cursor.getInt(4);
+					if (((location.equalsIgnoreCase(locationFilter)) || (locationFilter == null))
+							&& ((doing.equalsIgnoreCase(doingFilter)) || (doingFilter == null))
+							&& ((time.equalsIgnoreCase(timeFilter)) || (timeFilter == null))) {
+						if (whoFiler != null) {
+							if (whoFiler.contains(who)) {
+								VisualizationResult result = new VisualizationResult(
+										location, doing, who, time, emotionId);
+								resultSet.add(result);
+							}
+						} else {
+							VisualizationResult result = new VisualizationResult(
+									location, doing, who, time, emotionId);
+							resultSet.add(result);
+						}
+					}
 				}
 			}
 		}
@@ -426,7 +444,7 @@ public class EmotionDatabase {
 		if (cursor != null)
 			cursor.close();
 
-		return activity;
+		return resultSet;
 	}
 
 	// ///////////////////////////////////////////////////////////////////
@@ -845,13 +863,14 @@ public class EmotionDatabase {
 					+ " integer not null, " + HISTORY_KEY_COUNTRY
 					+ " text not null, " + HISTORY_KEY_CITY
 					+ " text not null, " + HISTORY_KEY_ACTIVITY
-					+ " text not null, " + HISTORY_KEY_EMOTICON + " integer);");
+					+ " text not null, " + HISTORY_KEY_FRIENDS + " text, "
+					+ HISTORY_KEY_EMOTICON + " integer);");
 			db.execSQL("create table " + COUNT + "(" + COUNT_KEY_ID
 					+ " integer primary key, " + COUNT_KEY_COUNT + " integer);");
-			db.execSQL("create table " + FRIENDS + "(" + FRIENDS_KEY_ID
-					+ " integer primary key, " + FRIENDS_KEY_NAME
-					+ " text not null," + FRIENDS_KEY_EMOTICON + " integer, "
-					+ FRIENDS_KEY_EPOCH + " integer not null);");
+			// db.execSQL("create table " + FRIENDS + "(" + FRIENDS_KEY_ID
+			// + " integer primary key, " + FRIENDS_KEY_NAME
+			// + " text not null," + FRIENDS_KEY_EMOTICON + " integer, "
+			// + FRIENDS_KEY_EPOCH + " integer not null);");
 			db.execSQL("create table " + ACTIVITIES + "(" + ACTIVITIES_KEY_ID
 					+ " integer primary key, " + ACTIVITIES_KEY_NAME
 					+ " text not null, " + ACTIVITIES_KEY_COUNT + " integer);");
