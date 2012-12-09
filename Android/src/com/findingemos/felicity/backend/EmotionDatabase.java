@@ -3,7 +3,9 @@ package com.findingemos.felicity.backend;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -380,6 +382,45 @@ public class EmotionDatabase {
 		return activities;
 	}
 
+	
+	
+	public synchronized String[] readLocations() {
+		String[] locations = new String[0];
+
+		if (isClosed) {
+			open();
+		}
+
+		Cursor cursor = database.query(true, HISTORY, new String[] {
+				HISTORY_KEY_CITY},
+				null, null, null, null, null, null);
+		
+		Set<String> resultSet = new HashSet<String>();
+
+		cursor.moveToFirst();
+
+		if (cursor != null) {
+			for (int i = 0; i < cursor.getCount(); i++) {
+				resultSet.add(cursor.getString(0));
+
+				if (i < cursor.getCount() - 1) {
+					cursor.moveToNext();
+				}
+			}
+		}
+
+		if (cursor != null)
+			cursor.close();
+		
+		int i = 0;
+		String[] result = new String[resultSet.size()];
+		for(String str : resultSet) {
+			result[i] = str;
+			i++;
+		}
+
+		return result;
+	}
 	/**
 	 * Reads out the statistics for the activities from the "Activities"
 	 * database.
@@ -420,7 +461,6 @@ public class EmotionDatabase {
 					String location = cursor.getString(0);
 					String doing = cursor.getString(1);
 					String who = cursor.getString(2);
-					System.out.println("Friends: " + who);
 					String time = cursor.getString(3);
 					int emotionId = cursor.getInt(4);
 					if (((location.equalsIgnoreCase(locationFilter)) || (locationFilter == null))
@@ -428,7 +468,6 @@ public class EmotionDatabase {
 							&& ((time.equalsIgnoreCase(timeFilter)) || (timeFilter == null))) {
 						if (whoFilter != null) {
 							if (who.contains(whoFilter)) {
-								System.out.println("En HIER??");
 								VisualizationResult result = new VisualizationResult(
 										location, doing, who, time, emotionId);
 								resultSet.add(result);

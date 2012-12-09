@@ -35,6 +35,23 @@ public class FilterActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.filter_activity);
 
+		initializeStringResources();
+
+		makeFilterButton();
+
+		makeTimeSpinner();
+
+		makeLocationSpinner();
+
+		makeWhoSpinner();
+
+		makeDoingSpinner();
+	}
+
+	/**
+	 * 
+	 */
+	private void initializeStringResources() {
 		TIME = getApplicationContext().getResources().getString(
 				R.string.visualizations_time);
 		LOCATION = getApplicationContext().getResources().getString(
@@ -43,59 +60,34 @@ public class FilterActivity extends FragmentActivity {
 				R.string.visualizations_who);
 		DOING = getApplicationContext().getResources().getString(
 				R.string.visualizations_doing);
+	}
 
-		Button filterButton = (Button) findViewById(R.id.filterButton);
-		filterButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				List<VisualizationResult> results = EmotionActivity.DATABASE
-						.readWithFilters(currentFilter[0], currentFilter[1],
-								currentFilter[2], currentFilter[3],
-								getApplicationContext());
-				transformToSelectionCount(results);
-				Intent intent = new Intent(getApplicationContext(),
-						VisualizationActivity.class);
-				startActivity(intent);
-				finish();
-
-			}
-		});
-
-		ArrowButton leftTime = (ArrowButton) findViewById(R.id.timeArrowLeft);
-		leftTime.setArrowDirection(ArrowButton.DIRECTION_LEFT);
-		ArrowButton rightTime = (ArrowButton) findViewById(R.id.timeArrowRight);
-		rightTime.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
-		OptionSpinner timeSpinner = (OptionSpinner) findViewById(R.id.timeSpinner);
-		timeSpinner.setLeftButton(leftTime);
-		timeSpinner.setRightButton(rightTime);
-		timeSpinner.setOptions(TIME, "Today", "Week");
-		timeSpinner.addListener(new SpinnerListener() {
+	/**
+	 * 
+	 */
+	private void makeDoingSpinner() {
+		ArrowButton leftDoing = (ArrowButton) findViewById(R.id.doingArrowLeft);
+		leftDoing.setArrowDirection(ArrowButton.DIRECTION_LEFT);
+		ArrowButton rightDoing = (ArrowButton) findViewById(R.id.doingArrowRight);
+		rightDoing.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
+		OptionSpinner doingSpinner = (OptionSpinner) findViewById(R.id.doingSpinner);
+		doingSpinner.setLeftButton(leftDoing);
+		doingSpinner.setRightButton(rightDoing);
+		doingSpinner.setOptions(EmotionActivity.DATABASE.readActivities());
+		doingSpinner.addListener(new SpinnerListener() {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				if (name != TIME)
-					currentFilter[0] = name;
+				if (name != DOING)
+					currentFilter[3] = name;
 			}
 		});
+	}
 
-		ArrowButton leftLocation = (ArrowButton) findViewById(R.id.locationArrowLeft);
-		leftLocation.setArrowDirection(ArrowButton.DIRECTION_LEFT);
-		ArrowButton rightLocation = (ArrowButton) findViewById(R.id.locationArrowRight);
-		rightLocation.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
-		OptionSpinner locationSpinner = (OptionSpinner) findViewById(R.id.locationSpinner);
-		locationSpinner.setLeftButton(leftLocation);
-		locationSpinner.setRightButton(rightLocation);
-		locationSpinner.setOptions(LOCATION, "Lanaken");
-		locationSpinner.addListener(new SpinnerListener() {
-
-			@Override
-			public void optionChanged(int index, String name) {
-				if (name != LOCATION)
-					currentFilter[1] = name;
-			}
-		});
-
+	/**
+	 * 
+	 */
+	private void makeWhoSpinner() {
 		ArrowButton leftWho = (ArrowButton) findViewById(R.id.whoArrowLeft);
 		leftWho.setArrowDirection(ArrowButton.DIRECTION_LEFT);
 		ArrowButton rightWho = (ArrowButton) findViewById(R.id.whoArrowRight);
@@ -115,23 +107,89 @@ public class FilterActivity extends FragmentActivity {
 				}
 			}
 		});
+	}
 
-		ArrowButton leftDoing = (ArrowButton) findViewById(R.id.doingArrowLeft);
-		leftDoing.setArrowDirection(ArrowButton.DIRECTION_LEFT);
-		ArrowButton rightDoing = (ArrowButton) findViewById(R.id.doingArrowRight);
-		rightDoing.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
-		OptionSpinner doingSpinner = (OptionSpinner) findViewById(R.id.doingSpinner);
-		doingSpinner.setLeftButton(leftDoing);
-		doingSpinner.setRightButton(rightDoing);
-		doingSpinner.setOptions(EmotionActivity.DATABASE.readActivities());
-		doingSpinner.addListener(new SpinnerListener() {
+	/**
+	 * 
+	 */
+	private void makeFilterButton() {
+		Button filterButton = (Button) findViewById(R.id.filterButton);
+		filterButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				List<VisualizationResult> results = EmotionActivity.DATABASE
+						.readWithFilters(currentFilter[0], currentFilter[1],
+								currentFilter[2], currentFilter[3],
+								getApplicationContext());
+				transformToSelectionCount(results);
+				Intent intent = new Intent(getApplicationContext(),
+						VisualizationActivity.class);
+				startActivity(intent);
+				finish();
+
+			}
+		});
+	}
+
+	/**
+	 * 
+	 */
+	private void makeTimeSpinner() {
+		ArrowButton leftTime = (ArrowButton) findViewById(R.id.timeArrowLeft);
+		leftTime.setArrowDirection(ArrowButton.DIRECTION_LEFT);
+		ArrowButton rightTime = (ArrowButton) findViewById(R.id.timeArrowRight);
+		rightTime.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
+		OptionSpinner timeSpinner = (OptionSpinner) findViewById(R.id.timeSpinner);
+		timeSpinner.setLeftButton(leftTime);
+		timeSpinner.setRightButton(rightTime);
+		timeSpinner.setOptions(TIME, "Today", "Week");
+		timeSpinner.addListener(new SpinnerListener() {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				if (name != DOING)
-					currentFilter[3] = name;
+				if (name != TIME)
+					currentFilter[0] = name;
 			}
 		});
+	}
+
+	/**
+	 * 
+	 */
+	private void makeLocationSpinner() {
+		ArrowButton leftLocation = (ArrowButton) findViewById(R.id.locationArrowLeft);
+		leftLocation.setArrowDirection(ArrowButton.DIRECTION_LEFT);
+		ArrowButton rightLocation = (ArrowButton) findViewById(R.id.locationArrowRight);
+		rightLocation.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
+		OptionSpinner locationSpinner = (OptionSpinner) findViewById(R.id.locationSpinner);
+		locationSpinner.setLeftButton(leftLocation);
+		locationSpinner.setRightButton(rightLocation);
+		String[] locationSpinnerOptions = makeLocationSpinnerOptions();
+		locationSpinner.setOptions(locationSpinnerOptions);
+		locationSpinner.addListener(new SpinnerListener() {
+
+			@Override
+			public void optionChanged(int index, String name) {
+				if (name != LOCATION)
+					currentFilter[1] = name;
+			}
+		});
+	}
+
+	/**
+	 * @return
+	 */
+	private String[] makeLocationSpinnerOptions() {
+		String[] locations = EmotionActivity.DATABASE.readLocations();
+		String[] locationSpinnerOptions = new String[locations.length + 1];
+		locationSpinnerOptions[0] = LOCATION;
+		int i = 1;
+		for(String location : locations) {
+			locationSpinnerOptions[i] = location;
+			i++;
+		}
+		return locationSpinnerOptions;
 	}
 
 	protected void transformToSelectionCount(List<VisualizationResult> results) {
