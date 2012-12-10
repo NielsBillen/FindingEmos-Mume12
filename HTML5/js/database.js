@@ -2,7 +2,7 @@
  * This javascript file is completely responsible for managing the database 
  ****************************************************************************/
 
-var debugDatabase = false; // Whether the database should be debugged.
+var debugDatabase = true; // Whether the database should be debugged.
 
 var isOpen=false; // Boolean die aangeeft of de database geopend is.
 var database; // Het database object.
@@ -13,7 +13,7 @@ var CONTACT_TABLE_NAME = "CONTACTS"; // Naam van de tabel met de contacten
 var FRIEND_TABLE_NAME = "FRIENDS"; // Naam van de tabel die bijhoudt welke vrienden horen bij een entry in de history.
 
 var tempCountry = "Belgium"; // Tijdelijke naam voor het land.
-var tempCity = "Leuven"; // Tijdelijnke naam voor de stad.
+var tempCity = "Leuven"; // Tijdelijke naam voor de stad.
 var geocoder=new google.maps.Geocoder(); // Geocoder object voor positie bepaling.
 
 /*
@@ -129,7 +129,7 @@ function insertEmotion(emotion, activityName,personNameList, succesCallback, err
 			
 			var epochTime = getEpochTime();
 			var statement = "INSERT INTO "+HISTORY_TABLE_NAME+" (date,time,epochtime,country,city,emoticon_id,activity) VALUES (?,?,?,?,?,?,?)";
-			executeDbStatement(statement,[getDateString(),getTimeString(),epochTime,country,city,emotion.uniqueId,activityName],function(){succesCallback();},function(){errorCallback();});
+			executeDbStatement(statement,[getDateString(),getTimeString(),epochTime,countryName,cityName,emotion.uniqueId,activityName],function(){succesCallback();},function(){errorCallback();});
 			
 			for(var i=0;i<personNameList.length;i++) {
 				statement = "INSERT INTO "+FRIEND_TABLE_NAME+" (epochtime,displayName) VALUES (?,?)";
@@ -212,28 +212,86 @@ function getCountForEmotions(statement,field1,field2, resultCallback)  {
 	});
 }
 
-function getAllSelectionsOfEmotionsToday(resultCallback) {
-	var currentDate = getDateString();
-	var statement = 'SELECT emoticon_id, COUNT(emoticon_id) FROM '+HISTORY_TABLE_NAME+' WHERE date=\"'+currentDate+'\"'+' GROUP BY emoticon_id'+' ORDER BY emoticon_id DESC';
+//////
+
+function getAllSelectionsOfEmotions(dateRange, city, activity, friendName, resultCallback) {
+	var statement = 'SELECT emoticon_id, COUNT(emoticon_id) ' +
+					'FROM '+ HISTORY_TABLE_NAME + ' LEFT OUTER JOIN ' + FRIEND_TABLE_NAME + ' ON ' + HISTORY_TABLE_NAME + '.epochtime=' + FRIEND_TABLE_NAME + '.epochtime';
+
+	if(dateRange != null || city != null || activity != null || friendName != null) {
+		statement = statement + ' WHERE';
+	}
 	
+	if(dateRange != null) {
+		statement = statement + ' ' + HISTORY_TABLE_NAME + '.epochtime>' + dateRange;
+		
+		if(city != null || activity != null || friendName != null) {
+			statement = statement + ' AND';
+		}
+	}
+		
+	if(city != null) {
+		statement = statement + ' city=\'' + city + '\'';
+		
+		if(friendName != null || activity != null) {
+			statement = statement + ' AND';
+		}
+	}
+	
+	if(activity != null) {
+		statement = statement + ' activity=\'' + activity + '\'';
+		
+		if(friendName != null) {
+			statement = statement + ' AND';
+		}
+	}
+	
+	if(friendName != null) {
+		statement = statement + ' displayName=\'' + friendName + '\' ';
+	}
+	
+	statement = statement + ' GROUP BY emoticon_id'+' ORDER BY emoticon_id DESC';
 	getCountForEmotions(statement,'emoticon_id','COUNT(emoticon_id)',resultCallback);
 }
 
-function getAllSelectionsOfEmotionsThisWeek(resultCallback) {
-	var lastWeekEpochTime = new Date().getTime() - 1000*3600*24*7;
-	var statement = 'SELECT emoticon_id, COUNT(emoticon_id) FROM '+HISTORY_TABLE_NAME+' WHERE epochtime>'+lastWeekEpochTime+' GROUP BY emoticon_id'+' ORDER BY emoticon_id DESC';
-	getCountForEmotions(statement,'emoticon_id','COUNT(emoticon_id)',resultCallback);
-}
+/*
+ * Geeft al de activiteiten terug.
+ *
+ * @return een array met al de locaties.
+ */
+function getAllLocations(resultCallback) {
+	if (!isOpen)
+		return;
+		
+	var resultArray = new Array();
+	var statement = 'SELECT city FROM '+HISTORY_TABLE_NAME+' GROUP BY city ORDER BY city DESC';
+	database.transaction(function(tx) {
+		tx.executeSql(statement,[],function(t,result) {		
+			if (debugDatabase)
+				console.log('[database.js]@getAllLocations(): statement \"'+statement+' was executed succesfully!');
 
-function getAllSelectionsOfEmotionsThisMonth(resultCallback) {
-	var lastWeekEpochTime = new Date().getTime() - 1000*3600*24*31;
-	var statement = 'SELECT emoticon_id, COUNT(emoticon_id) FROM '+HISTORY_TABLE_NAME+' WHERE epochtime>'+lastWeekEpochTime+' GROUP BY emoticon_id'+' ORDER BY emoticon_id DESC';
-	getCountForEmotions(statement,'emoticon_id','COUNT(emoticon_id)',resultCallback);
+			for(var i=0;i<result.rows.length;++i)  {
+				var row = result.rows.item(i);
+				var newElement = row['city'];
+				
+				if (resultArray.indexOf(newElement)==-1)
+					resultArray[resultArray.length] = newElement;		
+			}
+			
+			resultCallback(resultArray);
+		},function(t,e) {
+			if (debugDatabase)
+				console.log('[database.js]@getAllLocations(): statement \"'+statement+' failed');
+			resultCallback(0);
+		});
+	});
+	
+	return resultArray;
 }
  
  
 /**************************************************************************
- * Hulp functies bij het invullen van de database 
+ * Hulp functies bij het invullen van de database
  **************************************************************************/
  
  /*
@@ -323,7 +381,8 @@ function insertActivity(activityName,resultCallback) {
 function getAllActivities(resultCallback) {
 	if (!isOpen)
 		return;
-	var statement = 'SELECT activity FROM '+ACTIVITY_TABLE_NAME+' GROUP BY activity';
+	
+	var statement = 'SELECT activity FROM '+ACTIVITY_TABLE_NAME+' GROUP BY activity ORDER BY activity DESC';
 	database.transaction(function(tx) {
 		tx.executeSql(statement,[],function(t,result) {		
 			if (debugDatabase)
@@ -459,3 +518,31 @@ function updateCountOfContact(displayName) {
 		});
 	});
 }
+
+/*****************************************************
+*
+*****************************************************/
+ 
+ function emptyDatabase() {
+ 	isOpen = false;
+ 	tableCount = 0;
+ 	
+ 	var emptyHistoryStatement = "DROP TABLE IF EXISTS " + HISTORY_TABLE_NAME;
+ 	var emptyActivtiesStatement = "DROP TABLE IF EXISTS " + ACTIVITY_TABLE_NAME;
+ 	var emptyFriendsStatement = "DROP TABLE IF EXISTS " + CONTACT_TABLE_NAME;
+ 	var emptyContactsStatement = "DROP TABLE IF EXISTS " + FRIEND_TABLE_NAME;
+ 	
+ 	function emptyContacts() {
+ 		executeDbStatement(emptyContactsStatement,[], open(), console.log("Error in emptying database"));
+ 	}
+ 	
+ 	function emptyFriends() {
+ 		executeDbStatement(emptyFriendsStatement,[], emptyContacts(), emptyContacts());
+ 	}
+ 	
+ 	function emptyActivities() {
+ 		executeDbStatement(emptyActivtiesStatement,[], emptyFriends(), emptyFriends());
+ 	}
+ 	
+ 	executeDbStatement(emptyHistoryStatement,[], emptyActivities(), emptyActivities());
+ }

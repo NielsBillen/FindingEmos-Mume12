@@ -44,10 +44,12 @@
     -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
     -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
 }
+/* 
 
 .activities-activitywrapper:hover {
 	background-color:gray;
 }
+ */
 
 .activities-activity {
 	font-size:24px;
@@ -72,8 +74,10 @@ $/*
 	background-color: rgb(128,128,128);
 }
 
+/* 
 #addactivitybutton:hover {
 	color:rgb(128,128,128);
 	background-color: #F9F9F9;
 }
+ */
 */

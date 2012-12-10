@@ -89,6 +89,7 @@ function fillActivityList() {
 		/*
 		 * Iterate over the results for the database query.
 		 */
+		 console.log(result);
 		for(var i=0;i<result.length;++i) {
 			activityNames[i] = result[i];
 			appendString = '<li class="activities-item">'+

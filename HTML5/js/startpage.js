@@ -51,6 +51,13 @@ function initializeStartpage() {
 		return;
 	startpageInitialized=true;
 	
+	$("#emptyface").load(function() {
+				setTimeout(resizeEmotionImage,50);
+	});
+	
+	var emptyfaceIMG = document.getElementById("emptyface");
+	emptyfaceIMG.src = "img/empty_big.png";
+	
 	// Fill the dialog with emoticons.
 	initializeEmotionDialog();
 	
@@ -335,7 +342,7 @@ function emotionSelected(emotionId) {
 		var bigImg = emotion.largeImage;
 		var big = document.getElementById("emptyface");
 		
-		big.src = bigImg;
+		fadeImg("#emptyface", emotion.largeImage);
 	}
 }
 
@@ -349,7 +356,7 @@ function enableDragDrop() {
 		// Verander bij de start de titelbalk naar de juiste emotie
 		start : function(event, ui) {
 
-			// Indien gedropped, laat het gezichtje verdwijnen
+			// Ifndien gedropped, laat het gezichtje verdwijnen
 			var idDroppedImg = $(this).attr("id");
 					
 			// Zorg ervoor dat er geteld wordt, hoevaak een emoticon geselecteerd is.
@@ -424,13 +431,14 @@ function switchToActivity() {
 	setTimeout(function() {
 		if (shouldSwitch) {
 			shouldSwitch = false;
+			
 			$.mobile.changePage('index.html#activities', {
 					transition : "slide",
 					reverse : false
 				}, true, true);
 			}
 		}
-	,500);
+	,50);
 }
 
 /*

@@ -4,7 +4,7 @@
 
 var contactScroller;
 var contactPageInitialized = false;
-var debugContacts = false;
+var debugContacts = true;
 
 function initializeContactPage() {
 	if (contactPageInitialized)
@@ -217,8 +217,9 @@ function continueClicked() {
 		&& currentActivity!=undefined&&currentActivity!=null) {
 		
 		insertEmotion(currentEmotion,currentActivity,currentFriends, function() {
-			if (debugContacts)
+			if (debugContacts) {
 				console.log("[contacts.js]@continueClicked: succesfully added record in database");
+			}
 			currentEmotion = null;
 			currentActivity = null;
 			
@@ -241,13 +242,15 @@ function continueClicked() {
 			}, true, true);
 		});
 	}
-	else
-		if (debugContacts)
+	else {
+		if (debugContacts) {
 				console.log("[contacts.js]@continueClicked: some of the data was nul!");
 			$.mobile.changePage('index.html#startpage', {
 				transition : "slide",
 				reverse : true
 			}, true, true);
+		}
+	}
 
 }
 
