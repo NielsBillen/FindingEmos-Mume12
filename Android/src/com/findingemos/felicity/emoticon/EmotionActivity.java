@@ -294,15 +294,12 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 		 super.onActivityResult(requestCode, resultCode, data);
 		Log.i("Result", "Got a result!");
 		if (resultCode != RESULT_OK) {
-			System.out.println("RESULT NOT OKE");
 			return;
 		}
 
 		if (requestCode == EMOTION_REQUEST_CODE) {
-			System.out.println("EMOTIONREQUESTCODE");
 			emotionGalleryReturned(data);
 		} else if (requestCode == EXTRA_INFORMATION_CODE) {
-			System.out.println("EXTRAINFORMATIONCODE");
 			extraInformationReturned(data);
 		}
 	}
@@ -327,8 +324,6 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 *            De bijgevoegde data.
 	 */
 	private void extraInformationReturned(Intent data) {
-
-		System.out.println("EXTRAINFORMATIONRETURNED!!!");
 
 		String activity = data.getStringExtra("activity");
 		ArrayList<String> friends = data.getStringArrayListExtra("friends");
