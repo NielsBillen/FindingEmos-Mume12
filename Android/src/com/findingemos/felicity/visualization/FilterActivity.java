@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
@@ -15,11 +14,11 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.findingemos.felicity.R;
 import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.emoticon.EmotionActivity;
-import com.findingemos.felicity.friends.Contact;
 
 public class FilterActivity extends FragmentActivity {
 
@@ -27,8 +26,11 @@ public class FilterActivity extends FragmentActivity {
 	private String LOCATION;
 	private String WHO;
 	private String DOING;
-
-	private String[] currentFilter = new String[4];
+	
+	private String timeFilter;
+	private String locationFilter;
+	private String doingFilter;
+	private String whoFilter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,7 @@ public class FilterActivity extends FragmentActivity {
 			@Override
 			public void optionChanged(int index, String name) {
 				if (name != DOING)
-					currentFilter[3] = name;
+					doingFilter = name;
 			}
 		});
 	}
@@ -103,7 +105,7 @@ public class FilterActivity extends FragmentActivity {
 				System.out.println("Option changed!!!!!!!");
 				if (name != WHO) {
 					System.out.println("NameFilter: " + name);
-					currentFilter[2] = name;
+					whoFilter = name;
 				}
 			}
 		});
@@ -119,13 +121,22 @@ public class FilterActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				List<VisualizationResult> results = EmotionActivity.DATABASE
-						.readWithFilters(currentFilter[0], currentFilter[1],
-								currentFilter[2], currentFilter[3],
+						.readWithFilters(timeFilter, locationFilter,
+								whoFilter, doingFilter,
 								getApplicationContext());
 				transformToSelectionCount(results);
 				Intent intent = new Intent(getApplicationContext(),
 						VisualizationActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				if(timeFilter == null) timeFilter = TIME;
+				if(locationFilter == null) locationFilter = LOCATION;
+				if(whoFilter == null) whoFilter = WHO;
+				if(doingFilter == null) doingFilter = DOING;
+				intent.putExtra("Filter", timeFilter + " > " + locationFilter + " > " + whoFilter + " > " + doingFilter);
+				
 				startActivity(intent);
+				
+				
 				finish();
 
 			}
@@ -149,7 +160,7 @@ public class FilterActivity extends FragmentActivity {
 			@Override
 			public void optionChanged(int index, String name) {
 				if (name != TIME)
-					currentFilter[0] = name;
+					timeFilter = name;
 			}
 		});
 	}
@@ -172,7 +183,7 @@ public class FilterActivity extends FragmentActivity {
 			@Override
 			public void optionChanged(int index, String name) {
 				if (name != LOCATION)
-					currentFilter[1] = name;
+					locationFilter = name;
 			}
 		});
 	}

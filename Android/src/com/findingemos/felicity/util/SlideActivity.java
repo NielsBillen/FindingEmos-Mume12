@@ -16,7 +16,7 @@ import com.findingemos.felicity.R;
  * @author Robin
  * 
  */
-public class SlideActivity extends Activity {
+public abstract class SlideActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {

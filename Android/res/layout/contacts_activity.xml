@@ -18,7 +18,7 @@
         		android:layout_height="wrap_content"
         		android:text="@string/contacts_view_favorites"
         		android:textColor= "#FFFFFF"
-        		android:textSize="12dp"
+        		android:textSize="12sp"
         		android:layout_marginBottom="5dp"
         		android:layout_marginTop="5dp"
         		android:layout_marginLeft="10dp"
@@ -77,14 +77,14 @@
         		android:layout_height="wrap_content"
         		android:text="@string/contacts_view_all_contacts"
         		android:textColor= "#FFFFFF"
-        		android:textSize="12dp"
+        		android:textSize="12sp"
         		android:layout_marginBottom="5dp"
         		android:layout_marginTop="5dp"
         		android:layout_marginLeft="10dp"
         		android:background="@drawable/emotionbackground"
  		/>
     		
-    		<View android:layout_height="3px"
+    		<View android:layout_height="3dp"
    			android:layout_width="fill_parent"
     			android:background="#90909090"/>
     
@@ -120,7 +120,7 @@
             android:layout_toLeftOf="@+id/contacts_list_button_ok"
             android:layout_marginRight="5dp"
             android:textColor = "@color/White"
-            android:textSize = "9dp"
+            android:textSize = "9sp"
             android:lines="2"
             android:gravity="center"
             android:text="0 friends selected" />

@@ -60,6 +60,22 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 
 		setContentView(R.layout.visualization_activity);
 		
+		TextView locationView = (TextView) findViewById(R.id.filter);
+		try {
+			String newFilter =  getIntent().getExtras().getString("Filter");
+			locationView.setText(newFilter);
+		} catch (NullPointerException e) {
+			String TIME = getApplicationContext().getResources().getString(
+					R.string.visualizations_time);
+			String LOCATION = getApplicationContext().getResources().getString(
+					R.string.visualizations_location);
+			String WHO = getApplicationContext().getResources().getString(
+					R.string.visualizations_who);
+			String DOING = getApplicationContext().getResources().getString(
+					R.string.visualizations_doing);
+			locationView.setText(TIME + " > " + LOCATION + " > " + WHO+ " > " + DOING);
+		}
+		
 		initActivityIndicator();
 		initFilter();
 		addSwipeListener();
@@ -114,6 +130,7 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 			public void onClick(View v) {
 				Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
 				startActivityForResult(intent,VISUALIZATION_ACTIVITY_CODE);
+				finish();
 			}
 		});
 	}

@@ -19,67 +19,13 @@
         android:paddingLeft="10dp" >
 
         <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
+            android:id="@+id/filter"
+            android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_weight="1.50"
             android:text="@string/visualizations_time"
-            android:textColor="#FFFFFF"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/arrow1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:text="@string/visualizations_arrow"
-            android:textColor="#FFFFFF"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/where"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:text="@string/visualizations_location"
-            android:textColor="#FFFFFF"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/arrow2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:text="@string/visualizations_arrow"
-            android:textColor="#FFFFFF"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/who"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:text="@string/visualizations_who"
-            android:textColor="#FFFFFF"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/arrow3"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:text="@string/visualizations_arrow"
-            android:textColor="#FFFFFF"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/what"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:text="@string/visualizations_doing"
-            android:textColor="#FFFFFF"
-            android:textSize="10sp" />
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
     <com.findingemos.felicity.util.VerticalScrollView
