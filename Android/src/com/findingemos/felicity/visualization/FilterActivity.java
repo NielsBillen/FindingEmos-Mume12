@@ -26,11 +26,15 @@ public class FilterActivity extends FragmentActivity {
 	private String LOCATION;
 	private String WHO;
 	private String DOING;
-	
+
 	private String timeFilter;
 	private String locationFilter;
 	private String doingFilter;
 	private String whoFilter;
+
+	public final static String TODAY = "Today";
+	public final static String WEEK = "This Week";
+	public final static String MONTH = "This Month";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +79,24 @@ public class FilterActivity extends FragmentActivity {
 		OptionSpinner doingSpinner = (OptionSpinner) findViewById(R.id.doingSpinner);
 		doingSpinner.setLeftButton(leftDoing);
 		doingSpinner.setRightButton(rightDoing);
-		doingSpinner.setOptions(EmotionActivity.DATABASE.readActivities());
+		String[] activities = EmotionActivity.DATABASE.readActivities();
+		String[] doingOptions = new String[activities.length + 1];
+		doingOptions[0] = DOING;
+		int i = 1;
+		for (String doing : activities) {
+			doingOptions[i] = doing;
+			i++;
+		}
+		doingSpinner.setOptions(doingOptions);
 		doingSpinner.addListener(new SpinnerListener() {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				if (name != DOING)
+				if (name != DOING) {
 					doingFilter = name;
+				} else {
+					doingFilter = null;
+				}
 			}
 		});
 	}
@@ -104,8 +119,9 @@ public class FilterActivity extends FragmentActivity {
 			public void optionChanged(int index, String name) {
 				System.out.println("Option changed!!!!!!!");
 				if (name != WHO) {
-					System.out.println("NameFilter: " + name);
 					whoFilter = name;
+				} else {
+					whoFilter = null;
 				}
 			}
 		});
@@ -121,22 +137,26 @@ public class FilterActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				List<VisualizationResult> results = EmotionActivity.DATABASE
-						.readWithFilters(timeFilter, locationFilter,
-								whoFilter, doingFilter,
-								getApplicationContext());
+						.readWithFilters(timeFilter, locationFilter, whoFilter,
+								doingFilter);
 				transformToSelectionCount(results);
 				Intent intent = new Intent(getApplicationContext(),
 						VisualizationActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				if(timeFilter == null) timeFilter = TIME;
-				if(locationFilter == null) locationFilter = LOCATION;
-				if(whoFilter == null) whoFilter = WHO;
-				if(doingFilter == null) doingFilter = DOING;
-				intent.putExtra("Filter", timeFilter + " > " + locationFilter + " > " + whoFilter + " > " + doingFilter);
-				
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+						| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				if (timeFilter == null)
+					timeFilter = TIME;
+				if (locationFilter == null)
+					locationFilter = LOCATION;
+				if (whoFilter == null)
+					whoFilter = WHO;
+				if (doingFilter == null)
+					doingFilter = DOING;
+				intent.putExtra("Filter", timeFilter + " > " + locationFilter
+						+ " > " + whoFilter + " > " + doingFilter);
+
 				startActivity(intent);
-				
-				
+
 				finish();
 
 			}
@@ -154,13 +174,16 @@ public class FilterActivity extends FragmentActivity {
 		OptionSpinner timeSpinner = (OptionSpinner) findViewById(R.id.timeSpinner);
 		timeSpinner.setLeftButton(leftTime);
 		timeSpinner.setRightButton(rightTime);
-		timeSpinner.setOptions(TIME, "Today", "Week");
+		timeSpinner.setOptions(TIME, TODAY, WEEK, MONTH);
 		timeSpinner.addListener(new SpinnerListener() {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				if (name != TIME)
+				if (name != TIME) {
 					timeFilter = name;
+				} else {
+					timeFilter = null;
+				}
 			}
 		});
 	}
@@ -182,8 +205,11 @@ public class FilterActivity extends FragmentActivity {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				if (name != LOCATION)
+				if (name != LOCATION) {
 					locationFilter = name;
+				} else {
+					locationFilter = null;
+				}
 			}
 		});
 	}
@@ -196,7 +222,7 @@ public class FilterActivity extends FragmentActivity {
 		String[] locationSpinnerOptions = new String[locations.length + 1];
 		locationSpinnerOptions[0] = LOCATION;
 		int i = 1;
-		for(String location : locations) {
+		for (String location : locations) {
 			locationSpinnerOptions[i] = location;
 			i++;
 		}
@@ -256,6 +282,8 @@ public class FilterActivity extends FragmentActivity {
 			i++;
 		}
 
+		if (people != null)
+			people.close();
 		return resultSet;
 	}
 }

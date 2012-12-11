@@ -1,10 +1,15 @@
 package com.findingemos.felicity.backend;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import android.content.ContentValues;
@@ -14,10 +19,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.telephony.CellLocation;
 import android.util.Log;
 
 import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.friends.Contact;
+import com.findingemos.felicity.visualization.FilterActivity;
 import com.findingemos.felicity.visualization.VisualizationResult;
 
 /**
@@ -37,6 +44,8 @@ import com.findingemos.felicity.visualization.VisualizationResult;
 public class EmotionDatabase {
 	// Context to create the database in.
 	private final Context context;
+
+	private static final String DATE_DELIMITER = "/";
 
 	private static final String FELICITY_DATABASE = "FelicityDatabase";
 	// Name of the database with the time/date/location
@@ -382,8 +391,6 @@ public class EmotionDatabase {
 		return activities;
 	}
 
-	
-	
 	public synchronized String[] readLocations() {
 		String[] locations = new String[0];
 
@@ -391,10 +398,10 @@ public class EmotionDatabase {
 			open();
 		}
 
-		Cursor cursor = database.query(true, HISTORY, new String[] {
-				HISTORY_KEY_CITY},
-				null, null, null, null, null, null);
-		
+		Cursor cursor = database.query(true, HISTORY,
+				new String[] { HISTORY_KEY_CITY }, null, null, null, null,
+				null, null);
+
 		Set<String> resultSet = new HashSet<String>();
 
 		cursor.moveToFirst();
@@ -411,16 +418,17 @@ public class EmotionDatabase {
 
 		if (cursor != null)
 			cursor.close();
-		
+
 		int i = 0;
 		String[] result = new String[resultSet.size()];
-		for(String str : resultSet) {
+		for (String str : resultSet) {
 			result[i] = str;
 			i++;
 		}
 
 		return result;
 	}
+
 	/**
 	 * Reads out the statistics for the activities from the "Activities"
 	 * database.
@@ -430,9 +438,7 @@ public class EmotionDatabase {
 	 */
 	public synchronized List<VisualizationResult> readWithFilters(
 			String timeFilter, String locationFilter, String whoFilter,
-			String doingFilter, Context context) {
-		String activity = null;
-
+			String doingFilter) {
 		if (isClosed) {
 			open();
 		}
@@ -442,41 +448,36 @@ public class EmotionDatabase {
 				HISTORY_KEY_DATE, HISTORY_KEY_EMOTICON }, null, null, null,
 				null, null, null);
 
-		cursor.moveToFirst();
-
-		if (whoFilter == null)
-			System.out.println("whoFiler is null");
-		if (doingFilter == null)
-			System.out.println("doingFilter is null");
-		if (timeFilter == null)
-			System.out.println("timeFilter is null");
-		if (locationFilter == null)
-			System.out.println("locationFilter is null");
+		// cursor.moveToFirst();
 
 		List<VisualizationResult> resultSet = new ArrayList<VisualizationResult>();
 		if (cursor != null) {
-			for (int i = 0; i < cursor.getCount(); i++) {
-				if (i < cursor.getCount() - 1) {
-					cursor.moveToNext();
-					String location = cursor.getString(0);
-					String doing = cursor.getString(1);
-					String who = cursor.getString(2);
-					String time = cursor.getString(3);
-					int emotionId = cursor.getInt(4);
-					if (((location.equalsIgnoreCase(locationFilter)) || (locationFilter == null))
-							&& ((doing.equalsIgnoreCase(doingFilter)) || (doingFilter == null))
-							&& ((time.equalsIgnoreCase(timeFilter)) || (timeFilter == null))) {
-						if (whoFilter != null) {
-							if (who.contains(whoFilter)) {
-								VisualizationResult result = new VisualizationResult(
-										location, doing, who, time, emotionId);
-								resultSet.add(result);
-							}
-						} else {
+			while (cursor.moveToNext()) {
+				String location = cursor.getString(0);
+				String doing = cursor.getString(1);
+				String who = cursor.getString(2);
+				String time = cursor.getString(3);
+				int emotionId = cursor.getInt(4);
+				boolean timeOK = false;
+				try {
+					timeOK = compareDateFilter(timeFilter, time);
+				} catch (ParseException e) {
+					System.err
+							.println("Zou niet mogen gebeuren aangezien eigen formaat");
+				}
+				if (((location.equalsIgnoreCase(locationFilter)) || (locationFilter == null))
+						&& ((doing.equalsIgnoreCase(doingFilter)) || (doingFilter == null))
+						&& (timeOK)) {
+					if (whoFilter != null) {
+						if (who.contains(whoFilter)) {
 							VisualizationResult result = new VisualizationResult(
 									location, doing, who, time, emotionId);
 							resultSet.add(result);
 						}
+					} else {
+						VisualizationResult result = new VisualizationResult(
+								location, doing, who, time, emotionId);
+						resultSet.add(result);
 					}
 				}
 			}
@@ -486,6 +487,32 @@ public class EmotionDatabase {
 			cursor.close();
 
 		return resultSet;
+	}
+
+	private boolean compareDateFilter(String filter, String time)
+			throws ParseException {
+		if (filter == null)
+			return true;
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd" + DATE_DELIMITER
+				+ "MM" + DATE_DELIMITER + "yyyy", Locale.getDefault());
+		String today = dateString(calendar);
+		Date todayDate = formatter.parse(today);
+		Date timeDate = formatter.parse(time);
+		if (filter.equals(FilterActivity.TODAY)) {
+			System.out.println(timeDate.equals(todayDate));
+			return timeDate.equals(todayDate);
+		} else if (filter.equalsIgnoreCase(FilterActivity.WEEK)) {
+			long week = 604800000;
+			Date oldDay = new Date(todayDate.getTime() - week);
+			return !(timeDate.before(oldDay));
+		} else if (filter.equalsIgnoreCase(FilterActivity.MONTH)) {
+			// 4 weken
+			long month = 2419200000l;
+			Date oldDay = new Date(todayDate.getTime() - month);
+			return !(timeDate.before(oldDay));
+		}
+		return false;
 	}
 
 	// ///////////////////////////////////////////////////////////////////
@@ -681,9 +708,6 @@ public class EmotionDatabase {
 					int uniqueId = count.getInt(0);
 					int value = count.getInt(1);
 
-					System.out.println(value);
-					Log.i("EmotionDatabase", "Value: " + value
-							+ "reading!!!!!!!!!!!!!!!");
 					Emotion e = Emotion.getEmoticonByUniqueId(uniqueId);
 					e.setSelectionCount(value);
 				}
@@ -807,7 +831,7 @@ public class EmotionDatabase {
 			yearStr = "" + year;
 			break;
 		}
-		return dayStr + "/" + monthStr + "/" + yearStr;
+		return dayStr + DATE_DELIMITER + monthStr + DATE_DELIMITER + yearStr;
 	}
 
 	/**
