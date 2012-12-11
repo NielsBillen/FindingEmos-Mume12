@@ -1,7 +1,6 @@
 package com.findingemos.felicity.backend;
 
 import java.io.ByteArrayOutputStream;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.telephony.CellLocation;
 import android.util.Log;
 
 import com.findingemos.felicity.emoticon.Emotion;
