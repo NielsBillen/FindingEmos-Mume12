@@ -856,9 +856,7 @@ public class EmotionDatabase {
 	public synchronized boolean firstNameFirst() {
 
 		if (isClosed) {
-			Log.i("SettingsDatabase",
-					"@firstNameFirst: database is already closed!");
-			return false;
+			open();
 		}
 
 		Cursor cursor = database.query(true, SETTINGS, new String[] {

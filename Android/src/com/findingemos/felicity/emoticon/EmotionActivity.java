@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.findingemos.felicity.R;
 import com.findingemos.felicity.backend.EmotionDatabase;
@@ -38,6 +37,7 @@ import com.findingemos.felicity.doing.DoingActivity;
 import com.findingemos.felicity.emoticonselector.EmotionSelectorActivity;
 import com.findingemos.felicity.general.ActivityIndicator;
 import com.findingemos.felicity.general.ActivitySwitchListener;
+import com.findingemos.felicity.settings.SettingsActivity;
 import com.findingemos.felicity.util.SimpleSwipeListener;
 import com.findingemos.felicity.util.SlideActivity;
 import com.findingemos.felicity.util.Swipeable;
@@ -191,13 +191,8 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 		case 0:
-			DATABASE.emty();
-			DATABASE.readEmotionCount();
-			DATABASE.readEmotionDatabase();
-
-			for (Emotion e : Emotion.values()) {
-				e.setSelectionCount(0);
-			}
+			Intent intent =  new Intent(this, SettingsActivity.class);
+			startActivity(intent);
 
 			return true;
 		}
