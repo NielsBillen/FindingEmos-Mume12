@@ -1,11 +1,15 @@
 package com.findingemos.felicity.settings;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.findingemos.felicity.R;
@@ -29,13 +33,39 @@ public class SettingsActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				database.emty();
-				database.readEmotionCount();
-				database.readEmotionDatabase();
+				DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+				    @Override
+				    public void onClick(DialogInterface dialog, int which) {
+				        switch (which){
+				        case DialogInterface.BUTTON_POSITIVE:
+				        	database.emty();
+							database.readEmotionCount();
+							database.readEmotionDatabase();
 
-				for (Emotion e : Emotion.values()) {
-					e.setSelectionCount(0);
-				}
+							for (Emotion e : Emotion.values()) {
+								e.setSelectionCount(0);
+							}
+							
+							Intent intent = new Intent(getApplicationContext(), EmotionActivity.class);
+							startActivity(intent);
+							CharSequence text = "Database cleared!";
+							int duration = Toast.LENGTH_SHORT;
+
+							Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+							toast.show();
+							finish();
+				            break;
+
+				        case DialogInterface.BUTTON_NEGATIVE:
+				            //No button clicked
+				            break;
+				        }
+				    }
+				};
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+				builder.setMessage("Are you sure, this will delete ALL data in Felicity?").setPositiveButton("Yes", dialogClickListener)
+				    .setNegativeButton("No", dialogClickListener).show();
 				
 			}
 		});
