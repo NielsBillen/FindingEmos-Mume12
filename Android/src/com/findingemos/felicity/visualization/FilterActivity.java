@@ -90,7 +90,7 @@ public class FilterActivity extends FragmentActivity {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				if (name != DOING) {
+				if (!name.equals(DOING)) {
 					doingFilter = name;
 				} else {
 					doingFilter = null;
@@ -116,7 +116,7 @@ public class FilterActivity extends FragmentActivity {
 			@Override
 			public void optionChanged(int index, String name) {
 				System.out.println("Option changed!!!!!!!");
-				if (name != WHO) {
+				if (!name.equals(WHO)) {
 					whoFilter = name;
 				} else {
 					whoFilter = null;
@@ -177,7 +177,7 @@ public class FilterActivity extends FragmentActivity {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				if (name != TIME) {
+				if (!name.equals(TIME)) {
 					timeFilter = name;
 				} else {
 					timeFilter = null;
@@ -203,7 +203,7 @@ public class FilterActivity extends FragmentActivity {
 
 			@Override
 			public void optionChanged(int index, String name) {
-				if (name != LOCATION) {
+				if (!name.equals(LOCATION)) {
 					locationFilter = name;
 				} else {
 					locationFilter = null;

@@ -48,9 +48,9 @@ public class SettingsActivity extends Activity {
 							
 							Intent intent = new Intent(getApplicationContext(), EmotionActivity.class);
 							startActivity(intent);
+							
 							CharSequence text = "Database cleared!";
 							int duration = Toast.LENGTH_SHORT;
-
 							Toast toast = Toast.makeText(getApplicationContext(), text, duration);
 							toast.show();
 							finish();
@@ -78,6 +78,7 @@ public class SettingsActivity extends Activity {
 			public void onClick(View v) {
 				SettingsActivity.firstName = !SettingsActivity.firstName;
 				database.changeFirstNameFirst(SettingsActivity.firstName);
+
 			}
 		});
 	}
