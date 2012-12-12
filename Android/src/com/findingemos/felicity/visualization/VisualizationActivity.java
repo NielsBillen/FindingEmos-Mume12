@@ -32,12 +32,12 @@ import com.findingemos.felicity.util.Swipeable;
  * @version 0.1
  */
 public class VisualizationActivity extends SlideActivity implements Swipeable {
-	
+
 	// Code voor het opvragen met welke vrienden de gebruiker is.
 	private final static int VISUALIZATION_ACTIVITY_CODE = 2;
-	
+
 	private static Emotion[] currentData = Emotion.values();
-	
+
 	public static Emotion[] getCurrentData() {
 		return currentData;
 	}
@@ -54,15 +54,15 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		getWindow().setFormat(PixelFormat.RGBA_8888);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DITHER);
 
 		setContentView(R.layout.visualization_activity);
-		
+
 		TextView locationView = (TextView) findViewById(R.id.filter);
 		try {
-			String newFilter =  getIntent().getExtras().getString("Filter");
+			String newFilter = getIntent().getExtras().getString("Filter");
 			locationView.setText(newFilter);
 		} catch (NullPointerException e) {
 			String TIME = getApplicationContext().getResources().getString(
@@ -73,13 +73,14 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 					R.string.visualizations_who);
 			String DOING = getApplicationContext().getResources().getString(
 					R.string.visualizations_doing);
-			locationView.setText(TIME + " > " + LOCATION + " > " + WHO+ " > " + DOING);
+			locationView.setText(TIME + " > " + LOCATION + " > " + WHO + " > "
+					+ DOING);
 		}
-		
+
 		initActivityIndicator();
 		initFilter();
 		addSwipeListener();
-		
+
 		drawVisualizations();
 
 		overridePendingTransition(R.anim.lefttoright_visualization,
@@ -125,24 +126,25 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 	private void initFilter() {
 		final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.topSelector);
 		linearLayout.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
-				startActivityForResult(intent,VISUALIZATION_ACTIVITY_CODE);
+				Intent intent = new Intent(getApplicationContext(),
+						FilterActivity.class);
+				startActivityForResult(intent, VISUALIZATION_ACTIVITY_CODE);
 				finish();
 			}
 		});
 	}
-	
-	
-	//////////////////////////////////////////////////////
-	///								Visualisatie						 		///
-	//////////////////////////////////////////////////////
-	
+
+	// ////////////////////////////////////////////////////
+	// / Visualisatie ///
+	// ////////////////////////////////////////////////////
+
 	/**
 	 * Deze methode tekent de visualisatie.
-	 * @param values 
+	 * 
+	 * @param values
 	 */
 	@SuppressWarnings("deprecation")
 	public void drawVisualizations() {
@@ -150,121 +152,135 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 		Display display = getWindowManager().getDefaultDisplay();
 		int width = display.getWidth();
 		int maxWidth = width - 72 - 16 - 72;
-	    
+
 		// Haal de count van de emotions op.
-	    Emotion[] sorted = currentData;
+		Emotion[] sorted = currentData;
 		Arrays.sort(sorted, Emotion.getComparator());
 		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.visualization_layout);
-		
+
 		// Bepaal wat de totale en maximale count is.
 		int totalCount = 0;
 		int maxCount = 0;
-		for(int i = 0; i < sorted.length; i++) {
+		for (int i = 0; i < sorted.length; i++) {
 			totalCount += sorted[i].getSelectionCount();
-			if(sorted[i].getSelectionCount() > maxCount)
+			if (sorted[i].getSelectionCount() > maxCount)
 				maxCount = sorted[i].getSelectionCount();
 		}
-		if(totalCount < 1) {
+		if (totalCount < 1) {
 			totalCount = 1;
 			maxCount = 1;
 		}
-		
+
 		// Tekenen maar.
-		for(int i = 0; i < sorted.length; i++) {
+		for (int i = 0; i < sorted.length; i++) {
 			Emotion emotion = sorted[i];
-			drawVisualisationForEmotion(emotion, maxWidth, linearLayout, totalCount, maxCount);
+			drawVisualisationForEmotion(emotion, maxWidth, linearLayout,
+					totalCount, maxCount);
 		}
 	}
 
 	/**
-	 * Deze methode visualiseert voor de meegegeven emotion hoe vaak deze geselecteerd is;
+	 * Deze methode visualiseert voor de meegegeven emotion hoe vaak deze
+	 * geselecteerd is;
 	 * 
-	 * @param 	emotion
-	 * 					De emotie in kwestie.
-	 * @param 	maxWidth
-	 * 					De maximale breedte van de balk.
-	 * @param 	ll
-	 * 					De LinearLayout waarin de visualisatie moet weergegeven worden.
-	 * @param 	totalCount
-	 * 					Het totaal aantal geselecteerde emoties.
-	 * @param 	maxCount
-	 * 					Het maximaal aantal keer dat 1 emotie geselecteerd is.
+	 * @param emotion
+	 *            De emotie in kwestie.
+	 * @param maxWidth
+	 *            De maximale breedte van de balk.
+	 * @param ll
+	 *            De LinearLayout waarin de visualisatie moet weergegeven
+	 *            worden.
+	 * @param totalCount
+	 *            Het totaal aantal geselecteerde emoties.
+	 * @param maxCount
+	 *            Het maximaal aantal keer dat 1 emotie geselecteerd is.
 	 */
 	@SuppressWarnings("deprecation")
-	private void drawVisualisationForEmotion(Emotion emotion, int maxWidth, LinearLayout ll, int totalCount, int maxCount) {
+	private void drawVisualisationForEmotion(Emotion emotion, int maxWidth,
+			LinearLayout ll, int totalCount, int maxCount) {
 		LinearLayout emoVis = new LinearLayout(getApplicationContext());
-		int barWidth = Math.round(maxWidth * emotion.getSelectionCount()/maxCount);
-		int percentage = emotion.getSelectionCount()*100/totalCount;
-		
+		int barWidth = Math.round(maxWidth * emotion.getSelectionCount()
+				/ maxCount);
+		int percentage = emotion.getSelectionCount() * 100 / totalCount;
+
 		drawEmoticon(emotion, emoVis);
 		drawBar(emoVis, barWidth);
 		drawPercentage(percentage, totalCount, emoVis);
-		
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT, 64);
+
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+				android.view.ViewGroup.LayoutParams.FILL_PARENT, 64);
 		lp.setMargins(5, 8, 5, 8);
 		ll.addView(emoVis, lp);
 	}
 
 	/**
-	 * Deze methode tekent  de meegegeven emotion op het scherm.
+	 * Deze methode tekent de meegegeven emotion op het scherm.
 	 * 
-	 * @param 	emotion
-	 * 					De emotie in kwestie.
-	 * @param 	emoVis
-	 * 					De LinearLayout waarin de visualisatie moet weergegeven worden.
+	 * @param emotion
+	 *            De emotie in kwestie.
+	 * @param emoVis
+	 *            De LinearLayout waarin de visualisatie moet weergegeven
+	 *            worden.
 	 */
 	private void drawEmoticon(Emotion emotion, LinearLayout emoVis) {
 		ImageView emo = new ImageView(getApplicationContext());
 		emo.setImageResource(emotion.getLowResolutionResourceId());
-		LinearLayout.LayoutParams emoLayout = new LinearLayout.LayoutParams(56, 56);
+		LinearLayout.LayoutParams emoLayout = new LinearLayout.LayoutParams(56,
+				56);
 		emoLayout.setMargins(8, 8, 4, 8);
-		emoVis.addView(emo,emoLayout);
+		emoVis.addView(emo, emoLayout);
 	}
 
 	/**
 	 * Deze methode tekent voor de meegegeven emotion de balk op scherm.
 	 * 
-	 * @param 	emoVis
-	 * 					De LinearLayout waarin de visualisatie moet weergegeven worden.
-	 * @param 	barWidth
-	 * 					De breedte van de balk.
+	 * @param emoVis
+	 *            De LinearLayout waarin de visualisatie moet weergegeven
+	 *            worden.
+	 * @param barWidth
+	 *            De breedte van de balk.
 	 */
 	private void drawBar(LinearLayout emoVis, int barWidth) {
 		View bar = new View(getApplicationContext());
-		LinearLayout.LayoutParams barLayout = new LinearLayout.LayoutParams(0, 40);
+		LinearLayout.LayoutParams barLayout = new LinearLayout.LayoutParams(0,
+				40);
 		barLayout.setMargins(4, 16, 4, 8);
 		bar.setBackgroundResource(R.color.Gray);
 		barLayout.width = barWidth;
-		
-		Animation barAnimation = AnimationUtils.loadAnimation(this, R.anim.visualisation_barview); 
+
+		Animation barAnimation = AnimationUtils.loadAnimation(this,
+				R.anim.visualisation_barview);
 		bar.startAnimation(barAnimation);
-		
+
 		emoVis.addView(bar, barLayout);
 	}
-	
+
 	/**
-	 * Deze methode tekent voor de meegegeven emotion zijn percentage op het scherm;
+	 * Deze methode tekent voor de meegegeven emotion zijn percentage op het
+	 * scherm;
 	 * 
-	 * @param 	percentage
-	 * 					Het percentage dat de emotie geselecteerd is.
-	 * @param 	emoVis
-	 * 					De LinearLayout waarin de visualisatie moet weergegeven worden.
-	 * @param 	totalCount
-	 * 					Het totaal aantal geselecteerde emoties.
+	 * @param percentage
+	 *            Het percentage dat de emotie geselecteerd is.
+	 * @param emoVis
+	 *            De LinearLayout waarin de visualisatie moet weergegeven
+	 *            worden.
+	 * @param totalCount
+	 *            Het totaal aantal geselecteerde emoties.
 	 */
-	private void drawPercentage(int percentage, int totalCount, LinearLayout emoVis) {
+	private void drawPercentage(int percentage, int totalCount,
+			LinearLayout emoVis) {
 		TextView text = new TextView(getApplicationContext());
-		LinearLayout.LayoutParams textLayout = new LinearLayout.LayoutParams(64, 64);
+		LinearLayout.LayoutParams textLayout = new LinearLayout.LayoutParams(
+				64, 64);
 		textLayout.setMargins(4, 16, 8, 0);
 		text.setText(percentage + " %");
 		text.setTextColor(Color.parseColor("#bdbdbd"));
 		emoVis.addView(text, textLayout);
 	}
 
-	
-	//////////////////////////////////////////////////////
-	///								Swipeable							 		///
-	//////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////
+	// / Swipeable ///
+	// ////////////////////////////////////////////////////
 
 	/*
 	 * (non-Javadoc)

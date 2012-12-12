@@ -191,7 +191,7 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 		case 0:
-			Intent intent =  new Intent(this, SettingsActivity.class);
+			Intent intent = new Intent(this, SettingsActivity.class);
 			startActivity(intent);
 
 			return true;
@@ -286,7 +286,7 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		 super.onActivityResult(requestCode, resultCode, data);
+		super.onActivityResult(requestCode, resultCode, data);
 		Log.i("Result", "Got a result!");
 		if (resultCode != RESULT_OK) {
 			return;
@@ -365,12 +365,10 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 			}, 1250);
 		}
 	}
-	
+
 	public static void decrementSelectionCountOfCurrentEmotion() {
 		currentEmotion.decrementSelectionCount();
 	}
-	
-	
 
 	/**
 	 * Methode die de meegegeven emoticon tekent op het scherm.
@@ -519,7 +517,7 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	// emoticon (Android 4.0).
 	@Override
 	public void onEmotionDeselected(Emotion emoticon) {
-		//userSelectedEmoticon(emoticon);
+		// userSelectedEmoticon(emoticon);
 	}
 
 	// ////////////////////////////////////////////////////

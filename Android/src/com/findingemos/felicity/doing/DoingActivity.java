@@ -49,12 +49,13 @@ public class DoingActivity extends Activity {
 		initializeCategories();
 		initializeAddButton();
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		EmotionActivity.doingStarted = false;
 		EmotionActivity.decrementSelectionCountOfCurrentEmotion();
-		Intent intent = new Intent(getApplicationContext(),EmotionActivity.class);
+		Intent intent = new Intent(getApplicationContext(),
+				EmotionActivity.class);
 		startActivity(intent);
 		finish();
 	}

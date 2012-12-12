@@ -36,7 +36,7 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 		MultiThreadAccesView {
 	// The current emoticon
 	private Emotion emotion;
-	
+
 	/**
 	 * Field in which the emoticon with the empty face is stored.<br>
 	 * <br>
@@ -288,7 +288,7 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 		if (event.getAction() == DragEvent.ACTION_DRAG_STARTED)
 			return true;
 		else if (event.getAction() == DragEvent.ACTION_DROP) {
-			//emoticon.incrementSelectionCount();
+			// emoticon.incrementSelectionCount();
 			view.setVisibility(View.VISIBLE);
 			Log.i("Emoticon", "Emoticon: " + emoticon.getName()
 					+ " was dragged succesfully!");
@@ -385,7 +385,7 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 	 */
 	@Override
 	public void onEmotionDoubleTapped(final Emotion emoticon) {
-		//emoticon.incrementSelectionCount();
+		// emoticon.incrementSelectionCount();
 		Log.i("Emoticon", "Emoticon: " + emoticon.getName()
 				+ " was double tapped succesfully!");
 		FadeThread imageUpdater = new FadeThread(this, EMOTICONPAINTER,

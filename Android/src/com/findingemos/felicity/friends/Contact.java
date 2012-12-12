@@ -3,23 +3,23 @@ package com.findingemos.felicity.friends;
 import android.graphics.Bitmap;
 
 public class Contact {
-	
+
 	private String name;
 	private String firstName;
 	private String lastName;
 	private Bitmap photo;
 	private boolean selected = false;
 
-	public Contact (String name, Bitmap photo) {
+	public Contact(String name, Bitmap photo) {
 		this.setName(name);
 		String[] subNames = name.split("\\s+");
 		this.setFirstName(subNames[0]);
 		String lastName = "";
-		for(int i = 1;i<subNames.length;i++) {
+		for (int i = 1; i < subNames.length; i++) {
 			lastName += " " + subNames[i];
 		}
 		this.setLastName(lastName);
-				
+
 		this.setPhoto(photo);
 	}
 
@@ -46,9 +46,9 @@ public class Contact {
 	public void setSelected(Boolean selected) {
 		this.selected = selected;
 	}
-	
+
 	public boolean equals(Contact other) {
-		if(!other.getName().equals(this.getName())) {
+		if (!other.getName().equals(this.getName())) {
 			return false;
 		}
 
@@ -63,7 +63,8 @@ public class Contact {
 	}
 
 	/**
-	 * @param firstName the firstName to set
+	 * @param firstName
+	 *            the firstName to set
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -77,7 +78,8 @@ public class Contact {
 	}
 
 	/**
-	 * @param lastName the lastName to set
+	 * @param lastName
+	 *            the lastName to set
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;

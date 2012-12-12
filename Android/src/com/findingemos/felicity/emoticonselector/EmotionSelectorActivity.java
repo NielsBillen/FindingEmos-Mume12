@@ -40,10 +40,10 @@ public class EmotionSelectorActivity extends Activity {
 		 */
 		setContentView(R.layout.emoticonselection_activity);
 		Log.i("EmotionSelectorActivity", "i");
-		
+
 		overridePendingTransition(R.anim.uptodown_emotionselection,
 				R.anim.downtoup_emotionselection);
-		
+
 		initialize();
 	}
 
@@ -54,48 +54,45 @@ public class EmotionSelectorActivity extends Activity {
 		// Gallery
 		EmotionGallery gallery = new EmotionGallery(this);
 		gallery.addListener(new EmotionSelectionListener() {
-				/*
-				 * (non-Javadoc)
-				 * 
-				 * @see
-				 * com.findingemos.felicity.emoticon.EmoticonSelectionListener#
-				 * onEmoticonSelected
-				 * (com.findingemos.felicity.emoticon.Emoticon)
-				 */
-				@Override
-				public void onEmotionSelected(Emotion emoticon) {			
-					Intent result = new Intent();
-					result.putExtra("emotion", emoticon.getUniqueId());
-					setResult(RESULT_OK, result);
-					finish();
-				}
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see com.findingemos.felicity.emoticon.EmoticonSelectionListener#
+			 * onEmoticonSelected (com.findingemos.felicity.emoticon.Emoticon)
+			 */
+			@Override
+			public void onEmotionSelected(Emotion emoticon) {
+				Intent result = new Intent();
+				result.putExtra("emotion", emoticon.getUniqueId());
+				setResult(RESULT_OK, result);
+				finish();
+			}
 
-				/*
-				 * (non-Javadoc)
-				 * 
-				 * @see
-				 * com.findingemos.felicity.emoticon.EmoticonSelectionListener#
-				 * onEmoticonDoubleTapped
-				 * (com.findingemos.felicity.emoticon.Emoticon)
-				 */
-				@Override
-				public void onEmotionDoubleTapped(Emotion emoticon) {
-				}
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see com.findingemos.felicity.emoticon.EmoticonSelectionListener#
+			 * onEmoticonDoubleTapped
+			 * (com.findingemos.felicity.emoticon.Emoticon)
+			 */
+			@Override
+			public void onEmotionDoubleTapped(Emotion emoticon) {
+			}
 
-				/*
-				 * (non-Javadoc)
-				 * 
-				 * @see
-				 * com.findingemos.felicity.emoticon.EmoticonSelectionListener#
-				 * onEmoticonDeselected
-				 * (com.findingemos.felicity.emoticon.Emoticon)
-				 */
-				@Override
-				public void onEmotionDeselected(Emotion emoticon) {
-				}
-			});
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see com.findingemos.felicity.emoticon.EmoticonSelectionListener#
+			 * onEmoticonDeselected (com.findingemos.felicity.emoticon.Emoticon)
+			 */
+			@Override
+			public void onEmotionDeselected(Emotion emoticon) {
+			}
+		});
 		LinearLayout layout = (LinearLayout) findViewById(R.id.EmotionSelectionLinearLayout);
-		layout.addView(gallery,new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.MATCH_PARENT));
+		layout.addView(gallery, new LayoutParams(
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT));
 	}
 
 	/*
