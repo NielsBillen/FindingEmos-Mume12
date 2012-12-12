@@ -732,20 +732,18 @@ public class EmotionDatabase {
 		if (isClosed) {
 			Log.i("EmotionDatabase",
 					"@updateEmotionCount: database is already closed!");
-			return -1;
+			open();
 		}
 
 		Cursor cursor = database.query(true, COUNT, new String[] {
 				COUNT_KEY_ID, COUNT_KEY_COUNT },
 				COUNT_KEY_ID + "=" + emotion.getUniqueId(), null, null, null,
 				null, null);
-		int count = 0;
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
-			count = cursor.getInt(1);
 			ContentValues values = new ContentValues();
 			values.put(COUNT_KEY_ID, emotion.getUniqueId());
-			values.put(COUNT_KEY_COUNT, count + 1);
+			values.put(COUNT_KEY_COUNT, emotion.getSelectionCount());
 			long result = database.update(COUNT, values, COUNT_KEY_ID + "="
 					+ emotion.getUniqueId(), null);
 			cursor.close();
@@ -753,7 +751,7 @@ public class EmotionDatabase {
 		} else {
 			ContentValues values = new ContentValues();
 			values.put(COUNT_KEY_ID, emotion.getUniqueId());
-			values.put(COUNT_KEY_COUNT, count + 1);
+			values.put(COUNT_KEY_COUNT, emotion.getSelectionCount());
 			long result = database.insert(COUNT, null, values);
 			cursor.close();
 			return result;

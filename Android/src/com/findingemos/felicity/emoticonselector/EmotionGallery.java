@@ -170,7 +170,6 @@ public class EmotionGallery extends View implements
 				Emotion emoticon = emoticons[index];
 				//emoticon.incrementSelectionCount();
 				notifySelection(emoticon);
-				Log.i("Emoticon", "jep");
 			}
 		}
 		return super.onTouchEvent(event);

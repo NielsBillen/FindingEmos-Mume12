@@ -70,7 +70,7 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	// Variable to indicate the current country the user is in.
 	private String currentCountry = "Not known yet";
 	// Variable to store the emoticon the user selected.
-	private Emotion currentEmotion;
+	private static Emotion currentEmotion;
 
 	/*
 	 * (non-Javadoc)
@@ -367,9 +367,15 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 							DoingActivity.class);
 					startActivityForResult(intent, EXTRA_INFORMATION_CODE);
 				}
-			}, 1500);
+			}, 1250);
 		}
 	}
+	
+	public static void decrementSelectionCountOfCurrentEmotion() {
+		currentEmotion.decrementSelectionCount();
+	}
+	
+	
 
 	/**
 	 * Methode die de meegegeven emoticon tekent op het scherm.
@@ -505,25 +511,20 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	// Aangeroepen wanneer de gebruiker een emotie opneemt (Android 4.0).
 	@Override
 	public void onEmotionSelected(Emotion emoticon) {
-		// Doe niets
+		// doe niets.
 	}
 
 	// Aangeroepen wanneer de gebruiker dubbelklikt op een emotie (Android 2.3).
 	@Override
 	public void onEmotionDoubleTapped(Emotion emoticon) {
-		if (!DRAG_AND_DROP)
-			userSelectedEmoticon(emoticon);
-		else
-			Toast.makeText(getApplicationContext(),
-					"Drag and drop your emotion", Toast.LENGTH_SHORT).show();
+		userSelectedEmoticon(emoticon);
 	}
 
 	// Aangeroepen wanneer de gebruiker een emotie dropt op de grote (lege)
 	// emoticon (Android 4.0).
 	@Override
 	public void onEmotionDeselected(Emotion emoticon) {
-		if (DRAG_AND_DROP)
-			userSelectedEmoticon(emoticon);
+		//userSelectedEmoticon(emoticon);
 	}
 
 	// ////////////////////////////////////////////////////

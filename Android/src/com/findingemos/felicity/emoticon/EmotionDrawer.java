@@ -292,7 +292,7 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 			view.setVisibility(View.VISIBLE);
 			Log.i("Emoticon", "Emoticon: " + emoticon.getName()
 					+ " was dragged succesfully!");
-			//view.notifyDeSelection();
+			view.notifyDoubleTapped();
 			FadeThread imageUpdater = new FadeThread(this, EMOTICONPAINTER,
 					emoticonChange, fps) {
 				/*
@@ -315,7 +315,7 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 			view.setVisibility(View.VISIBLE);
 			Log.i("Emoticon", "Emoticon: " + emoticon.getName()
 					+ " was dragged succesfully!");
-			view.notifyDeSelection();
+			view.notifyDoubleTapped();
 			return true;
 		}
 		return false;

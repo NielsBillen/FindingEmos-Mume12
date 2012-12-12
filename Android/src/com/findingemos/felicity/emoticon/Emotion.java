@@ -164,6 +164,11 @@ public enum Emotion {
 		++selectionCount;
 		EmotionActivity.DATABASE.updateEmotionCount(this);
 	}
+	
+	public void decrementSelectionCount() {
+		--selectionCount;
+		EmotionActivity.DATABASE.updateEmotionCount(this);
+	}
 
 	/**
 	 * The number of times the emoticon was selected.
