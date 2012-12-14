@@ -167,7 +167,7 @@ public class EmotionGallery extends View implements
 			int index = row * iconsPerRow + column;
 			if (index < emoticons.length) {
 				Emotion emoticon = emoticons[index];
-				emoticon.incrementSelectionCount();
+				// emoticon.incrementSelectionCount();
 				notifySelection(emoticon);
 			}
 		}
@@ -178,6 +178,7 @@ public class EmotionGallery extends View implements
 	 * 
 	 * @param listener
 	 */
+	@Override
 	public void addListener(EmotionSelectionListener listener) {
 		if (listener != null)
 			listeners.add(listener);
@@ -186,6 +187,7 @@ public class EmotionGallery extends View implements
 	/**
 	 * 
 	 */
+	@Override
 	public void removeListener(EmotionSelectionListener listener) {
 		listeners.remove(listener);
 	}

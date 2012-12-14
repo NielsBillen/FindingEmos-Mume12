@@ -122,10 +122,10 @@ public class OptionSpinner extends View implements
 
 		float drawY = rect.exactCenterY() + paint.descent();
 
-		float drawX = (float) rect.left + this.drawX1 * ((float) rect.width());
+		float drawX = rect.left + this.drawX1 * rect.width();
 		canvas.drawText(currentText, drawX, drawY, paint);
 
-		drawX = ((float) rect.left) + this.drawX2 * ((float) rect.width());
+		drawX = rect.left + this.drawX2 * rect.width();
 		canvas.drawText(nextText, drawX, drawY, paint);
 
 	}

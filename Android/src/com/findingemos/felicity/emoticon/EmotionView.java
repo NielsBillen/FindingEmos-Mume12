@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -79,7 +80,7 @@ public class EmotionView extends ImageView implements OnTouchListener,
 		setOnTouchListener(this);
 
 		if (EmotionActivity.DRAG_AND_DROP) {
-			OnLongClickListener click =new OnLongClickListener() {
+			OnLongClickListener click = new OnLongClickListener() {
 				/*
 				 * (non-Javadoc)
 				 * 
@@ -164,26 +165,55 @@ public class EmotionView extends ImageView implements OnTouchListener,
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		int action = event.getAction();
-
 		if (EmotionActivity.DRAG_AND_DROP) {
-			switch (action) {
-			case MotionEvent.ACTION_DOWN:
+			if (event.getAction() == DragEvent.ACTION_DRAG_STARTED) {
 				notifySelection();
-				break;
-			case MotionEvent.ACTION_UP:
-				notifyDeSelection();
-				setVisibility(View.VISIBLE);
-				break;
-//			case MotionEvent.ACTION_CANCEL:
-//				notifyDeSelection();
-//				setVisibility(View.VISIBLE);
-//				break;
-			case MotionEvent.ACTION_OUTSIDE:
-				notifyDeSelection();
-				setVisibility(View.VISIBLE);
-				break;
 			}
-			return super.onTouchEvent(event);
+
+			// if (EmotionActivity.DRAG_AND_DROP) {
+			// switch (action) {
+			// case DragEvent.ACTION_DRAG_STARTED:
+			// System.out.println("Drag started!");
+			// break;
+			// case DragEvent.ACTION_DROP:
+			// System.out.println("Drop!");
+			// break;
+			// case DragEvent.ACTION_DRAG_ENDED:
+			// System.out.println("Ended!");
+			// break;
+			// case DragEvent.ACTION_DRAG_EXITED:
+			// System.out.println("Exit");
+			// break;
+			// // case MotionEvent.ACTION_DOWN:
+			// // notifySelection();
+			// // break;
+			// // case MotionEvent.ACTION_UP:
+			// // int[] values = new int[2];
+			// // v.getLocationOnScreen(values);
+			// // System.out.println("VALUESSS: " + values[0] + "  y: " +
+			// values[1]);
+			// // if(values[1] < 900) notifyDoubleTapped();
+			// // notifyDeSelection();
+			// // setVisibility(View.VISIBLE);
+			// // break;
+			// // case DragEvent.Ac:
+			// // System.out.println("DROOOOOOOOOOOP!");
+			// // break;
+			// //// case MotionEvent.ACTION_CANCEL:
+			// //// notifyDeSelection();
+			// //// setVisibility(View.VISIBLE);
+			// //// break;
+			// // case MotionEvent.ACTION_OUTSIDE:
+			// // notifyDeSelection();
+			// // int[] values2 = new int[2];
+			// // v.getLocationOnScreen(values2);
+			// // System.out.println("VALUESSS: " + values2[0] + "  y: " +
+			// values2[1]);
+			// // if(values2[1] < 900) notifyDoubleTapped();
+			// // setVisibility(View.VISIBLE);
+			// // break;
+			// }
+			// return super.onTouchEvent(event);
 		} else {
 			if (action == MotionEvent.ACTION_DOWN) {
 				long currentTime = System.currentTimeMillis();
@@ -193,8 +223,8 @@ public class EmotionView extends ImageView implements OnTouchListener,
 					notifySelection();
 				lastTouchTime = System.currentTimeMillis();
 			}
-			return super.onTouchEvent(event);
 		}
+		return super.onTouchEvent(event);
 	}
 
 	/*

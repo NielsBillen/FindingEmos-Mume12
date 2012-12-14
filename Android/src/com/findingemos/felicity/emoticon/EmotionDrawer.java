@@ -36,7 +36,7 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 		MultiThreadAccesView {
 	// The current emoticon
 	private Emotion emotion;
-	
+
 	/**
 	 * Field in which the emoticon with the empty face is stored.<br>
 	 * <br>
@@ -109,7 +109,7 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 	private final int fps = 60;
 
 	// The average sleeptime for the animation.
-	private final long sleepTime = (long) (1000.0 / (double) fps);
+	private final long sleepTime = (long) (1000.0 / fps);
 
 	// The time of the last update
 	private long lastUpdate;
@@ -288,11 +288,11 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 		if (event.getAction() == DragEvent.ACTION_DRAG_STARTED)
 			return true;
 		else if (event.getAction() == DragEvent.ACTION_DROP) {
-			emoticon.incrementSelectionCount();
+			// emoticon.incrementSelectionCount();
 			view.setVisibility(View.VISIBLE);
 			Log.i("Emoticon", "Emoticon: " + emoticon.getName()
 					+ " was dragged succesfully!");
-			view.notifyDeSelection();
+			view.notifyDoubleTapped();
 			FadeThread imageUpdater = new FadeThread(this, EMOTICONPAINTER,
 					emoticonChange, fps) {
 				/*
@@ -315,7 +315,7 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 			view.setVisibility(View.VISIBLE);
 			Log.i("Emoticon", "Emoticon: " + emoticon.getName()
 					+ " was dragged succesfully!");
-			view.notifyDeSelection();
+			view.notifyDoubleTapped();
 			return true;
 		}
 		return false;
@@ -385,7 +385,7 @@ public class EmotionDrawer extends View implements EmotionSelectionListener,
 	 */
 	@Override
 	public void onEmotionDoubleTapped(final Emotion emoticon) {
-		emoticon.incrementSelectionCount();
+		// emoticon.incrementSelectionCount();
 		Log.i("Emoticon", "Emoticon: " + emoticon.getName()
 				+ " was double tapped succesfully!");
 		FadeThread imageUpdater = new FadeThread(this, EMOTICONPAINTER,

@@ -1,0 +1,76 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/emotionbackground"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/doing_linearlayout"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/emotionbackground"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/contacts_view_favorites"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/emotionbackground"
+                android:text="@string/select_category"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:background="#90909090" />
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/doing_bottom_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/emotionscroller"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/doing_button_add"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:text="@string/add"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/doing_edittext_add_category"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/doing_button_add"
+            android:ems="10"
+            android:hint="@string/new_category" >
+        </EditText>
+    </RelativeLayout>
+
+</LinearLayout>

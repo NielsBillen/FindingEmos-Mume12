@@ -20,9 +20,18 @@ public class DatabaseVersionCodes {
 	// First version of the database (contains count history and history of
 	// emoticon)
 	public static final int EMOTION_V1_NIELS_14_10_2012 = 1;
-
+	public static final int EMOTION_V2_STIJN_12_11_2012 = 2;
+	public static final int EMOTION_V3_STIJN_15_11_2012 = 3;
+	public static final int EMOTION_V4_STIJN_16_11_2012 = 4;
+	public static final int EMOTION_V5_STIJN_18_11_2012 = 5;
+	// Settings tabel toegevoegd
+	public static final int EMOTION_V6_ROBIN_06_12_2012 = 6;
+	// De database een echte naam gegeven, nodig om te kunnen resetten
+	public static final int EMOTION_V7_ROBIN_06_12_2012 = 7;
+	// Friends tabel verwijderd.
+	public static final int EMOTION_V8_ROBIN_08_12_2012 = 8;
 	// The current version of the emoticon database.
-	public static final int EMOTION_CURRENT = EMOTION_V1_NIELS_14_10_2012;
+	public static final int EMOTION_CURRENT = EMOTION_V8_ROBIN_08_12_2012;
 
 	/**
 	 * Performs an update for the given sql database from the given version to

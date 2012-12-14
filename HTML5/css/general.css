@@ -24,6 +24,13 @@ p {
 	background: -o-linear-gradient(top,  rgba(69,72,77,1) 1%,rgba(0,0,0,1) 36%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top,  rgba(69,72,77,1) 1%,rgba(0,0,0,1) 36%); /* IE10+ */
 	background: linear-gradient(to bottom,  rgba(69,72,77,1) 1%,rgba(0,0,0,1) 36%); /* W3C */
+    -webkit-backface-visibility: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ui-mobile-viewport-transitioning,
+.ui-mobile-viewport-transitioning .ui-page {
+    overflow: visible;
 }
 
 /*

@@ -121,7 +121,7 @@ public class ArrowButton extends View implements
 		if (!canvas.getClipBounds(rect))
 			return;
 
-		int size = ARROW_THICKNESS*2;
+		int size = ARROW_THICKNESS * 2;
 		if (DIRECTION == DIRECTION_LEFT) {
 			canvas.drawLine(rect.right - size, rect.top + size,
 					rect.exactCenterX(), rect.centerY() + ARROW_THICKNESS / 2,

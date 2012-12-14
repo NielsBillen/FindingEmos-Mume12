@@ -33,6 +33,7 @@
 		<script src="js/activities.js"></script>
 		<script src="js/visualization/visualization.js"></script>
 		<script src="js/visualization/barchart.js"></script>
+		<script src="js/visualization/visfilter.js"></script>
 		<script src="js/contacts.js"></script>
 	</head>
 
@@ -43,7 +44,7 @@
 			<!-- Header, toont de naam van het programma en naderhand ook de emoties.-->
 			<div data-role="header" id="startpage-header" >
 				<h1 id="topbar">Felicity</h1>
-				<a href="index.html" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+				<a href="index.html#settings" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
 			</div>
 
 			<!-- Content -->
@@ -55,7 +56,7 @@
 
 				<div id ="imagewrapper">
 					<!-- Afbeelding van de emotie-->
-					<img id="emptyface" src="img/empty_big.png"/>
+					<img id="emptyface"/>
 				</div>
 
 				<!-- Button, voor een dialog menu met meer iconen -->
@@ -88,7 +89,7 @@
 			<!-- Header -->
 			<header data-role="header" id="visualisation-header">
 				<h1 id="topbar">Select your current activity</h1>
-				<a id="knopje" href="index.html" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+				<a id="knopje" href="index.html#settings" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
 			</header>
 			
 			<!-- Content -->
@@ -112,7 +113,7 @@
 			<!-- Header -->
 			<header data-role="header" id="contacts-header">
 				<h1 id="topbar">Who are you with?</h1>
-				<a id="knopje" href="index.html" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+				<a id="knopje" href="index.html#settings" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
 			</header>
 
 			<!-- Content -->
@@ -161,7 +162,7 @@
 			<!-- Header -->
 			<header data-role="header" id="visualisation-header">
 				<h1 id="topbar">Felicity</h1>
-				<a id="knopje" href="index.html" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+				<a id="knopje" href="index.html#settings" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
 			</header>
 
 			<!-- Content -->
@@ -170,11 +171,7 @@
 					<img src="img/tabs2.png" height="15px"/>
 				</p>
 				
-				<div id = "timeselector" class = "glaspane">
-					<img src="img/leftarrow_white.png" width="15px" height="23px" id="leftarrowwhite" onclick = "timeFilterClickLeft()"/>
-					<div id = "timeindicator">Today</div>
-					<img src="img/rightarrow_white.png" width="15px" height="23px" id="rightarrowwhite" onclick = "timeFilterClickRight()"/>
-				</div>
+				<a href="index.html#visfilter" data-role="button" data-theme="b">Filter</a>
 				
 				<div id="beautywrapper" class="glaspane">
 					<div id="canvaswrapper">
@@ -186,6 +183,55 @@
 			</div>
 		</div>
 		
+		<div data-role="page" id="visfilter">
+			<!-- Header -->
+			<header data-role="header" id="visfilter-header">
+				<h1 id="topbar">Visualisation Filter</h1>
+				<a id="knopje" href="index.html#settings" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+			</header>
+
+			<!-- Content -->
+			<div data-role="content" id="visfilter-content">
+			
+				<select id="timeFilter" data-theme="a" data-native-menu="false" >
+				</select>
+				
+				<select id="locationFilter" data-theme="a" data-native-menu="false" >
+				</select>
+				
+				<select id="activityFilter" data-theme="a" data-native-menu="false" >
+				</select>
+				
+				<select id="friendFilter" data-theme="a" data-native-menu="false" >
+				</select>
+				
+				<div id = "visfilter-bottombar" align="center">
+					<a href="index.html#visualisations" data-role="button" data-theme="b">Ok!</a>
+				</div>
+			</div>
+		</div>
+		
+		<div data-role="page" id="settings">
+			<!-- Header -->
+			<header data-role="header" id="settings-header">
+				<h1 id="topbar">Settings</h1>
+				<a id="knopje" href="index.html" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Startpage</a>
+			</header>
+
+			<!-- Content -->
+			<div data-role="content" id="settings-content">
+			
+				<div id="settings-emptyDatabase" class="glaspane" onclick = emptyDatabase()>
+					Empty database
+				</div>
+				
+				<div id = "settings-bottombar" align="center">
+					<div id = "settingsokbutton" class="glaspane" onclick = settingsOkClicked()>
+						<div id="settingsokbuttontext">Ok</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		
 		<div data-role="dialog" id="addactivity">
 			<header data-role="header">

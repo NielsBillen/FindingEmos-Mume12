@@ -31,8 +31,8 @@ public abstract class FadeThread extends Thread {
 	 * @param paint
 	 * @param framesPerSecond
 	 */
-	public FadeThread(MultiThreadAccesView view, Paint paintObject, long timeout,
-			int framesPerSecond) {
+	public FadeThread(MultiThreadAccesView view, Paint paintObject,
+			long timeout, int framesPerSecond) {
 		if (view == null)
 			throw new IllegalArgumentException("The given view is null!");
 		if (paintObject == null)
@@ -43,11 +43,11 @@ public abstract class FadeThread extends Thread {
 					"The given number of frames per second is lower than one!");
 		this.view = view;
 		this.paintObject = paintObject;
-		this.sleepTime = (long) Math.max(
-				Math.ceil(1000.0 / (double) framesPerSecond), 1);
+		this.sleepTime = (long) Math
+				.max(Math.ceil(1000.0 / framesPerSecond), 1);
 		this.nbOfFrames = Math.max(1,
 				(int) ((double) timeout / (double) sleepTime));
-		this.alphaChange = (int) Math.max((510.0 / (double) nbOfFrames), 1);
+		this.alphaChange = (int) Math.max((510.0 / nbOfFrames), 1);
 	}
 
 	/*

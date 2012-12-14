@@ -1,14 +1,30 @@
 package com.findingemos.felicity.emoticon;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,10 +33,13 @@ import android.widget.LinearLayout;
 
 import com.findingemos.felicity.R;
 import com.findingemos.felicity.backend.EmotionDatabase;
+import com.findingemos.felicity.doing.DoingActivity;
 import com.findingemos.felicity.emoticonselector.EmotionSelectorActivity;
 import com.findingemos.felicity.general.ActivityIndicator;
 import com.findingemos.felicity.general.ActivitySwitchListener;
+import com.findingemos.felicity.settings.SettingsActivity;
 import com.findingemos.felicity.util.SimpleSwipeListener;
+import com.findingemos.felicity.util.SlideActivity;
 import com.findingemos.felicity.util.Swipeable;
 import com.findingemos.felicity.visualization.VisualizationActivity;
 
@@ -32,7 +51,10 @@ import com.findingemos.felicity.visualization.VisualizationActivity;
  * @author Niels
  * @version 0.1
  */
-public class EmotionActivity extends Activity implements Swipeable {
+@SuppressLint("NewApi")
+public class EmotionActivity extends SlideActivity implements Swipeable,
+		EmotionSelectionListener {
+
 	// Final boolean variable to check whether drag and drop is enabled.
 	public static final boolean DRAG_AND_DROP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 	// The database to call
@@ -40,6 +62,15 @@ public class EmotionActivity extends Activity implements Swipeable {
 
 	// Code for requesting an emotion.
 	public static final int EMOTION_REQUEST_CODE = 1;
+	// Code for requesting extra information (activity)
+	public static final int EXTRA_INFORMATION_CODE = 2;
+
+	// Variable to indicate the current city the user is in.
+	private String currentCity = "Not known yet";
+	// Variable to indicate the current country the user is in.
+	private String currentCountry = "Not known yet";
+	// Variable to store the emoticon the user selected.
+	private static Emotion currentEmotion;
 
 	/*
 	 * (non-Javadoc)
@@ -51,9 +82,12 @@ public class EmotionActivity extends Activity implements Swipeable {
 		// This method is called when the activity is first created.
 		super.onCreate(savedInstanceState);
 
+		Log.i("Activity", "EmotionActivity started");
+
 		// Create the database
 		DATABASE = new EmotionDatabase(this);
 		DATABASE.open();
+		DATABASE.readEmotionCount();
 		DATABASE.readEmotionDatabase();
 
 		// Print the android version
@@ -117,6 +151,53 @@ public class EmotionActivity extends Activity implements Swipeable {
 
 		overridePendingTransition(R.anim.lefttoright_emotion,
 				R.anim.righttoleft_emotion);
+
+		// Initialize the location look-up.
+		initCurrentLocation();
+
+	}
+
+	/**
+	 * Start de visualisatie activiteit.
+	 */
+	private void switchToVisualization() {
+		Intent intent = new Intent(this, VisualizationActivity.class);
+		startActivity(intent);
+	}
+
+	/**
+	 * Start de emotiongallery activiteit.
+	 */
+	private void switchToEmotionSelection() {
+		Intent intent = new Intent(this, EmotionSelectorActivity.class);
+		overridePendingTransition(R.anim.uptodown_emotion,
+				R.anim.downtoup_emotion);
+		startActivityForResult(intent, EMOTION_REQUEST_CODE);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		menu.add(0, 0, 0, "Settings");
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+		case 0:
+			Intent intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+
+			return true;
+		}
+
+		return super.onMenuItemSelected(featureId, item);
 	}
 
 	/**
@@ -143,63 +224,22 @@ public class EmotionActivity extends Activity implements Swipeable {
 		for (int i = 0; i < sorted.length; ++i) {
 			// Create the layout paramters
 			LayoutParams layoutParameters = new LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+					android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 			EmotionView view = new EmotionView(this, sorted[i]);
 			view.setMinimumWidth(80);
 
 			// IMPORTANT! this line makes sure the name of the icon is drawn!
 			view.addListener(drawer);
+			view.addListener(this);
 			layout.addView(view, layoutParameters);
 		}
+
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_emotion, menu);
-		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.findingemos.felicity.general.SimpleSwipeListener#onSwipeLeft()
-	 */
-	public void onSwipeLeft() {
-		Log.d("--scrolled--", "scrolled to the left!");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.findingemos.felicity.general.SimpleSwipeListener#onSwipeRight()
-	 */
-	public void onSwipeRight() {
-		Log.d("--scrolled--", "scrolled to the right!");
-		switchToVisualization();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.findingemos.felicity.util.Swipeable#onSwipeUp()
-	 */
-	@Override
-	public void onSwipeUp() {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.findingemos.felicity.util.Swipeable#onSwipeDown()
-	 */
-	@Override
-	public void onSwipeDown() {
-	}
+	// ////////////////////////////////////////////////////
+	// / Activity Life Cycle ///
+	// ////////////////////////////////////////////////////
 
 	/*
 	 * (non-Javadoc)
@@ -234,23 +274,9 @@ public class EmotionActivity extends Activity implements Swipeable {
 		DATABASE.close();
 	}
 
-	/**
-	 * 
-	 */
-	private void switchToVisualization() {
-		Intent intent = new Intent(this, VisualizationActivity.class);
-		startActivity(intent);
-	}
-
-	/**
-	 * 
-	 */
-	private void switchToEmotionSelection() {
-		Intent intent = new Intent(this, EmotionSelectorActivity.class);
-		overridePendingTransition(R.anim.uptodown_emotion,
-				R.anim.downtoup_emotion);
-		startActivityForResult(intent, EMOTION_REQUEST_CODE);
-	}
+	// ////////////////////////////////////////////////////
+	// / Activity Result ///
+	// ////////////////////////////////////////////////////
 
 	/*
 	 * (non-Javadoc)
@@ -260,18 +286,280 @@ public class EmotionActivity extends Activity implements Swipeable {
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		Log.i("Result", "Got a result!");
-		if (resultCode != RESULT_OK)
+		if (resultCode != RESULT_OK) {
 			return;
+		}
 
 		if (requestCode == EMOTION_REQUEST_CODE) {
-
-			Log.i("Result", "Got the result!");
-			EmotionDrawer drawer = (EmotionDrawer) findViewById(R.id.emoticonDrawer);
-			int uniqueEmotionId = data.getIntExtra("emotion", 0);
-			Emotion emotion = Emotion.getEmoticonByUniqueId(uniqueEmotionId);
-			drawer.onEmotionSelected(emotion);
-			drawer.onEmotionDoubleTapped(emotion);
+			emotionGalleryReturned(data);
+		} else if (requestCode == EXTRA_INFORMATION_CODE) {
+			extraInformationReturned(data);
 		}
+	}
+
+	/**
+	 * Methode die de terugkeer van de emotionGallery afhandelt.
+	 * 
+	 * @param data
+	 *            De bijgevoegde data.
+	 */
+	private void emotionGalleryReturned(Intent data) {
+		Log.i("Result", "Got the result!");
+		int uniqueEmotionId = data.getIntExtra("emotion", 0);
+		Emotion emotion = Emotion.getEmoticonByUniqueId(uniqueEmotionId);
+		userSelectedEmoticon(emotion);
+	}
+
+	/**
+	 * Methode die de terugkeer van de extraInformation afhandelt.
+	 * 
+	 * @param data
+	 *            De bijgevoegde data.
+	 */
+	private void extraInformationReturned(Intent data) {
+
+		String activity = data.getStringExtra("activity");
+		ArrayList<String> friends = data.getStringArrayListExtra("friends");
+
+		DATABASE.open();
+		DATABASE.createEmotionEntry(Calendar.getInstance(), currentCountry,
+				currentCity, activity, friends, currentEmotion);
+
+		Log.i("Emotion", currentEmotion.toString());
+		Log.i("Date & Time", Calendar.getInstance().getTime() + "");
+		Log.i("Epoch", Calendar.getInstance().getTimeInMillis() + "");
+		Log.i("Country", currentCountry);
+		Log.i("City", currentCity);
+	}
+
+	/**
+	 * Deze methode dient te worden aangeroepen wanneer de gebruiker zijn
+	 * (nieuwe) emotie aangaf. Deze methode update de currentEmotion variable en
+	 * tekent de desbetreffende emotie op het scherm. Bovendien start ze de
+	 * DoingActivity op om na te gaan wat te gebruiker aan het doen is en bij
+	 * wie hij is.
+	 * 
+	 * @param emoticon
+	 *            De nieuwe emotie van de gebruiker.
+	 */
+
+	public static boolean doingStarted = false;
+
+	private void userSelectedEmoticon(Emotion emoticon) {
+		currentEmotion = emoticon;
+		drawEmoticion(currentEmotion);
+
+		if (!doingStarted) {
+			doingStarted = true;
+			final Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					currentEmotion.incrementSelectionCount();
+					Intent intent = new Intent(EmotionActivity.this,
+							DoingActivity.class);
+					startActivityForResult(intent, EXTRA_INFORMATION_CODE);
+				}
+			}, 1250);
+		}
+	}
+
+	public static void decrementSelectionCountOfCurrentEmotion() {
+		currentEmotion.decrementSelectionCount();
+	}
+
+	/**
+	 * Methode die de meegegeven emoticon tekent op het scherm.
+	 * 
+	 * @param emoticon
+	 *            De emoticon die getekend dient te worden op het scherm.
+	 */
+	private void drawEmoticion(Emotion emoticon) {
+		EmotionDrawer drawer = (EmotionDrawer) findViewById(R.id.emoticonDrawer);
+		drawer.onEmotionSelected(emoticon);
+		drawer.onEmotionDoubleTapped(emoticon);
+	}
+
+	// ////////////////////////////////////////////////////
+	// / Locatie ///
+	// ////////////////////////////////////////////////////
+
+	/**
+	 * Deze methode initialiseert het opzoeken van de locatie.
+	 * 
+	 * De primaire methode is het bepalen van de locatie via Netwerkgegevens.
+	 * Als dit niet lukt, wordt er gebruikgemaakt van de GPS (als deze
+	 * aanstaat). Is er geen internetverbinding en staat de GPS af, dan wordt de
+	 * locatie niet opgezocht.
+	 */
+	private void initCurrentLocation() {
+		LocationManager locationManager;
+		String svcName = Context.LOCATION_SERVICE;
+		locationManager = (LocationManager) getSystemService(svcName);
+
+		String provider;
+		boolean gpsEnabled = locationManager
+				.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean internetEnabled = isNetworkConnected();
+
+		if (internetEnabled) {
+			Log.i("Location Method", "Internet");
+			Criteria criteria = new Criteria();
+			criteria.setAccuracy(Criteria.ACCURACY_FINE);
+			criteria.setPowerRequirement(Criteria.POWER_LOW);
+			criteria.setAltitudeRequired(false);
+			criteria.setBearingRequired(false);
+			criteria.setSpeedRequired(false);
+			criteria.setCostAllowed(true);
+			provider = locationManager.getBestProvider(criteria, true);
+			locationManager.requestSingleUpdate(provider, locationListener,
+					null);
+		} else if (gpsEnabled) {
+			Log.i("Location Method", "GPS");
+			provider = LocationManager.GPS_PROVIDER;
+			locationManager.requestSingleUpdate(provider, locationListener,
+					null);
+		} else {
+			Log.i("Location Method", "none");
+		}
+	}
+
+	/**
+	 * Methode die nagaat of de gebruiker met internet verbonden is.
+	 * 
+	 * @return True als de gebruiker met internet verbonden is.
+	 */
+	private boolean isNetworkConnected() {
+		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+		if (networkInfo != null) {
+			// Geen actieve netwerken
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Methode die de currentCity en currentCountry variable invult, gebaseerd
+	 * op het meegegeven Location object.
+	 * 
+	 * @param currentLocation
+	 *            De huidige locatie.
+	 */
+	private void getCityOfLocation(Location currentLocation) {
+		double lat = currentLocation.getLatitude();
+		double lng = currentLocation.getLongitude();
+
+		Geocoder geocoder = new Geocoder(getApplicationContext(),
+				Locale.getDefault());
+		List<Address> addresses;
+		try {
+			if (isNetworkConnected()) {
+				addresses = geocoder.getFromLocation(lat, lng, 1);
+				Address first = addresses.get(0);
+				currentCity = first.getLocality();
+				currentCountry = first.getCountryName();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			currentCity = "No location Found";
+			currentCountry = "No location Found";
+		}
+	}
+
+	/**
+	 * Variabele die ervoor zorgt dat de huidige locatie wordt geupdated indien
+	 * nodig. Dit is wanneer de huidige locatie verandert of wanneer de
+	 * gebruiker verbinding maakt met het internet.
+	 */
+	private final LocationListener locationListener = new LocationListener() {
+		@Override
+		public void onLocationChanged(Location location) {
+			getCityOfLocation(location);
+			Log.i("Location", "Updated location");
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			Log.i("Provider", provider);
+			initCurrentLocation();
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+		}
+	};
+
+	// ////////////////////////////////////////////////////
+	// / EmotionSelectionListener ///
+	// ////////////////////////////////////////////////////
+
+	// Aangeroepen wanneer de gebruiker een emotie opneemt (Android 4.0).
+	@Override
+	public void onEmotionSelected(Emotion emoticon) {
+		// doe niets.
+	}
+
+	// Aangeroepen wanneer de gebruiker dubbelklikt op een emotie (Android 2.3).
+	@Override
+	public void onEmotionDoubleTapped(Emotion emoticon) {
+		userSelectedEmoticon(emoticon);
+	}
+
+	// Aangeroepen wanneer de gebruiker een emotie dropt op de grote (lege)
+	// emoticon (Android 4.0).
+	@Override
+	public void onEmotionDeselected(Emotion emoticon) {
+		// userSelectedEmoticon(emoticon);
+	}
+
+	// ////////////////////////////////////////////////////
+	// / Swipeable ///
+	// ////////////////////////////////////////////////////
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.findingemos.felicity.general.SimpleSwipeListener#onSwipeLeft()
+	 */
+	@Override
+	public void onSwipeLeft() {
+		Log.d("--scrolled--", "scrolled to the right!");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.findingemos.felicity.general.SimpleSwipeListener#onSwipeRight()
+	 */
+	@Override
+	public void onSwipeRight() {
+		Log.d("--scrolled--", "scrolled to the left!");
+		switchToVisualization();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.findingemos.felicity.util.Swipeable#onSwipeUp()
+	 */
+	@Override
+	public void onSwipeUp() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.findingemos.felicity.util.Swipeable#onSwipeDown()
+	 */
+	@Override
+	public void onSwipeDown() {
 	}
 }

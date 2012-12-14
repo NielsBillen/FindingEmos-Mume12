@@ -1,52 +1,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/visualization_main_screen"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@drawable/emotionbackground">
+    android:background="@drawable/emotionbackground"
+    android:orientation="vertical" >
 
-    <!-- Add the custom activity indicator -->
     <com.findingemos.felicity.general.ActivityIndicator
         android:id="@+id/activityIndicator"
         android:layout_width="fill_parent"
         android:layout_height="32dp" />
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:id="@+id/topSelector"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
-        
-        <com.findingemos.felicity.visualization.ArrowButton
-            android:id="@+id/topArrowLeft"
-            android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:clickable="true"
+        android:paddingLeft="10dp" >
+
+        <TextView
+            android:id="@+id/filter"
+            android:layout_width="0dip"
             android:layout_height="match_parent"
-            />
-        
-        <com.findingemos.felicity.visualization.OptionSpinner
-            android:id="@+id/topSpinner"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            />
-        
-        <com.findingemos.felicity.visualization.ArrowButton
-            android:id="@+id/topArrowRight"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            />
-        
-        
+            android:layout_gravity="center"
+            android:layout_weight="1.50"
+            android:text="@string/visualizations_time"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
-    <ImageView 
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="@string/emoticon_description"
-        android:id="@+id/dummyChart"
+
+    <com.findingemos.felicity.util.VerticalScrollView
+        android:id="@+id/visualization_emo_scrollview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@drawable/dummy_chart"
-        android:scaleType="center">      
-    </ImageView>
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:id="@+id/visualization_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </com.findingemos.felicity.util.VerticalScrollView>
+
 </LinearLayout>

@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/emotionbackground"
+    tools:context=".SettingsActivity" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Settings"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/White" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="29dp"
+        android:text="First name First"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/White" />
+
+    <ToggleButton
+        android:id="@+id/firstNameFirstButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignParentRight="true"
+        android:text="ToggleButton" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/firstNameFirstButton"
+        android:layout_marginTop="50dp"
+        android:text="Clear Database"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/White" />
+
+    <Button
+        android:id="@+id/clearDatabaseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignParentRight="true"
+        android:text="Clear!" />
+
+</RelativeLayout>

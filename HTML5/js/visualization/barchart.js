@@ -83,27 +83,36 @@ function loadBarChartResources(canvas) {
 	 * Laad de selectiedata van de emoties in vanuit
 	 * de SQL database.
 	 */
-	if (currentTimeFilter == 2) {
-		getAllSelectionsOfEmotionsToday(function(result) {
-			if (localCallNumber != barChartLoadCalls)
-				return;
-			setBarChartData(result);
-		});
+	
+	var time = getSelectedTime();
+ 	var location = getSelectedLocation();
+ 	var activity = getSelectedActivity();
+ 	var friend = getSelectedFriend(); 	
+	
+	if(time == "All time") {
+		time = null;
+	} else if (time == "This month") {
+		time = new Date().getTime() - 1000*31*24*60*60;
+	} else if (time == "This week") {
+		time = new Date().getTime() - 1000*7*24*60*60;
+	} else if (time == "Today") {
+		console.log("in Today");
+		var currentDate = new Date();
+		var currentDayTimeInMillis = (currentDate.getHours()*3600 + currentDate.getMinutes()*60 + currentDate.getSeconds())*1000;
+		time = currentDate.getTime() - currentDayTimeInMillis;
 	}
-	else if (currentTimeFilter == 1) {
-		getAllSelectionsOfEmotionsThisWeek(function(result) {
-			if (localCallNumber != barChartLoadCalls)
-				return;
-			setBarChartData(result);
-		});
-	}
-	else {
-		getAllSelectionsOfEmotionsThisMonth(function(result) {
-			if (localCallNumber != barChartLoadCalls)
-				return;
-			setBarChartData(result);
-		});
-	}
+	
+	if(location == "Everywhere") location = null;
+	if(activity == "All activities") activity = null;
+	if(friend == "Everyone") friend = null;
+	
+	console.log(time + location + activity + friend);
+		
+	getAllSelectionsOfEmotions(time, location, activity, friend, function(result) {
+		if (localCallNumber != barChartLoadCalls)
+			return;
+		setBarChartData(result);
+	});
 	
 	/*
 	 * Verander de hoogte van het canvas.
@@ -114,8 +123,6 @@ function loadBarChartResources(canvas) {
 
 function setBarChartData(data) {
 	barChartLoadedData=true;
-	
-	console.log('Data length: '+data.length);
 	
 	for(var l=0;l<data.length;l++) {
 		barChartSelectionArray[l]=data[l];

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/emotionbackground"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/visualizations_adjust_filters"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/White" />
+
+    <LinearLayout
+        android:id="@+id/timeSelector"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+
+        <com.findingemos.felicity.visualization.ArrowButton
+            android:id="@+id/timeArrowLeft"
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+
+        <com.findingemos.felicity.visualization.OptionSpinner
+            android:id="@+id/timeSpinner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <com.findingemos.felicity.visualization.ArrowButton
+            android:id="@+id/timeArrowRight"
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/locationSelector"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+
+        <com.findingemos.felicity.visualization.ArrowButton
+            android:id="@+id/locationArrowLeft"
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+
+        <com.findingemos.felicity.visualization.OptionSpinner
+            android:id="@+id/locationSpinner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <com.findingemos.felicity.visualization.ArrowButton
+            android:id="@+id/locationArrowRight"
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/whoSelector"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+
+        <com.findingemos.felicity.visualization.ArrowButton
+            android:id="@+id/whoArrowLeft"
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+
+        <com.findingemos.felicity.visualization.OptionSpinner
+            android:id="@+id/whoSpinner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <com.findingemos.felicity.visualization.ArrowButton
+            android:id="@+id/whoArrowRight"
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/doingSelector"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+
+        <com.findingemos.felicity.visualization.ArrowButton
+            android:id="@+id/doingArrowLeft"
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+
+        <com.findingemos.felicity.visualization.OptionSpinner
+            android:id="@+id/doingSpinner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <com.findingemos.felicity.visualization.ArrowButton
+            android:id="@+id/doingArrowRight"
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/filterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/visualizations_filterbutton" />
+
+</LinearLayout>

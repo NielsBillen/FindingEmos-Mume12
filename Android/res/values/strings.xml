@@ -1,6 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Felicity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="ok">OK</string>
+    <string name="add">Add</string>
+    <string name="no_friends">0 friends are selected</string>
+    <string name="new_category">Enter new category</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_emotion">Felicity</string>
     <string name="title_activity_visualization">Visualization</string>
@@ -9,7 +14,7 @@
     <string name="emoticon_description">Emoticon</string>
     <string name="emoticon_smile">Smile</string>
     <string name="emoticon_bored">Bored</string>
-  	<string name="emoticon_love">Love</string>
+    <string name="emoticon_love">Love</string>
     <string name="emoticon_angry">Angry</string>
     <string name="emoticon_happy">Happy</string>
     <string name="emoticon_excited">Excited</string>
@@ -23,4 +28,22 @@
     <string name="emoticon_confused">Confused</string>
     <string name="emoticon_releaved">Releaved</string>
     <string name="emoticon_afraid">Afraid</string>
+    <string name="title_activity_location_finder">LocationFinderActivity</string>
+    <string name="title_activity_with_who">WithWhoActivity</string>
+    <string name="no_contacts">There are no contacts available</string>
+    <string name="contacts_view_no_contact_name">Default Name</string>
+    <string name="contacts_view_title">Who are you with?</string>
+    <string name="contacts_view_favorites">Favorites</string>
+    <string name="contacts_view_all_contacts">All contacts</string>
+    <string name="title_activity_doing">DoingActivity</string>
+    <string name="select_category">Select you category</string>
+    <string name="visualizations_time">All Time</string>
+    <string name="visualizations_location">Everywhere</string>
+    <string name="visualizations_who">Everyone</string>
+    <string name="visualizations_doing">All</string>
+    <string name="visualizations_adjust_filters">Adjust your filters here!</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="visualizations_filterbutton">Filter!</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
 </resources>
