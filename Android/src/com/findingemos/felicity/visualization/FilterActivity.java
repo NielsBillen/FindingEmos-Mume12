@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -103,6 +105,26 @@ public class FilterActivity extends FragmentActivity {
 
 		spinner = (Spinner) findViewById(R.id.doingSpinner);
 		spinner.setAdapter(spinnerArrayAdapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				String name = (String) parent.getItemAtPosition(pos);
+				if (!name.equals(DOING)) {
+					doingFilter = name;
+				} else {
+					doingFilter = null;
+				}
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	/**
@@ -110,8 +132,16 @@ public class FilterActivity extends FragmentActivity {
 	 */
 	private void makeWhoSpinner() {
 		Spinner spinner = new Spinner(this);
+		String[] names = EmotionActivity.DATABASE.getChosenContactNames();
+		String[] options = new String[names.length + 1];
+		options[0] = WHO;
+		int i = 1;
+		for(String name: names) {
+			options[i] = name;
+			i++;
+		}
 		ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-				this, android.R.layout.simple_spinner_item, loadContactNames()) {
+				this, android.R.layout.simple_spinner_item, options) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				View v = super.getView(position, convertView, parent);
@@ -127,6 +157,26 @@ public class FilterActivity extends FragmentActivity {
 
 		spinner = (Spinner) findViewById(R.id.whoSpinner);
 		spinner.setAdapter(spinnerArrayAdapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				String name = (String) parent.getItemAtPosition(pos);
+				if (!name.equals(WHO)) {
+					whoFilter = name;
+				} else {
+					whoFilter = null;
+				}
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	/**
@@ -188,6 +238,27 @@ public class FilterActivity extends FragmentActivity {
 
 		spinner = (Spinner) findViewById(R.id.timeSpinner);
 		spinner.setAdapter(spinnerArrayAdapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				String name = (String) parent.getItemAtPosition(pos);
+				System.out.println("TIME: " + name);
+				if (!name.equals(TIME)) {
+					timeFilter = name;
+				} else {
+					timeFilter = null;
+				}
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	/**
@@ -213,6 +284,26 @@ public class FilterActivity extends FragmentActivity {
 
 		spinner = (Spinner) findViewById(R.id.locationSpinner);
 		spinner.setAdapter(spinnerArrayAdapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				String name = (String) parent.getItemAtPosition(pos);
+				if (!name.equals(LOCATION)) {
+					locationFilter = name;
+				} else {
+					locationFilter = null;
+				}
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	/**
@@ -252,39 +343,5 @@ public class FilterActivity extends FragmentActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
-	}
-
-	private String[] loadContactNames() {
-		Uri uri = ContactsContract.Contacts.CONTENT_URI;
-		String[] projection = new String[] {
-				ContactsContract.Contacts.DISPLAY_NAME, BaseColumns._ID,
-				ContactsContract.Contacts.HAS_PHONE_NUMBER };
-		Cursor people = getContentResolver().query(uri, projection, null, null,
-				ContactsContract.Contacts.DISPLAY_NAME);
-
-		int indexName = people
-				.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-		int indexHasNumber = people
-				.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
-
-		List<String> contacts = new ArrayList<String>();
-		contacts.add(WHO);
-		while (people.moveToNext()) {
-			String hasNumber = people.getString(indexHasNumber);
-			if (hasNumber.equals("1")) {
-				contacts.add(people.getString(indexName));
-			}
-		}
-
-		String[] resultSet = new String[contacts.size()];
-		int i = 0;
-		for (String contact : contacts) {
-			resultSet[i] = contact;
-			i++;
-		}
-
-		if (people != null)
-			people.close();
-		return resultSet;
 	}
 }

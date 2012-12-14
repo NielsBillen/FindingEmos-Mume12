@@ -642,6 +642,47 @@ public class EmotionDatabase {
 
 		return contacts;
 	}
+	
+	public String[] getChosenContactNames() {
+		List<String> names = new ArrayList<String>();
+
+		if (isClosed) {
+			open();
+		}
+
+		Cursor cursor = database.query(true, CONTACTSCOUNT, new String[] {
+				CONTACTS_KEY_ID, CONTACTS_KEY_NAME, CONTACTS_KEY_IMAGE,
+				CONTACTS_KEY_COUNT }, null, null, null, null,
+				CONTACTS_KEY_COUNT + " DESC", null);
+
+		cursor.moveToFirst();
+
+		if (cursor != null) {
+			for (int i = 0; i < cursor.getCount(); i++) {
+				names.add(cursor.getString(1));
+
+
+				if (i < cursor.getCount() - 1) {
+					cursor.moveToNext();
+				} else {
+					break;
+				}
+			}
+		}
+
+		if (cursor != null)
+			cursor.close();
+		
+		String[] namesString = new String[names.size()];
+		
+		int i = 0;
+		for(String name:names) {
+			namesString[i] = name;
+			i++;
+		}
+
+		return namesString;
+	}
 
 	// ///////////////////////////////////////////////////////////////////
 	// / COUNT TABLE ///

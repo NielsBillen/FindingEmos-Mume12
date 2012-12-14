@@ -57,6 +57,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:text="@string/add"
+            android:textColor="@color/White"
             android:textSize="14sp" />
 
         <EditText
@@ -68,6 +69,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_toRightOf="@+id/doing_button_add"
+            android:textColor="@color/White"
             android:ems="10"
             android:hint="@string/new_category" >
         </EditText>
