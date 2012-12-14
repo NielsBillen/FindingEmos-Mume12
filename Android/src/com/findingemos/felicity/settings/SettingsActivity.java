@@ -9,8 +9,8 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.findingemos.felicity.R;
 import com.findingemos.felicity.backend.EmotionDatabase;
@@ -25,6 +25,8 @@ public class SettingsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
+		
+		setTitle("Settings");
 
 		final EmotionDatabase database = EmotionActivity.DATABASE;
 		firstName = database.firstNameFirst();
@@ -76,7 +78,7 @@ public class SettingsActivity extends Activity {
 			}
 		});
 
-		ToggleButton firstname = (ToggleButton) findViewById(R.id.firstNameFirstButton);
+		CheckBox firstname = (CheckBox) findViewById(R.id.firstNameFirstButton);
 		firstname.setChecked(firstName);
 		firstname.setOnClickListener(new OnClickListener() {
 

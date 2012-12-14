@@ -5,54 +5,81 @@
     android:background="@drawable/emotionbackground"
     tools:context=".SettingsActivity" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <View
+        android:id="@+id/LineDatabase"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Settings"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/White" />
+        android:layout_below="@+id/ContactsText"
+        android:background="@color/White" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/firstnamefirst"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="29dp"
+        android:layout_alignTop="@+id/firstNameFirstButton"
+        android:layout_marginLeft="14dp"
         android:text="First name First"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/White" />
 
-    <ToggleButton
+    <CheckBox
         android:id="@+id/firstNameFirstButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
         android:layout_alignParentRight="true"
-        android:text="ToggleButton" />
+        android:layout_below="@+id/LineDatabase"
+        android:layout_marginTop="17dp" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <View
+        android:id="@+id/LineContacts"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/firstNameFirstButton"
-        android:layout_marginTop="50dp"
-        android:text="Clear Database"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/White" />
+        android:layout_below="@+id/DatabaseText"
+        android:background="@color/White" />
 
     <Button
         android:id="@+id/clearDatabaseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView3"
-        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignBaseline="@+id/cleardatabase"
+        android:layout_alignBottom="@+id/cleardatabase"
         android:layout_alignParentRight="true"
+        android:textColor="@color/White"
         android:text="Clear!" />
+
+    <TextView
+        android:id="@+id/cleardatabase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/firstnamefirst"
+        android:layout_below="@+id/LineContacts"
+        android:layout_marginTop="19dp"
+        android:text="Clear Database"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/White" />
+
+    <TextView
+        android:id="@+id/ContactsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/firstnamefirst"
+        android:layout_alignParentTop="true"
+        android:text="Contacts"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/White" />
+
+    <TextView
+        android:id="@+id/DatabaseText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cleardatabase"
+        android:layout_below="@+id/firstNameFirstButton"
+        android:layout_marginTop="20dp"
+        android:text="Database"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/White" />
 
 </RelativeLayout>

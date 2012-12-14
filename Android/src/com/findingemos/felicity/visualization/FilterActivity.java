@@ -13,7 +13,12 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import com.findingemos.felicity.R;
 import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.emoticon.EmotionActivity;
@@ -38,6 +43,8 @@ public class FilterActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.filter_activity);
+		
+		setTitle("Adjust your filters!");
 
 		initializeStringResources();
 
@@ -70,13 +77,6 @@ public class FilterActivity extends FragmentActivity {
 	 * 
 	 */
 	private void makeDoingSpinner() {
-		ArrowButton leftDoing = (ArrowButton) findViewById(R.id.doingArrowLeft);
-		leftDoing.setArrowDirection(ArrowButton.DIRECTION_LEFT);
-		ArrowButton rightDoing = (ArrowButton) findViewById(R.id.doingArrowRight);
-		rightDoing.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
-		OptionSpinner doingSpinner = (OptionSpinner) findViewById(R.id.doingSpinner);
-		doingSpinner.setLeftButton(leftDoing);
-		doingSpinner.setRightButton(rightDoing);
 		String[] activities = EmotionActivity.DATABASE.readActivities();
 		String[] doingOptions = new String[activities.length + 1];
 		doingOptions[0] = DOING;
@@ -85,44 +85,48 @@ public class FilterActivity extends FragmentActivity {
 			doingOptions[i] = doing;
 			i++;
 		}
-		doingSpinner.setOptions(doingOptions);
-		doingSpinner.addListener(new SpinnerListener() {
-
+		Spinner spinner = new Spinner(this);
+		ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+				this, android.R.layout.simple_spinner_item, doingOptions) {
 			@Override
-			public void optionChanged(int index, String name) {
-				if (!name.equals(DOING)) {
-					doingFilter = name;
-				} else {
-					doingFilter = null;
-				}
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View v = super.getView(position, convertView, parent);
+
+				((TextView) v).setTextSize(25);
+				((TextView) v).setTextColor(getResources().getColorStateList(
+						R.color.White));
+				return v;
 			}
-		});
+		};
+		spinnerArrayAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		spinner = (Spinner) findViewById(R.id.doingSpinner);
+		spinner.setAdapter(spinnerArrayAdapter);
 	}
 
 	/**
 	 * 
 	 */
 	private void makeWhoSpinner() {
-		ArrowButton leftWho = (ArrowButton) findViewById(R.id.whoArrowLeft);
-		leftWho.setArrowDirection(ArrowButton.DIRECTION_LEFT);
-		ArrowButton rightWho = (ArrowButton) findViewById(R.id.whoArrowRight);
-		rightWho.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
-		OptionSpinner whoSpinner = (OptionSpinner) findViewById(R.id.whoSpinner);
-		whoSpinner.setLeftButton(leftWho);
-		whoSpinner.setRightButton(rightWho);
-		whoSpinner.setOptions(loadContactNames());
-		whoSpinner.addListener(new SpinnerListener() {
-
+		Spinner spinner = new Spinner(this);
+		ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+				this, android.R.layout.simple_spinner_item, loadContactNames()) {
 			@Override
-			public void optionChanged(int index, String name) {
-				System.out.println("Option changed!!!!!!!");
-				if (!name.equals(WHO)) {
-					whoFilter = name;
-				} else {
-					whoFilter = null;
-				}
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View v = super.getView(position, convertView, parent);
+
+				((TextView) v).setTextSize(25);
+				((TextView) v).setTextColor(getResources().getColorStateList(
+						R.color.White));
+				return v;
 			}
-		});
+		};
+		spinnerArrayAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		spinner = (Spinner) findViewById(R.id.whoSpinner);
+		spinner.setAdapter(spinnerArrayAdapter);
 	}
 
 	/**
@@ -165,51 +169,50 @@ public class FilterActivity extends FragmentActivity {
 	 * 
 	 */
 	private void makeTimeSpinner() {
-		ArrowButton leftTime = (ArrowButton) findViewById(R.id.timeArrowLeft);
-		leftTime.setArrowDirection(ArrowButton.DIRECTION_LEFT);
-		ArrowButton rightTime = (ArrowButton) findViewById(R.id.timeArrowRight);
-		rightTime.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
-		OptionSpinner timeSpinner = (OptionSpinner) findViewById(R.id.timeSpinner);
-		timeSpinner.setLeftButton(leftTime);
-		timeSpinner.setRightButton(rightTime);
-		timeSpinner.setOptions(TIME, TODAY, WEEK, MONTH);
-		timeSpinner.addListener(new SpinnerListener() {
-
+		Spinner spinner = new Spinner(this);
+		String[] times = { TIME, TODAY, WEEK, MONTH };
+		ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+				this, android.R.layout.simple_spinner_item, times) {
 			@Override
-			public void optionChanged(int index, String name) {
-				if (!name.equals(TIME)) {
-					timeFilter = name;
-				} else {
-					timeFilter = null;
-				}
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View v = super.getView(position, convertView, parent);
+
+				((TextView) v).setTextSize(25);
+				((TextView) v).setTextColor(getResources().getColorStateList(
+						R.color.White));
+				return v;
 			}
-		});
+		};
+		spinnerArrayAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		spinner = (Spinner) findViewById(R.id.timeSpinner);
+		spinner.setAdapter(spinnerArrayAdapter);
 	}
 
 	/**
 	 * 
 	 */
 	private void makeLocationSpinner() {
-		ArrowButton leftLocation = (ArrowButton) findViewById(R.id.locationArrowLeft);
-		leftLocation.setArrowDirection(ArrowButton.DIRECTION_LEFT);
-		ArrowButton rightLocation = (ArrowButton) findViewById(R.id.locationArrowRight);
-		rightLocation.setArrowDirection(ArrowButton.DIRECTION_RIGHT);
-		OptionSpinner locationSpinner = (OptionSpinner) findViewById(R.id.locationSpinner);
-		locationSpinner.setLeftButton(leftLocation);
-		locationSpinner.setRightButton(rightLocation);
-		String[] locationSpinnerOptions = makeLocationSpinnerOptions();
-		locationSpinner.setOptions(locationSpinnerOptions);
-		locationSpinner.addListener(new SpinnerListener() {
-
+		Spinner spinner = new Spinner(this);
+		ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+				this, android.R.layout.simple_spinner_item,
+				makeLocationSpinnerOptions()) {
 			@Override
-			public void optionChanged(int index, String name) {
-				if (!name.equals(LOCATION)) {
-					locationFilter = name;
-				} else {
-					locationFilter = null;
-				}
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View v = super.getView(position, convertView, parent);
+
+				((TextView) v).setTextSize(25);
+				((TextView) v).setTextColor(getResources().getColorStateList(
+						R.color.White));
+				return v;
 			}
-		});
+		};
+		spinnerArrayAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		spinner = (Spinner) findViewById(R.id.locationSpinner);
+		spinner.setAdapter(spinnerArrayAdapter);
 	}
 
 	/**

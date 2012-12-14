@@ -40,7 +40,7 @@
     <string name="visualizations_time">All Time</string>
     <string name="visualizations_location">Everywhere</string>
     <string name="visualizations_who">Everyone</string>
-    <string name="visualizations_doing">All</string>
+    <string name="visualizations_doing">All Activities</string>
     <string name="visualizations_adjust_filters">Adjust your filters here!</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="visualizations_filterbutton">Filter!</string>
