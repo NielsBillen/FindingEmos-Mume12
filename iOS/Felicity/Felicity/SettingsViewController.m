@@ -16,4 +16,8 @@
 {
     [super viewDidLoad];
 }
+
+-(NSUInteger) supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
 @end

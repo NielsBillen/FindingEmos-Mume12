@@ -8,22 +8,28 @@
 //  Copyright (c) 2012 Ariadne. All rights reserved.
 //
 
+#import "FelicityViewController.h"
 #import "InputViewController.h"
 #import "Database.h"
 #import "Emotion.h"
+#import "DraggableImage.h"
 #import "FelicityUtil.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface InputViewController ()
-@property NSString *currentActivy;
-@property Emotion *currentEmotion;
-@property NSArray *favoritePersons;
-@property NSMutableDictionary *contactsList;
-@property BOOL favoriteOneSelected, favoriteTwoSelected, favoriteThreeSelected;
+    @property NSString *currentActivy;
+    @property Emotion *currentEmotion;
+    @property NSArray *favoritePersons;
+    @property NSMutableDictionary *contactsList;
+    @property BOOL favoriteOneSelected, favoriteTwoSelected, favoriteThreeSelected;
+    @property BOOL handleTouchEvents;
 @end
 
 @implementation InputViewController
 
+@synthesize parentScrollView;
+@synthesize startView;
+@synthesize handleTouchEvents;
 @synthesize emotionScroller, currentEmotionView, textLabel, emotionsOverviewView, inputView, emotionsButton, inputViewButton, whatDoingView,withWhoView;
 @synthesize currentActivy;
 @synthesize currentEmotion;
@@ -33,19 +39,46 @@
 @synthesize favoritePersons;
 @synthesize contactsList;
 
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil and:(UIScrollView*) parent {
+    
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        parentScrollView=parent;
+    }
+    return self;
+    
+}
+
 // Wordt opgeroepen wanneer de Input page geladen is.
 - (void)viewDidLoad {
     [super viewDidLoad];
         
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    UIColor *emotionbackground = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"emotionscrollviewbackground"]];
+
+    handleTouchEvents = YES;
     
     [self loadImages];
-    [self createScrollingEmotionsWithBackground:background];
+    [self createScrollingEmotionsWithBackground:emotionbackground];
     [self createEmotionsOverviewPage];
     [self createFriendViewWithBackground:background];
     
     // Nodig om te kunnen terugswitchen van de emotionsOverview Page naar de "gewone" view.
     inputView = self.view;
+    
+    // Create the filter button
+    [inputViewButton setTitle:@"Back" forState:UIControlStateNormal];
+    inputViewButton.titleLabel.textColor =[UIColor whiteColor];
+    inputViewButton.backgroundColor = [UIColor grayColor];
+    CAGradientLayer *filtergradient = [FelicityUtil createGradient:inputViewButton.bounds];
+    [inputViewButton.layer insertSublayer:filtergradient atIndex:0];
+    inputViewButton.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    inputViewButton.layer.borderWidth = 1.f;
+    inputViewButton.layer.cornerRadius = 10.f;
+    inputViewButton.layer.shadowOffset = CGSizeMake(0.f, 1.f);
+    inputViewButton.layer.shadowColor = [UIColor whiteColor].CGColor;
+    inputViewButton.layer.shadowRadius = 2;
+    inputViewButton.layer.shadowOpacity = 0.5f;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +106,11 @@
  */
 -(void) createScrollingEmotionsWithBackground:(UIColor *)background {
     NSArray *emotions = [[Database database] retrieveEmotionsFromDatabase];
-    emotionScroller.contentSize = CGSizeMake(80*emotions.count, 64);
+    
+    int horizontalMargin = 8;
+    int horizontalScrollSize = 2*horizontalMargin+80*emotions.count;
+    
+    emotionScroller.contentSize = CGSizeMake(horizontalScrollSize, 64);
     emotionScroller.backgroundColor = background;
     [self.view addSubview:emotionScroller];
     
@@ -86,16 +123,23 @@
         frame.origin.y = 4;
         frame.size = CGSizeMake(64,64);
         
-        UIImageView *subview = [[UIImageView alloc] initWithFrame:frame];
+        Emotion *localEmotion = [emotions objectAtIndex:i];
+        
+        DraggableImage *subview = [[DraggableImage alloc] initWithFrame:frame and:emotionScroller and:parentScrollView and:self and:localEmotion];
+        //DraggableImage *subview = [[DraggableImage alloc] initWithFrame:frame and:emotionScroller and:parentScrollView and: emotion];
         subview.image = image;
+        subview.contentMode = UIViewContentModeScaleAspectFit;
         [subview setUserInteractionEnabled:YES];
         
+        /*
         // Eenmaal tappen = naam op scherm.
         UITapGestureRecognizer * singleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(viewEmotionName:)];
         singleTapRecognizer.numberOfTapsRequired = 1;
-        singleTapRecognizer.delaysTouchesEnded = YES;
+        singleTapRecognizer.delaysTouchesEnded = NO;
         singleTapRecognizer.cancelsTouchesInView = NO;
         [subview addGestureRecognizer:singleTapRecognizer];
+        
+        
         
         // Tweemaal tappen = emotion op scherm.
         UITapGestureRecognizer * doubleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleEmotionSelected:)];
@@ -105,6 +149,7 @@
         
         [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
         
+         */
         [self->emotionScroller addSubview:subview];
     };
 }
@@ -128,14 +173,15 @@
         imageName.textAlignment = NSTextAlignmentCenter;
         imageName.textColor = [UIColor whiteColor];
         imageName.backgroundColor = [UIColor blackColor];
-        [imageName setFont:[UIFont fontWithName:@"Arial" size:12]];
+        [imageName setFont:[UIFont boldSystemFontOfSize:12]];
         [self.emotionsOverviewView addSubview:imageName];
         
         UIImageView *subview = [[UIImageView alloc] initWithFrame:frame];
         subview.image = image;
+        subview.contentMode = UIViewContentModeScaleAspectFit;
         [subview setUserInteractionEnabled:YES];
         
-        UITapGestureRecognizer * recognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleEmotionSelected:)];
+        UITapGestureRecognizer * recognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleEmotionTapped:)];
         recognizer.cancelsTouchesInView = NO;
         [subview addGestureRecognizer:recognizer];
         
@@ -148,12 +194,20 @@
  ** de emotionScroller onderaan de inputpagina.
  ** Geeft de naam van de emoticon in kwestie weer op het scherm.
  */
-- (IBAction)viewEmotionName:(UITapGestureRecognizer *)recognizer {
-    UIImageView *tappedView = (UIImageView*) recognizer.view;
-    Emotion *emotion = [images objectForKey:tappedView.image];
-    
-    textLabel.text = emotion.displayName;
-    [textLabel setFont: [UIFont fontWithName:@"Arial" size:20.0]];
+- (void)viewEmotionName:(Emotion*) emotion {
+    if (handleTouchEvents) {
+        // Animatie
+        [UIView animateWithDuration:(0.2) animations:^{
+            [textLabel setAlpha:0.f];
+        } completion:^(BOOL finished){
+            textLabel.text = emotion.displayName;
+        
+            [UIView animateWithDuration:(0.2) animations:^{
+                [textLabel setAlpha:1.f];
+                [textLabel setFont: [UIFont boldSystemFontOfSize:20.0]];
+            }];
+        }];
+    }
 }
 
 /*
@@ -162,30 +216,131 @@
  ** de emotionsOverview pagina.
  ** Geeft de emoticon in kwestie en zijn naam weer op het scherm.
  */
-- (IBAction)handleEmotionSelected:(UITapGestureRecognizer *)recognizer {
-    UIImageView *tappedView = (UIImageView*) recognizer.view;
-    Emotion *emotion = [images objectForKey:tappedView.image];
+
+-(void) handleEmotionTapped:(UIGestureRecognizer*) recogniser {
+    UIImageView *view = (UIImageView*) recogniser.view;
+    Emotion* emotion = [images objectForKey:view.image];
     
-    UIImage *image = [UIImage imageNamed:emotion.largeImage];
-    currentEmotionView.image = image;
+    [self handleEmotionSelected:emotion];
+}
+
+- (void)handleEmotionSelected:(Emotion*) emotion {
+    if (handleTouchEvents) {
+        handleTouchEvents = NO;
+        
+        if ([self view] != startView) {
+            startView.frame = CGRectMake(0, 0, startView.frame.size.width, startView.frame.size.height);
+            [self view].frame = CGRectMake(0, 0, [self view].frame.size.width, [self view].frame.size.height);
+            
+            [UIView transitionFromView:[self view] toView:startView duration:1.0 options:UIViewAnimationOptionTransitionCurlDown completion:^(BOOL finished) {
+                [self setView:startView];
+                
+                [self changeToEmotion:emotion];
+            }];
+        }
+        else {
+            [self changeToEmotion:emotion];
+        }
+    }
+}
+
+-(BOOL) canHandleTouchEvents {
+    return handleTouchEvents;
+}
+
+/*
+- (void) handleSelectionOfEmotion:(Emotion*) emotion {
+    if (handleTouchEvents) {
+        handleTouchEvents = NO;
     
-    textLabel.text = emotion.displayName;
-    [textLabel setFont: [UIFont fontWithName:@"Arial" size:35.0]];
+        // Sla op welke emotie geselecteerd is
+        currentEmotion = emotion;
     
+        // Animatie
+        [UIView animateWithDuration:(0.4) animations:^{
+            [textLabel setAlpha:0.f];
+            [currentEmotionView setAlpha:0.f];
+        } completion:^(BOOL finished) {
+            textLabel.text = emotion.displayName;
+            UIImage *image = [UIImage imageNamed:emotion.largeImage];
+            currentEmotionView.image = image;
+        
+            [UIView animateWithDuration:(0.4) animations:^{
+                [textLabel setAlpha:1.f];
+                [textLabel setFont: [UIFont boldSystemFontOfSize:24.0]];
+                [currentEmotionView setAlpha:1.f];
+            }  completion:^(BOOL finished) {
+                [self setView:inputView];
+                [self performSelector:@selector(enableTouchEventHandeling) withObject:nil afterDelay:0.3];
+            
+                [UIView animateWithDuration:0.2 delay:0.4 options:UIViewAnimationTransitionNone animations:^{
+                startView.alpha = 0;
+                } completion:^(BOOL finished) {
+                    whatDoingView.alpha=0;
+                    [self setView:whatDoingView];
+                
+                    [UIView animateWithDuration:0.2 animations:^{
+                    whatDoingView.alpha=1;
+                    } completion:^(BOOL finished) {
+                    }];
+                }];
+            }];
+        }];
+    }
+}
+*/
+
+- (void) changeToEmotion:(Emotion*) emotion {
     // Sla op welke emotie geselecteerd is
     currentEmotion = emotion;
     
-    [self setView:inputView];
-    
-    [self performSelector:@selector(setView:) withObject:self.whatDoingView afterDelay:0.5];
+    // Animatie
+    [UIView animateWithDuration:(0.4) animations:^{
+        [textLabel setAlpha:0.f];
+        [currentEmotionView setAlpha:0.f];
+    } completion:^(BOOL finished) {
+        textLabel.text = emotion.displayName;
+        UIImage *image = [UIImage imageNamed:emotion.largeImage];
+        currentEmotionView.image = image;
+        
+        [UIView animateWithDuration:(0.4) animations:^{
+            [textLabel setAlpha:1.f];
+            [textLabel setFont: [UIFont boldSystemFontOfSize:24.0]];
+            [currentEmotionView setAlpha:1.f];
+        }  completion:^(BOOL finished) {
+            [self setView:inputView];
+            [self performSelector:@selector(enableTouchEventHandeling) withObject:nil afterDelay:0.3];
+            
+            [UIView animateWithDuration:0.2 delay:0.4 options:UIViewAnimationTransitionNone animations:^{
+                startView.alpha = 0;
+            } completion:^(BOOL finished) {
+                whatDoingView.alpha=0;
+                [self setView:whatDoingView];
+                
+                [UIView animateWithDuration:0.2 animations:^{
+                    whatDoingView.alpha=1;
+                } completion:^(BOOL finished) {
+                }];
+            }];
+        }];
+    }];
 }
 
+- (void) enableTouchEventHandeling {
+    NSLog(@"TouchEventHandeling is re-enabled");
+    handleTouchEvents = YES;
+}
 /*
  ** Een klik op de emotionsButton geeft de emotionsOverview view weer.
  */
 - (IBAction)emotionsButtonPressed:(id)sender {
-    inputView = self.view;
-    [self setView:emotionsOverviewView];
+    if (handleTouchEvents) {
+        startView.frame = CGRectMake(0, 0, startView.frame.size.width, startView.frame.size.height);
+        emotionsOverviewView.frame = CGRectMake(0, 0, emotionsOverviewView.frame.size.width, emotionsOverviewView.frame.size.height);
+        [UIView transitionFromView:startView toView:emotionsOverviewView duration:1.0 options:UIViewAnimationOptionTransitionCurlUp completion:^(BOOL finished) {
+            [self setView:emotionsOverviewView];
+        }];
+    }
 }
 
 /*
@@ -193,7 +348,11 @@
  */
 - (IBAction)inputViewButtonPressed:(id)sender {
     NSLog(@"InputViewButton pressed");
-    [self setView:inputView];
+    startView.frame = CGRectMake(0, 0, startView.frame.size.width, startView.frame.size.height);
+    emotionsOverviewView.frame = CGRectMake(0, 0, emotionsOverviewView.frame.size.width, emotionsOverviewView.frame.size.height);
+    [UIView transitionFromView:emotionsOverviewView toView:startView duration:1.0 options:UIViewAnimationOptionTransitionCurlDown completion:^(BOOL finished) {
+        [self setView:startView];
+    }];
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -202,22 +361,61 @@
 
 // Maak de What Doing pagina aan
 -(void)createWhatDoing {
+    NSLog(@"What doing created");
+    /*
+     * First we clear the scrollview since when we are adding new components, it 
+     * can be possible that we insert everything twice.
+     */
+    for(UIView *subview in self.whatDoingScrollView.subviews)
+        [subview removeFromSuperview];
+    
     NSArray *activities = [[Database database] retrieveActivities];
     int i = 0;
     while(i < activities.count) {
         NSString *activity = activities[i];
-        UIButton *but=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        UIButton *but=[UIButton buttonWithType:UIButtonTypeCustom];
         but.frame= CGRectMake(55, 30 + 70*i, 200, 50);
         [but setTitle:activity forState:UIControlStateNormal];
         [but addTarget:self action:@selector(whatDoingPressed:) forControlEvents:UIControlEventTouchUpInside];
+        
+        /*
+         * Create a gradient
+         */
+        CAGradientLayer *gradient = [FelicityUtil createGradient:but.bounds];
+        [but.layer addSublayer:gradient];
+        
+        but.layer.borderColor = [UIColor darkGrayColor].CGColor;
+        but.layer.borderWidth = 1.f;
+        but.layer.cornerRadius = 10.f;
+        but.layer.shadowOffset = CGSizeMake(0.f, 1.f);
+        but.layer.shadowColor = [UIColor grayColor].CGColor;
+        but.layer.shadowRadius = 2;
+        but.layer.shadowOpacity = 1.f;
+        
         [self.whatDoingScrollView addSubview:but];
         i++;
     }
     // Voeg als laatste nog een plus knop toe
-    UIButton *but=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *but=[UIButton buttonWithType:UIButtonTypeCustom];
     but.frame= CGRectMake(55, 30 + 70*i, 200, 50);
     [but setTitle:@"+" forState:UIControlStateNormal];
+    
+    /*
+     * Create a gradient
+     */
+    CAGradientLayer *gradient = [FelicityUtil createGradient:but.bounds];
     [but addTarget:self action:@selector(addActivity:) forControlEvents:UIControlEventTouchUpInside];
+    [but.layer addSublayer:gradient];
+    
+    but.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    but.layer.borderWidth = 1.f;
+    but.layer.cornerRadius = 10.f;
+    but.layer.shadowOffset = CGSizeMake(0.f, 1.f);
+    but.layer.shadowColor = [UIColor whiteColor].CGColor;
+    but.layer.shadowRadius = 2;
+    but.layer.shadowOpacity = 0.5f;
+    
+    self.whatDoingScrollView.contentSize = CGSizeMake(self.view.frame.size.width,30+70*(i+1));
     [self.whatDoingScrollView addSubview:but];
 }
 
@@ -225,7 +423,24 @@
 - (IBAction)whatDoingPressed:(UIButton *)sender {
     self.currentActivy = [sender currentTitle];
     [[Database database] registerNewEmotionSelected:currentEmotion andActivity:currentActivy];
-    [self setView:withWhoView];
+    
+    contactsList = [FelicityUtil retrieveContactList];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        sender.alpha=0.f;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.3 animations:^{
+            whatDoingView.alpha = 0.f;
+        } completion:^(BOOL finished) {
+            withWhoView.alpha=0;
+            [self setView:withWhoView];
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                withWhoView.alpha=1.f;
+            } completion:^(BOOL finished) {
+            }];
+        }];
+    }];
 }
 
 // Laat de gebruiker zelf een activiteit toevoegen
@@ -251,18 +466,36 @@
 
 // Indien de gebruiker klaar is met vrienden selecteren, wordt deze methode opgeroepen.
 - (IBAction)friendAreSelected:(UIButton *)sender {
+    [UIView animateWithDuration:0.2 animations:^{
+        withWhoView.alpha=0;
+    } completion:^(BOOL finished) {
+        UIView *parent = self.withWhoView.superview;
+        [self.withWhoView removeFromSuperview];
+        self.view = nil;
+        [parent addSubview:self.view];
+        
+        startView.alpha=0;
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            startView.alpha=1.f;
+        } completion:^(BOOL finished) {
+        }];
+    }];
+    
+    /*
     // Verwijder de volledige view, zodat alles opnieuw getekend moet worden!
-    UIView *parent = self.view.superview;
-    [self.view removeFromSuperview];
+    UIView *parent = self.withWhoView.superview;
+    [self.withWhoView removeFromSuperview];
     self.view = nil;
     [parent addSubview:self.view];
+     */
 }
 
 // Maak de vrienden pagina aan.
 - (void)createFriendViewWithBackground:(UIColor *)background {
     int nbActivities = [[Database database] nbOfActivities];
     whatDoingScrollView.contentSize = CGSizeMake(320, 40 + (nbActivities + 1) * 70);
-    whatDoingScrollView.backgroundColor = background;
+
     [self.whatDoingView addSubview:whatDoingScrollView];
     [self createWhatDoing];
     
@@ -274,38 +507,48 @@
     
     self.personTableView.allowsMultipleSelectionDuringEditing = YES;
     
+    NSLog(@"Request favorite persons");
     favoritePersons = [[Database database] getNbBestFriends:3];
+    NSLog(@"Got favorite persons");
+    
+    
     if(favoritePersons) {
-        frequentPerson1.image = [contactsList objectForKey:favoritePersons[0]];
-        frequentPerson1.tag = 1;
-        frequentPerson2.image = [contactsList objectForKey:favoritePersons[1]];
-        frequentPerson2.tag = 2;
-        frequentPerson3.image = [contactsList objectForKey:favoritePersons[2]];
-        frequentPerson3.tag = 3;
-        [contactsList removeObjectForKey:favoritePersons[0]];
-        [contactsList removeObjectForKey:favoritePersons[1]];
-        [contactsList removeObjectForKey:favoritePersons[2]];
+        if (favoritePersons.count>0) {
+            frequentPerson1.image = [contactsList objectForKey:favoritePersons[0]];
+            frequentPerson1.tag = 1;
+            [contactsList removeObjectForKey:favoritePersons[0]];
+            
+            UITapGestureRecognizer * singleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
+            singleTapRecognizer.numberOfTapsRequired = 1;
+            singleTapRecognizer.delaysTouchesEnded = YES;
+            singleTapRecognizer.cancelsTouchesInView = NO;
+            [frequentPerson1 addGestureRecognizer:singleTapRecognizer];
+        }
+        
+        if (favoritePersons.count>1) {
+            frequentPerson2.image = [contactsList objectForKey:favoritePersons[1]];
+            frequentPerson2.tag = 2;
+            [contactsList removeObjectForKey:favoritePersons[1]];
+            
+            UITapGestureRecognizer * singleTapRecognizer2 = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
+            singleTapRecognizer2.numberOfTapsRequired = 1;
+            singleTapRecognizer2.delaysTouchesEnded = YES;
+            singleTapRecognizer2.cancelsTouchesInView = NO;
+            [frequentPerson2 addGestureRecognizer:singleTapRecognizer2];
+        }
+        
+        if (favoritePersons.count>2) {
+            frequentPerson3.image = [contactsList objectForKey:favoritePersons[2]];
+            frequentPerson3.tag = 3;
+            [contactsList removeObjectForKey:favoritePersons[2]];
+            
+            UITapGestureRecognizer * singleTapRecognizer3 = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
+            singleTapRecognizer3.numberOfTapsRequired = 1;
+            singleTapRecognizer3.delaysTouchesEnded = YES;
+            singleTapRecognizer3.cancelsTouchesInView = NO;
+            [frequentPerson3 addGestureRecognizer:singleTapRecognizer3];
+        }
     };
-    // Else: hier kan eventueel code toegevoegd worden om vrienden toe te voegen!
-    
-    UITapGestureRecognizer * singleTapRecognizer = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
-    singleTapRecognizer.numberOfTapsRequired = 1;
-    singleTapRecognizer.delaysTouchesEnded = YES;
-    singleTapRecognizer.cancelsTouchesInView = NO;
-    [frequentPerson1 addGestureRecognizer:singleTapRecognizer];
-    
-    UITapGestureRecognizer * singleTapRecognizer2 = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
-    singleTapRecognizer2.numberOfTapsRequired = 1;
-    singleTapRecognizer2.delaysTouchesEnded = YES;
-    singleTapRecognizer2.cancelsTouchesInView = NO;
-    [frequentPerson2 addGestureRecognizer:singleTapRecognizer2];
-    
-    
-    UITapGestureRecognizer * singleTapRecognizer3 = [[UITapGestureRecognizer alloc]   initWithTarget:self action:@selector(handleFavoriteSelected:)];
-    singleTapRecognizer3.numberOfTapsRequired = 1;
-    singleTapRecognizer3.delaysTouchesEnded = YES;
-    singleTapRecognizer3.cancelsTouchesInView = NO;
-    [frequentPerson3 addGestureRecognizer:singleTapRecognizer3];
 }
 
 - (IBAction)handleFavoriteSelected:(UITapGestureRecognizer *)sender {
@@ -396,5 +639,11 @@
 {
     [[Database database] deleteFriendSelected:[contactsList.allKeys sortedArrayUsingSelector:@selector(compare:)][indexPath.row]];
 }
+
+
+-(NSUInteger) supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 @end
 

@@ -7,11 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface FelicityUtil : NSObject
 
 +(NSArray *)retrieveEmotionStatistics;
 +(NSMutableDictionary *)retrieveContactList;
-
-
++(CAGradientLayer *) createGradient:(CGRect) rect;
++(NSArray *)retrieveEmotionStatisticsWith:(NSInteger) time And: (NSArray*) friendOptions
+    And:(NSMutableArray*) friendSelections
+    And:(NSArray*) locationOptions
+    And:(NSMutableArray*) locationSelections
+    And: (NSArray*) activityOptions
+    And:(NSMutableArray*)activitySelections;
 @end

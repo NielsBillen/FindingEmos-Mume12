@@ -55,6 +55,10 @@ static Database * _database;
     // Maak de initiële activiteiten aan.
     [self setDefaultActivities];
     
+    //[self.FMDBDatabase executeUpdate:@"drop table history"];
+    //lastEpochtime = [NSNumber numberWithLong:1355234570];
+    //[self saveFriendSelected:@"Niels Billen"];
+    
     return self;
 }
 
@@ -67,17 +71,6 @@ static Database * _database;
         [self.FMDBDatabase executeUpdate:@"INSERT INTO activities (activity) VALUES (?)",@"Sport", nil];
         [self.FMDBDatabase executeUpdate:@"INSERT INTO activities (activity) VALUES (?)",@"Work", nil];
     }
-}
-
-// Geef alle activiteiten terug
--(NSArray *)retrieveActivities {
-    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-    FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from activities"];
-    while ([results next]) {
-        NSString *activity = [results stringForColumn:@"activity"];
-        [tempArray addObject:activity];
-    }
-    return [NSArray arrayWithArray:tempArray];
 }
 
 // Maak een nieuwe activiteit aan
@@ -113,12 +106,13 @@ static Database * _database;
             [tempDictionary setObject:[NSNumber numberWithInt:(primitiveValue + 1)] forKey:name];
         }
     }
+    
     // Indien nog niet genoeg favorieten, vul random aan!
     if(counter < number) {
         NSArray *array = [FelicityUtil retrieveContactList].allKeys;
         NSMutableArray *returnArray = [[NSMutableArray alloc] init];
         if(array) {
-            for(int i = 0; i < number; i++) {
+            for(int i = 0; i < MIN(number, array.count); i++) {
                 [returnArray addObject:array[i]];
             }
         } else  {
@@ -130,7 +124,7 @@ static Database * _database;
     NSArray *tempArray = [[[tempDictionary keysSortedByValueUsingSelector:@selector(compare:)] reverseObjectEnumerator] allObjects];
     NSMutableArray *returnArray = [[NSMutableArray alloc] init];
 
-    for (int i = 0; i<number; i++) {
+    for (int i = 0; i<tempArray.count; i++) {
         [returnArray addObject:tempArray[i]];
     }
     return [NSArray arrayWithArray:returnArray];
@@ -175,11 +169,29 @@ static Database * _database;
 // Geeft een emotieobject terug met de opgegeven naam
 - (Emotion *)getEmotionWithName:(NSString *)name {
     FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from emotions where name=?",name];
+    [results next];
     NSString *displayName = [results stringForColumn:@"displayName"];
     NSString *smallImage = [results stringForColumn:@"smallImage"];
     NSString *largeImage = [results stringForColumn:@"largeImage"];
     NSInteger nbSelected  = [results intForColumn:@"nbSelected"];
     NSInteger uniqueId  = [results intForColumn:@"uniqueId"];
+    return [[Emotion alloc] initWithDisplayName:displayName andUniqueId:uniqueId AndDatabaseName:name AndSmallImage:smallImage AndLargeImage:largeImage AndNbSelected:nbSelected];
+}
+
+// Geeft een emotieobject terug met het opgegeven id
+- (Emotion *) getEmotionWithId:(int)uniqueId {
+    //[self printTable:@"emotions"];
+    
+    NSString *query=[NSString stringWithFormat:@"select displayName, uniqueId, name, smallImage, largeImage, nbSelected from emotions where uniqueId=%d",uniqueId];
+
+    FMResultSet *results = [self.FMDBDatabase executeQuery:query];
+    [results next];
+    NSString *displayName = [results stringForColumn:@"displayName"];
+    NSString *name = [results stringForColumn:@"name"];
+    NSString *smallImage = [results stringForColumn:@"smallImage"];
+    NSString *largeImage = [results stringForColumn:@"largeImage"];
+    NSInteger nbSelected  = [results intForColumn:@"nbSelected"];
+    
     return [[Emotion alloc] initWithDisplayName:displayName andUniqueId:uniqueId AndDatabaseName:name AndSmallImage:smallImage AndLargeImage:largeImage AndNbSelected:nbSelected];
 }
 
@@ -207,7 +219,10 @@ static Database * _database;
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *placemark = [placemarks objectAtIndex:0];
-        [self.FMDBDatabase executeUpdate:@"INSERT INTO history (date,time,epochtime,country,city,emoticon_id,activity) VALUES (?,?,?,?,?,?,?)",date, time, lastEpochtime,placemark.country,placemark.locality, emotionId, activity, nil];
+        
+        NSString *country = placemark.country==nil ? @"Unknown" : placemark.country;
+        NSString *city = placemark.locality==nil ? @"Unknown" : placemark.locality;
+        [self.FMDBDatabase executeUpdate:@"INSERT INTO history (date,time,epochtime,country,city,emoticon_id,activity) VALUES (?,?,?,?,?,?,?)",date, time, lastEpochtime,country,city, emotionId, activity, nil];
     }];
 }
 
@@ -220,7 +235,7 @@ static Database * _database;
     // Vermijd een hoop foutmeldingen door na te gaan of de emotiestabel al bestaat
     // Let wel op dat indien nieuwe emoties toegevoegd worden, de database opnieuw aangemaakt moet worden!
     if (![self.FMDBDatabase tableExists:@"emotions"]) {
-        [self.FMDBDatabase executeUpdate:@"create table emotions (displayName text ,uniqueId int primary key,name text ,smallImage text,largeImage text,nbSelected int)"];
+        [self.FMDBDatabase executeUpdate:@"create table emotions (displayName sstext ,uniqueId int primary key,name text ,smallImage text,largeImage text,nbSelected int)"];
         for (int i = 0; i < emotionNames.count; i++) {
             NSString *name =  emotionNames[i];
             NSString *displayName = [[name stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
@@ -243,13 +258,15 @@ static Database * _database;
 }
 
 // Print de huidige geschiedenis (gebruikt om te TESTEN)
-- (void)printCurrentHistory {
-    if (![self.FMDBDatabase tableExists:@"history"]) {
+- (void)printTable:(NSString *)table {
+    if (![self.FMDBDatabase tableExists:table]) {
         NSLog(@"De history tabel bestaat nog niet!!");
         return;
     }
-    FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from history"];
+    FMResultSet *results = [self.FMDBDatabase executeQuery:[NSString stringWithFormat:@"select * from %@",table]];
+    NSLog(@"%@",table);
     while ([results next]) {
+        /*
         NSString *date = [results stringForColumn:@"date"];
         NSString *time = [results stringForColumn:@"time"];
         NSInteger epochtime = [results longForColumn:@"epochtime"];
@@ -258,6 +275,12 @@ static Database * _database;
         NSInteger emoticon_id  = [results intForColumn:@"emoticon_id"];
         NSString *activity = [results stringForColumn:@"activity"];
         NSLog(@"History -- date: %@ -- time: %@ -- epochtime: %d -- country: %@ -- city: %@ -- emotion_id: %d -- activity: %@", date, time, epochtime, country, city, emoticon_id,activity);
+        */
+        NSLog(@"\tEntry");
+        for(int i=0;i<results.columnCount;++i) {
+            NSLog(@"\t\t%@ = %@",[results columnNameForIndex:i],[results stringForColumn:[results columnNameForIndex:i]]);
+            
+        }
     }
 }
 
@@ -290,4 +313,154 @@ static Database * _database;
     NSLog(@"Error: %@", [error description]);
 }
 
+// DATABASE ACCES
+// Geef alle activiteiten terug
+-(NSArray *)retrieveActivities {
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    FMResultSet *results = [self.FMDBDatabase executeQuery:@"select * from activities"];
+    while ([results next]) {
+        NSString *activity = [results stringForColumn:@"activity"];
+        [tempArray addObject:activity];
+    }
+    return [NSArray arrayWithArray:tempArray];
+}
+
+// Geef alle activiteiten terug
+-(NSArray *)retrieveFriends {
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    [tempArray addObject:@"Alone"];
+    FMResultSet *results = [self.FMDBDatabase executeQuery:@"select distinct friend from friends"];
+    while ([results next]) {
+        NSString *activity = [results stringForColumn:@"friend"];
+        [tempArray addObject:activity];
+    }
+    return [NSArray arrayWithArray:tempArray];
+}
+
+// Geef alle activiteiten terug
+-(NSArray *)retrieveLocations {
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    [tempArray addObject:@"Unknown"];
+    
+    FMResultSet *results = [self.FMDBDatabase executeQuery:@"SELECT DISTINCT city FROM history"];
+    //FMResultSet *results = [self.FMDBDatabase executeQuery:@"select city from history where city is null"];
+    while ([results next]) {
+        NSString *activity = [results stringForColumn:@"city"];
+        
+        if (![activity isEqualToString:@"Unknown"])
+            [tempArray addObject:activity];
+    }
+    return [NSArray arrayWithArray:tempArray];
+}
+
+-(NSArray *)retrieveEmotionStatisticsWith:(NSInteger)time AndActivities:(NSArray*)activities AndLocations:
+(NSArray*)locations AndFriends:(NSArray*)friends {
+    
+    BOOL nullFriends = [friends containsObject:@"Alone"];
+    BOOL nullLocations = [locations containsObject:@"Unknown"];
+    
+    ////////////////////////////////////////
+    // Time
+    ////////////////////////////////////////
+    
+    NSNumber *currentTime = [NSNumber numberWithLong:[[NSDate date] timeIntervalSince1970]];
+    NSNumber *fromTime;
+    NSString *whereTime = @"";
+    if (time<3){
+        if (time == 0)
+            fromTime = [NSNumber numberWithLong:[currentTime longValue]- 24*3600];
+        else if (time == 1)
+            fromTime = [NSNumber numberWithLong:[currentTime longValue]- 24*7*3600];
+        else if (time == 2)
+            fromTime = [NSNumber numberWithLong:[currentTime longValue]- 24*31*3600];
+        whereTime = [NSString stringWithFormat:@"and epochtime > %@",fromTime];
+    }
+    
+    //////////////////////////////////
+    // Cities
+    //////////////////////////////////
+    NSString *friendsCommaSeperated = [friends componentsJoinedByString:@"','"];
+    NSString *citiesCommaSeperated = [locations componentsJoinedByString:@"','"];
+    NSString *activitiesCommaSeparated = [activities componentsJoinedByString:@"','"];
+
+    NSString *friendIn;
+    NSString *locationIn;
+    
+    NSString* isAlone = [NSString stringWithFormat:@"(select count(friend) from friends where history.epochtime=friends.epochtime)=0"];
+    NSString* hasFriends = [NSString stringWithFormat:@"(select count(friend) from friends where history.epochtime=friends.epochtime and friend in ('%@'))>0",friendsCommaSeperated];
+    
+    if (nullFriends)
+        friendIn = [NSString stringWithFormat:@"(%@ or %@)",isAlone,hasFriends];
+    else
+        friendIn = [NSString stringWithFormat:@"%@",hasFriends];
+    
+    if (nullLocations)
+        locationIn = [NSString stringWithFormat:@"(city in ('%@') or city is null)",citiesCommaSeperated];
+    else
+        locationIn = [NSString stringWithFormat:@"city in ('%@')",citiesCommaSeperated];
+
+    NSString *correctCity = [NSString stringWithFormat:@"select emoticon_id, epochtime, activity from history where activity in ('%@') and %@ %@ and %@",activitiesCommaSeparated,locationIn,whereTime,friendIn];
+    
+    ///////////////////////////////////
+    // Combine the clauses
+    ///////////////////////////////////
+    
+    NSString *complete = [NSString stringWithFormat:@"select emoticon_id, count(emoticon_id) from (%@) group by emoticon_id",correctCity];
+    //NSLog(@"Query: %@",complete);
+    FMResultSet *results = [self.FMDBDatabase executeQuery:complete];
+
+    //////////////////////////////
+    // Extract the results
+    //////////////////////////////
+    
+    int sum = 0;
+    NSMutableArray *localEmotions = [[NSMutableArray alloc] initWithCapacity:10];
+    NSMutableArray *localEmotionCounts = [[NSMutableArray alloc] initWithCapacity:10];
+        
+    while ([results next]) {
+        //NSLog(@"emoticon_id=%@ - count=%@",[results stringForColumn:@"emoticon_id"],[results stringForColumn:@"count(emoticon_id)"]);
+        
+        Emotion* emotion = [self getEmotionWithId:[results intForColumn:@"emoticon_id"]];
+        
+       
+        NSNumber* count = [[NSNumber alloc] initWithInt:[results intForColumn:@"count(emoticon_id)"]];
+        
+        [localEmotions addObject:emotion];
+        [localEmotionCounts addObject:count];
+        
+        sum += [results intForColumn:@"count(emoticon_id)"];
+    }
+    
+    for(Emotion* emotion in [self retrieveEmotionsFromDatabase])
+        if (![localEmotions containsObject:emotion]) {
+            [localEmotions addObject:emotion];
+            [localEmotionCounts addObject:[[NSNumber alloc] initWithInt:0]];
+        }
+    
+    ////////////////////////////////////////////////
+    // Sort and export the statistics 
+    ////////////////////////////////////////////////
+    
+    NSMutableArray *tempResult = [[NSMutableArray alloc] initWithCapacity:localEmotions.count];
+    
+    
+    for(int i=0;i<localEmotions.count;i++) {
+        Emotion* emotion = localEmotions[i];
+        NSNumber *value = localEmotionCounts[i];
+        
+        NSInteger count = [value integerValue];
+        
+        EmotionStatistics *stat = [[EmotionStatistics alloc] initWithEmotion:emotion andWithTimesSelected:count andWithTotalNbEmtionsSelected:sum];
+        [tempResult addObject:stat];
+    }
+    
+    return [[NSArray alloc] initWithArray:tempResult];
+}
+
+-(int) retrieveNumberOfHistoryEntries {
+
+    FMResultSet *results = [self.FMDBDatabase executeQuery:@"select count(*) from history"];
+    [results next];
+    return [results intForColumn:@"count(*)"];
+}
 @end

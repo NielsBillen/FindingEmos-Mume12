@@ -18,11 +18,13 @@
 - (NSArray *)retrieveEmotionsFromDatabase;
 // Geeft een emotieobject terug met de opgegeven naam
 - (Emotion *) getEmotionWithName:(NSString *)name;
+// Geeft een emotieobject terug met het opgegeven id
+- (Emotion *) getEmotionWithId:(int)uniqueId;
 // Sla op als er een nieuwe emotie geselecteerd wordt
 - (void) registerNewEmotionSelected:(Emotion *)emotion andActivity:(NSString *)activity;
 // Print de huidige geschiedenis
 //(Gebruikt voor te TESTEN!)
-- (void)printCurrentHistory;
+- (void) printTable:(NSString*) table;
 // Geef de statistieken terug
 - (EmotionStatistics *)retrieveEmotionStaticsForEmotion:(Emotion *)emotion;
 // Sluit de database
@@ -39,7 +41,20 @@
 - (void)deleteFriendSelected:(NSString *)friend;
 // Geef het gewenste aantal beste vrienden
 - (NSArray *)getNbBestFriends:(int)number;
+
+- (int) retrieveNumberOfHistoryEntries;
+
 // Geef alle activiteiten terug
-- (NSArray *)retrieveActivities;
+- (NSArray *) retrieveActivities;
+
+// Geeft al de vrienden terug die in activiteiten hebben meegedaan
+- (NSArray *) retrieveFriends;
+
+// Geeft al de locaties terug
+- (NSArray *) retrieveLocations;
+
+-(NSArray *)retrieveEmotionStatisticsWith:(NSInteger)time AndActivities:(NSArray*)activities AndLocations:
+(NSArray*)locations AndFriends:(NSArray*)friends;
+
 
 @end

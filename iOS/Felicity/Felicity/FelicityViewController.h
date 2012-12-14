@@ -15,7 +15,7 @@
 @class OutputViewController;
 @class SettingsViewController;
 
-@interface FelicityViewController : UIViewController
+@interface FelicityViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 {
 	InputViewController *inputPage;
 	OutputViewController *outputPage;
@@ -30,9 +30,11 @@
 }
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (strong, nonatomic) IBOutlet UINavigationBar *navBar;
+
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet UIScrollView *settingsView;
 
 /*
  ** Wordt opgeroepen wanneer je de pagina verandert dmv de UIPageControl.

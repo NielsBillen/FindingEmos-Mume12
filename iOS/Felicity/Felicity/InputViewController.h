@@ -9,6 +9,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Emotion.h"
 
 @interface InputViewController : UIViewController
 {
@@ -22,6 +23,8 @@
     IBOutlet UIButton *emotionsButton;
 }
 
+@property (strong, nonatomic) UIScrollView* parentScrollView;
+@property (strong, nonatomic) IBOutlet UIView *startView;
 @property (strong, nonatomic) IBOutlet UIView *whatDoingView;
 @property (strong, nonatomic) IBOutlet UIView *withWhoView;
 @property (weak, nonatomic) IBOutlet UIImageView *mostFrequentFriends;
@@ -51,5 +54,11 @@
 
 // De backbutton op de emotionsOverview view.
 @property (strong, nonatomic) IBOutlet UIButton *inputViewButton;
+
+
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil and:(UIScrollView*) parentScrollView;
+- (void) viewEmotionName:(Emotion*) emotion;
+- (void) handleEmotionSelected:(Emotion*) emotion;
+- (BOOL) canHandleTouchEvents;
 
 @end

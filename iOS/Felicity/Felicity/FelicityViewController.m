@@ -14,10 +14,16 @@
 #import "OutputViewController.h"
 #import "SettingsViewController.h"
 
+@interface FelicityViewController()
+    @property int lastScreen;
+@end
+
 @implementation FelicityViewController
 
+@synthesize settingsView;
 @synthesize scrollView, pageControl, navBar;
 @synthesize settingsButton;
+@synthesize lastScreen;
 
 /*
  ** Initialiseert de Input- en Results Page op de juiste plaats in de scrollview.
@@ -39,10 +45,12 @@
 {
     [super viewDidLoad];
     
+    lastScreen = -1;
+    
     self.scrollView.frame = CGRectMake(0, 0, 320, 385);
     self.scrollView.contentSize = CGSizeMake(self->scrollView.frame.size.width * 2, self.scrollView.frame.size.height);
     
-    inputPage = [[InputViewController alloc] initWithNibName:@"InputView" bundle:nil];
+    inputPage = [[InputViewController alloc] initWithNibName:@"InputView" bundle:nil and:self.scrollView];
     [self.scrollView addSubview:inputPage.view];
     
 	outputPage = [[OutputViewController alloc] initWithNibName:@"OutputView" bundle:nil];
@@ -99,6 +107,15 @@
  */
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     usingPageControl = NO;
+    
+    if (lastScreen != self.pageControl.currentPage) {
+        lastScreen = self.pageControl.currentPage;
+        
+        if(self.pageControl.currentPage == 1)
+            [outputPage viewCompletelyVisible];
+        else
+        [   outputPage viewCompletelyInVisible];
+    }
 }
 
 /*
@@ -120,6 +137,10 @@
     else if(self.pageControl.currentPage == 1) {
         navBar.topItem.title = @"Results";
     }
+}
+
+-(NSUInteger) supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 @end

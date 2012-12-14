@@ -25,5 +25,6 @@
             AndSmallImage:(NSString *)smallImage
             AndLargeImage:(NSString *)largeImage
             AndNbSelected:(int)nbSelected;
+-(BOOL) isEqual:(id)other;
 
 @end

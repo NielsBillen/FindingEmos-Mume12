@@ -36,6 +36,17 @@
     return self;
 }
 
+-(BOOL) isEqual:(id)other {
+    if (other == nil)
+        return NO;
+    if (![other isKindOfClass:[self class]])
+        return NO;
+    if ([other uniqueId] == [self uniqueId])
+        return YES;
+    return NO;
+        
+}
+
 @end
 
 

@@ -61,4 +61,64 @@
     return contactList;
 }
 
++(CAGradientLayer*) createGradient:(CGRect) rectangle {
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = rectangle;
+    gradient.cornerRadius = 10.f;
+    gradient.colors = [NSArray arrayWithObjects:
+                       (id) [UIColor colorWithWhite:0.4f alpha:1.f].CGColor,
+                       (id) [UIColor colorWithWhite:0.3f alpha:1.f].CGColor,
+                       (id) [UIColor colorWithWhite:0.0f alpha:1.0f].CGColor,
+                       (id) [UIColor colorWithWhite:0.1f alpha:1.0f].CGColor,
+                       nil ];
+    gradient.locations = [NSArray arrayWithObjects:
+                          [NSNumber numberWithFloat:0.0f],
+                          [NSNumber numberWithFloat:0.33f],
+                          [NSNumber numberWithFloat:0.66f],
+                          [NSNumber numberWithFloat:1.0f],nil];
+    return gradient;
+}
+
++(NSArray *)retrieveEmotionStatisticsWith:(NSInteger) time
+                                      And:(NSArray*) friendOptions
+                                      And:(NSMutableArray*) friendSelections
+                                      And:(NSArray*) locationOptions
+                                      And:(NSMutableArray*) locationSelections
+                                      And: (NSArray*) activityOptions
+                                      And:(NSMutableArray*)activitySelections {
+    NSMutableArray *selectedFriends = [[NSMutableArray alloc] initWithCapacity:10];
+    for (int i=0;i<friendOptions.count;i++) {
+        BOOL selected = [friendSelections[i] boolValue];
+        if (selected)
+            [selectedFriends addObject:friendOptions[i]];
+    }
+    
+    NSMutableArray *selectedLocations = [[NSMutableArray alloc] initWithCapacity:10];
+    for (int i=0;i<locationOptions.count;i++) {
+        BOOL selected = [locationSelections[i] boolValue];
+        if (selected)
+            [selectedLocations addObject:locationOptions[i]];
+    }
+    
+    NSMutableArray *selectedActivities = [[NSMutableArray alloc] initWithCapacity:10];
+    for (int i=0;i<activityOptions.count;i++) {
+        BOOL selected = [activitySelections[i] boolValue];
+        if (selected)
+            [selectedActivities addObject:activityOptions[i]];
+    }
+    
+    NSArray* arrayToSort = [[Database database] retrieveEmotionStatisticsWith:time AndActivities:selectedActivities AndLocations:selectedLocations AndFriends:selectedFriends];
+    
+    NSArray *sortedArray;
+    sortedArray = [arrayToSort sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSNumber *first = [NSNumber numberWithDouble:[(EmotionStatistics*)a percentageSelected]];
+        NSNumber *second = [NSNumber numberWithDouble:[(EmotionStatistics*)b percentageSelected]];
+        // In deze volgorde om van groot naar klein te sorteren.
+        return [second compare:first];
+    }];
+    
+    return sortedArray;
+}
+
+
 @end
