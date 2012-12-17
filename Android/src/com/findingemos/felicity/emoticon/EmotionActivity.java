@@ -7,9 +7,16 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.RequestToken;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.location.Address;
 import android.location.Criteria;
@@ -22,6 +29,8 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +39,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.findingemos.felicity.R;
 import com.findingemos.felicity.backend.EmotionDatabase;
@@ -38,6 +48,7 @@ import com.findingemos.felicity.emoticonselector.EmotionSelectorActivity;
 import com.findingemos.felicity.general.ActivityIndicator;
 import com.findingemos.felicity.general.ActivitySwitchListener;
 import com.findingemos.felicity.settings.SettingsActivity;
+import com.findingemos.felicity.twitter.Constants;
 import com.findingemos.felicity.util.SimpleSwipeListener;
 import com.findingemos.felicity.util.SlideActivity;
 import com.findingemos.felicity.util.Swipeable;
@@ -54,6 +65,16 @@ import com.findingemos.felicity.visualization.VisualizationActivity;
 @SuppressLint("NewApi")
 public class EmotionActivity extends SlideActivity implements Swipeable,
 		EmotionSelectionListener {
+
+	private static RequestToken rToken;
+	private String oauthVerifier;
+
+	// A Hack to test the working of oauth.
+	private static boolean test = true;
+
+	// Your OAUTH consumer and secret keys
+	private final static String OAUTH_CONSUMER = "eGH1yZ2vn892QHrAACgEw";
+	private final static String OAUTH_SECRET = "LmDPP7VFJgb1A5iqBCCRJmu4VqETiWtXmQmHzTOgo";
 
 	// Final boolean variable to check whether drag and drop is enabled.
 	public static final boolean DRAG_AND_DROP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
@@ -81,6 +102,14 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	public void onCreate(Bundle savedInstanceState) {
 		// This method is called when the activity is first created.
 		super.onCreate(savedInstanceState);
+
+		// Deze hack mag hier gebruikt worden, aangezien de main thread juist
+		// geblokt moet worden als we twitter id willen toevoegen
+		if (android.os.Build.VERSION.SDK_INT > 9) {
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+					.permitAll().build();
+			StrictMode.setThreadPolicy(policy);
+		}
 
 		Log.i("Activity", "EmotionActivity started");
 
@@ -327,11 +356,46 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 		DATABASE.createEmotionEntry(Calendar.getInstance(), currentCountry,
 				currentCity, activity, friends, currentEmotion);
 
+		SharedPreferences settings = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		boolean twitterEnabled = settings.getBoolean("twitter enabled", false);
+		if (twitterEnabled) {
+			String tweet = makeTweet(activity, friends);
+			updateStatus(tweet);
+		}
+
 		Log.i("Emotion", currentEmotion.toString());
 		Log.i("Date & Time", Calendar.getInstance().getTime() + "");
 		Log.i("Epoch", Calendar.getInstance().getTimeInMillis() + "");
 		Log.i("Country", currentCountry);
 		Log.i("City", currentCity);
+	}
+
+	/**
+	 * @param activity
+	 * @param friends
+	 * @return
+	 */
+	private String makeTweet(String activity, ArrayList<String> friends) {
+		String tweet = "I am " + currentEmotion.getName() + " in "
+				+ currentCity + " during " + activity + " with "
+				+ friends.get(0);
+		int length = tweet.length();
+		for (int i = 1; i < friends.size() && length <= Constants.TWEET_LIMIT; i++) {
+			tweet += " & " + friends.get(i);
+		}
+		if (tweet.length() > Constants.TWEET_LIMIT) {
+			System.out.println("Tweet te lang!");
+			int i = Constants.TWEET_LIMIT - 1;
+			while (i > 0) {
+				tweet = tweet.substring(0, i);
+				if (tweet.charAt(tweet.length() - 1) == ' ') {
+					break;
+				}
+				i--;
+			}
+		}
+		return tweet;
 	}
 
 	/**
@@ -561,5 +625,56 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 */
 	@Override
 	public void onSwipeDown() {
+	}
+
+	private void updateStatus(String tweet) {
+		if (tweet.length() > Constants.TWEET_LIMIT) {
+			System.out.println("Tweet te lang!");
+			return;
+		}
+
+		// TODO Auto-generated method stub
+		SharedPreferences settings = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		String accessToken = settings.getString("twitter_access_token", null);
+		String accessTokenSecret = settings.getString(
+				"twitter_access_token_secret", null);
+		if (haveNetworkConnection(this)) {
+			ConfigurationBuilder builder = new ConfigurationBuilder();
+			builder.setOAuthConsumerKey(Constants.CONSUMER_KEY);
+			builder.setOAuthConsumerSecret(Constants.CONSUMER_SECRET);
+			builder.setOAuthAccessToken(accessToken);
+			builder.setOAuthAccessTokenSecret(accessTokenSecret);
+			Configuration conf = builder.build();
+			Twitter t = new TwitterFactory(conf).getInstance();
+
+			try {
+				t.updateStatus(tweet);
+
+			} catch (TwitterException e) {
+				e.printStackTrace();
+			}
+		} else {
+			Toast.makeText(this, "No access to Internet..please try again",
+					3000).show();
+		}
+	}
+
+	public static boolean haveNetworkConnection(Context context) {
+		boolean haveConnectedWifi = false;
+		boolean haveConnectedMobile = false;
+
+		ConnectivityManager cm = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+		for (NetworkInfo ni : netInfo) {
+			if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+				if (ni.isConnected())
+					haveConnectedWifi = true;
+			if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+				if (ni.isConnected())
+					haveConnectedMobile = true;
+		}
+		return haveConnectedWifi || haveConnectedMobile;
 	}
 }

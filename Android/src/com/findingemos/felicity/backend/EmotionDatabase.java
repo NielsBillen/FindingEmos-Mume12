@@ -871,17 +871,51 @@ public class EmotionDatabase {
 
 		return count != 0;
 	}
-
+	
 	public synchronized void changeFirstNameFirst(boolean value) {
 		int newValue = 0;
 		if (value)
 			newValue = 1;
-
+		
 		String strFilter = SETTINGS_SETTING + "= 'firstname first'";
 		ContentValues args = new ContentValues();
 		args.put(SETTINGS_VALUE, newValue);
 		database.update(SETTINGS, args, strFilter, null);
 	}
+	
+//	public synchronized boolean twitter() {
+//
+//		if (isClosed) {
+//			open();
+//		}
+//
+//		Cursor cursor = database.query(true, SETTINGS, new String[] {
+//				SETTINGS_KEY_ID, SETTINGS_SETTING, SETTINGS_VALUE },
+//				SETTINGS_SETTING + "='" + "twitter'", null, null, null,
+//				null, null);
+//		int count = 0;
+//		if (cursor != null && cursor.getCount() > 0) {
+//			cursor.moveToFirst();
+//			count = cursor.getInt(2);
+//		}
+//
+//		if (cursor != null)
+//			cursor.close();
+//
+//		return count != 0;
+//	}
+//	
+//	public synchronized void changeTwitter(boolean value) {
+//		int newValue = 0;
+//		if (value)
+//			newValue = 1;
+//		
+//		String strFilter = SETTINGS_SETTING + "= 'firstname first'";
+//		ContentValues args = new ContentValues();
+//		args.put(SETTINGS_VALUE, newValue);
+//		database.update(SETTINGS, args, strFilter, null);
+//	}
+
 
 	// ///////////////////////////////////////////////////////////////////
 	// / DATABASE HELPER ///
@@ -941,6 +975,8 @@ public class EmotionDatabase {
 
 			db.execSQL("INSERT INTO " + SETTINGS
 					+ " VALUES (0, 'firstname first',1);");
+//			db.execSQL("INSERT INTO " + SETTINGS
+//					+ " VALUES (1, 'twitter',0);");
 
 			Log.i("Creating DB", "Done");
 		}

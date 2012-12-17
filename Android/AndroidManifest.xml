@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -63,7 +64,7 @@
                 android:value="com.android.activity" />
         </activity>
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name="com.findingemos.felicity.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.findingemos.felicity.emoticon.EmotionActivity" >
             <meta-data
@@ -74,10 +75,8 @@
             android:name="com.findingemos.felicity.visualization.FilterActivity"
             android:label="@string/title_activity_main" >
         </activity>
-        <activity
-            android:name="com.findingemos.felicity.SettingsActivity"
-            android:label="@string/title_activity_settings" >
-        </activity>
+        <activity android:name=".twitter.AndroidBasicOAuthActivity"></activity>
+        <activity android:name=".twitter.TwitterWebviewActivity"></activity>
     </application>
 
 </manifest>

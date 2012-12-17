@@ -3,6 +3,8 @@ package com.findingemos.felicity.friends;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.findingemos.felicity.R;
-import com.findingemos.felicity.emoticon.EmotionActivity;
 
 public class ContactsArrayAdapter extends ArrayAdapter<Contact> {
 
@@ -40,7 +41,8 @@ public class ContactsArrayAdapter extends ArrayAdapter<Contact> {
 		TextView contactName = (TextView) convertView
 				.findViewById(R.id.contacts_view_contact_name);
 
-		boolean firstnameFirst = EmotionActivity.DATABASE.firstNameFirst();
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+		boolean firstnameFirst = settings.getBoolean("firstname enabled", true);
 
 		if (firstnameFirst)
 			contactName.setText(contact.getName());

@@ -1,14 +1,9 @@
 package com.findingemos.felicity.visualization;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.BaseColumns;
-import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
@@ -45,7 +40,7 @@ public class FilterActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.filter_activity);
-		
+
 		setTitle("Adjust your filters!");
 
 		initializeStringResources();
@@ -116,13 +111,11 @@ public class FilterActivity extends FragmentActivity {
 				} else {
 					doingFilter = null;
 				}
-				
+
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 	}
@@ -136,7 +129,7 @@ public class FilterActivity extends FragmentActivity {
 		String[] options = new String[names.length + 1];
 		options[0] = WHO;
 		int i = 1;
-		for(String name: names) {
+		for (String name : names) {
 			options[i] = name;
 			i++;
 		}
@@ -168,13 +161,11 @@ public class FilterActivity extends FragmentActivity {
 				} else {
 					whoFilter = null;
 				}
-				
+
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 	}
@@ -250,13 +241,11 @@ public class FilterActivity extends FragmentActivity {
 				} else {
 					timeFilter = null;
 				}
-				
+
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 	}
@@ -295,13 +284,11 @@ public class FilterActivity extends FragmentActivity {
 				} else {
 					locationFilter = null;
 				}
-				
+
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 	}
