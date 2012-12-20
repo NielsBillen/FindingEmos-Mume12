@@ -5,6 +5,12 @@ js/cordova
 js/iscroll
 js/jquery
 js/visualization
+img/naughty_big.png
+img/naughty_small.png
+img/cool_big.png
+img/cool_small.png
+img/surprised_big.png
+img/surprised_small.png
 img/angry_big.png
 img/angry_small.png
 img/ashamed_big.png

@@ -10,7 +10,7 @@ var shouldSwitch = false; // Deze variabele fixed een bug. Deze zorgt ervoor dat
 var currentEmotion = null;
 var currentActivity = null;
 
-var geocoder=new google.maps.Geocoder();
+var geocoder;
 var countryName = "Niet gekend";
 var cityName = "Niet gekend";
 

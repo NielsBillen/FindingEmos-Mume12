@@ -11,12 +11,7 @@ var HISTORY_TABLE_NAME = "HISTORY"; // Naam van de tabel in de database.
 var ACTIVITY_TABLE_NAME = "ACTIVITIES"; // Naam van de tabel met de activiteiten
 var CONTACT_TABLE_NAME = "CONTACTS"; // Naam van de tabel met de contacten
 var FRIEND_TABLE_NAME = "FRIENDS"; // Naam van de tabel die bijhoudt welke vrienden horen bij een entry in de history.
-var SETTINGS_TABLE_NAME = "SETTINGS"; // Naam van de tabel met de contacten
-
-var tempCountry = "Belgium"; // Tijdelijke naam voor het land.
-var tempCity = "Leuven"; // Tijdelijke naam voor de stad.
-var geocoder=new google.maps.Geocoder(); // Geocoder object voor positie bepaling.
-
+var SETTINGS_TABLE_NAME = "SETTINGS"; 
 /*
  * Open de database.
  */

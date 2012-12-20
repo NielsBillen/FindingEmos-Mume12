@@ -74,6 +74,7 @@ function initLocation() {
 	var networkState = navigator.network.connection.type
     
 	if (networkState != Connection.NONE){
+		geocoder =new google.maps.Geocoder();
 	    	fetchLocation();
     	} else {
     		console.log("Geen internet");
