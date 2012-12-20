@@ -19,7 +19,7 @@ $('#contacts').live('pageshow', function () {
 	} else {
 		contactScroller = new iScroll('contactswrapper',{
 				snap: false,
-				momentum: false,
+				momentum: true,
 				hScrollbar: false,
 				vScrollbar: true,
 				fixedScrollbar : true,

@@ -52,8 +52,10 @@ function getEmotionByDatabaseName(databaseName) {
  * Creates all the emotions which are available or loads them when they are available in local storage.
  */
 function createEmotions() {
-	var displayNames=["Hungry","Happy","Inlove","Sad","Sick","Scared","Angry","Ashamed","Irritated","Tired","Very Happy","Super Happy","Very Sad","Bore","Pig","Clown"];
-	var databaseNames=["hungry","happy","inlove","sad","sick","scared","angry","ashamed","irritated","tired","very_happy","super_happy","very_sad","bored","pig","clown"];
+	var displayNames=["Hungry","Happy","Inlove","Sad","Sick","Scared","Angry","Ashamed","Tired","Very Happy","Super Happy","Very Sad","Bored","Naughty","Surprised","Cool"];
+	var databaseNames=["hungry","happy","inlove","sad","sick","scared","angry","ashamed","tired","very_happy","super_happy","very_sad","bored","naughty","surprised","cool"];
+	displayNames.sort();
+	databaseNames.sort();
 	var uniqueId=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 		
 	// Create the emotions that could not be loaded from the database.
