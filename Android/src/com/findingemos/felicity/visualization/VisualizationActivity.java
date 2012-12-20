@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -21,6 +22,7 @@ import com.findingemos.felicity.R;
 import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.general.ActivityIndicator;
 import com.findingemos.felicity.general.ActivitySwitchListener;
+import com.findingemos.felicity.util.AutoResizeTextView;
 import com.findingemos.felicity.util.SimpleSwipeListener;
 import com.findingemos.felicity.util.SlideActivity;
 import com.findingemos.felicity.util.Swipeable;
@@ -33,10 +35,11 @@ import com.findingemos.felicity.util.Swipeable;
  */
 public class VisualizationActivity extends SlideActivity implements Swipeable {
 
-	// Code voor het opvragen met welke vrienden de gebruiker is.
 	private final static int VISUALIZATION_ACTIVITY_CODE = 2;
 
 	private static Emotion[] currentData = Emotion.values();
+	
+	private static String filterString;
 
 	public static Emotion[] getCurrentData() {
 		return currentData;
@@ -60,21 +63,27 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 
 		setContentView(R.layout.visualization_activity);
 
-		TextView locationView = (TextView) findViewById(R.id.filter);
+		AutoResizeTextView locationView = (AutoResizeTextView) findViewById(R.id.filter);
 		try {
-			String newFilter = getIntent().getExtras().getString("Filter");
-			locationView.setText(newFilter);
+			filterString = getIntent().getExtras().getString("Filter");
+			locationView.setText(filterString);
 		} catch (NullPointerException e) {
-			String TIME = getApplicationContext().getResources().getString(
-					R.string.visualizations_time);
-			String LOCATION = getApplicationContext().getResources().getString(
-					R.string.visualizations_location);
-			String WHO = getApplicationContext().getResources().getString(
-					R.string.visualizations_who);
-			String DOING = getApplicationContext().getResources().getString(
-					R.string.visualizations_doing);
-			locationView.setText(TIME + " > " + LOCATION + " > " + WHO + " > "
-					+ DOING);
+			// enkel als er nog nooit een filter is ingesteld.
+			if (filterString == null) {
+				String TIME = getApplicationContext().getResources().getString(
+						R.string.visualizations_time);
+				String LOCATION = getApplicationContext().getResources()
+						.getString(R.string.visualizations_location);
+				String WHO = getApplicationContext().getResources().getString(
+						R.string.visualizations_who);
+				String DOING = getApplicationContext().getResources()
+						.getString(R.string.visualizations_doing);
+				filterString = TIME + " > " + LOCATION + " > " + WHO
+						+ " > " + DOING;
+				locationView.setText(filterString);
+			} else {
+				locationView.setText(filterString);
+			}
 		}
 
 		initActivityIndicator();
@@ -129,8 +138,7 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(),
-						FilterActivity.class);
+				Intent intent = new Intent(getApplicationContext(),	FilterActivity.class);
 				startActivityForResult(intent, VISUALIZATION_ACTIVITY_CODE);
 				finish();
 			}
@@ -269,13 +277,16 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 	 */
 	private void drawPercentage(int percentage, int totalCount,
 			LinearLayout emoVis) {
-		TextView text = new TextView(getApplicationContext());
-		LinearLayout.LayoutParams textLayout = new LinearLayout.LayoutParams(
-				64, 64);
-		textLayout.setMargins(4, 16, 8, 0);
+		AutoResizeTextView text = new AutoResizeTextView(getApplicationContext());
+//		LinearLayout.LayoutParams textLayout = new LinearLayout.LayoutParams(
+//				64, 64);
+		LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		llp.setMargins(4, 16, 8, 0);
+//	    llp.setMargins(50, 0, 0, 0); // llp.setMargins(left, top, right, bottom);
 		text.setText(percentage + " %");
 		text.setTextColor(Color.parseColor("#bdbdbd"));
-		emoVis.addView(text, textLayout);
+		emoVis.addView(text, llp);
+//		emoVis.addView(text);
 	}
 
 	// ////////////////////////////////////////////////////

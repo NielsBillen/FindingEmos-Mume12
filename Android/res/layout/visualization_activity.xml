@@ -14,11 +14,11 @@
     <LinearLayout
         android:id="@+id/topSelector"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="30dp"
         android:clickable="true"
         android:paddingLeft="10dp" >
 
-        <TextView
+        <com.findingemos.felicity.util.AutoResizeTextView
             android:id="@+id/filter"
             android:layout_width="0dip"
             android:layout_height="match_parent"

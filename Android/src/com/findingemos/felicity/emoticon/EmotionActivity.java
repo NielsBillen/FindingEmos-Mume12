@@ -75,11 +75,13 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	public static final int EMOTION_REQUEST_CODE = 1;
 	// Code for requesting extra information (activity)
 	public static final int EXTRA_INFORMATION_CODE = 2;
+	
+	public static final String UNKNOWN_LOCATION = "Location not kwown yet";
 
 	// Variable to indicate the current city the user is in.
-	private String currentCity = "Not known yet";
+	private String currentCity = UNKNOWN_LOCATION;
 	// Variable to indicate the current country the user is in.
-	private String currentCountry = "Not known yet";
+	private String currentCountry = UNKNOWN_LOCATION;
 	// Variable to store the emoticon the user selected.
 	private static Emotion currentEmotion;
 
@@ -367,14 +369,18 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 * @return
 	 */
 	private String makeTweet(String activity, ArrayList<String> friends) {
-		String tweet = "I am " + currentEmotion.getName() + " in "
-				+ currentCity + " during " + activity;
+		String tweet = "I am " + currentEmotion.getName();
+		// Indien de locatie niet gekend is wordt deze ook niet getweet.
+		if(!currentCity.equals(UNKNOWN_LOCATION)) {
+			tweet += " in " + currentCity;
+		}
+		tweet += " during " + activity;
 		if (friends != null) {
 			// indien geen vrienden geselecteerd worden, dan is de lijst leeg
 			if (friends.size() > 0) {
 				tweet += " with " + friends.get(0);
 				if (friends.size() > 1) {
-					tweet += " and " + friends.size() + "others. #Felicity";
+					tweet += " and " + friends.size() + " others. #Felicity";
 				}
 			} else {
 				tweet += " all by myself. #Felicity";

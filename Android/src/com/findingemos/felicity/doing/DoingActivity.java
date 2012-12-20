@@ -117,7 +117,7 @@ public class DoingActivity extends Activity {
 		newButton.setTextColor(getBaseContext().getResources().getColor(
 				R.color.White));
 		newButton
-				.setBackgroundResource(R.layout.doing_activity_button_background);
+				.setBackgroundResource(R.xml.doing_activity_button_background);
 		newButton.setTextSize(18);
 
 		LinearLayout ll = (LinearLayout) findViewById(R.id.doing_linearlayout);

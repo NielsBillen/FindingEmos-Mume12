@@ -10,6 +10,7 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_margin="3dp"
+        android:contentDescription="@string/contact_image"
         android:src="@drawable/default_avatar"/>
 
     <TextView
