@@ -2,7 +2,7 @@
  * This javascript file is completely responsible for managing the database 
  ****************************************************************************/
 
-var debugDatabase = true; // Whether the database should be debugged.
+var debugDatabase = false; // Whether the database should be debugged.
 
 var isOpen=false; // Boolean die aangeeft of de database geopend is.
 var database; // Het database object.
@@ -11,6 +11,7 @@ var HISTORY_TABLE_NAME = "HISTORY"; // Naam van de tabel in de database.
 var ACTIVITY_TABLE_NAME = "ACTIVITIES"; // Naam van de tabel met de activiteiten
 var CONTACT_TABLE_NAME = "CONTACTS"; // Naam van de tabel met de contacten
 var FRIEND_TABLE_NAME = "FRIENDS"; // Naam van de tabel die bijhoudt welke vrienden horen bij een entry in de history.
+var SETTINGS_TABLE_NAME = "SETTINGS"; // Naam van de tabel met de contacten
 
 var tempCountry = "Belgium"; // Tijdelijke naam voor het land.
 var tempCity = "Leuven"; // Tijdelijke naam voor de stad.
@@ -21,7 +22,6 @@ var geocoder=new google.maps.Geocoder(); // Geocoder object voor positie bepalin
  */
 open();
 
-//drop(CONTACT_TABLE_NAME);
 /*
  * Deze functie opent de database en maakt de tabellen aan indien de database nog niet bestond.
  */
@@ -45,31 +45,41 @@ function open() {
 			'(activity TEXT PRIMARY KEY NOT NULL)';
 			
 	var contactCreation = 'CREATE TABLE IF NOT EXISTS '+CONTACT_TABLE_NAME+ 
-			'(displayName TEXT PRIMARY KEY NOT NULL, ' +
+			' (id INTEGER PRIMARY KEY AUTOINCREMENT, '+
 			'firstName TEXT NOT NULL, '+
-			'lastName TEXT NOT NULL, '+
+			'lastName TEXT, '+
+			'image TEXT NOT NULL, ' +
 			'count INTEGER'+
 			')';
 			
 	var friendCreation = 'CREATE TABLE IF NOT EXISTS '+FRIEND_TABLE_NAME+ 
 			'(id INTEGER PRIMARY KEY AUTOINCREMENT, ' +
 			'epochtime INTEGER, '+
-			'displayName TEXT NOT NULL'+
+			'firstName TEXT NOT NULL, ' +
+			'lastName TEXT, ' +
+			'image TEXT NOT NULL ' +
 			')';
-			
+	
+	var settingsCreation = 'CREATE TABLE IF NOT EXISTS '+SETTINGS_TABLE_NAME+ 
+		' (name TEXT PRIMARY KEY, ' +
+		'value TEXT NOT NULL)';
 	
 	executeDbStatement(historyCreation,[], checkOpen,function() {});
 	executeDbStatement(activityCreation,[], checkOpen,function() {});
 	executeDbStatement(contactCreation,[], checkOpen,function() {});
 	executeDbStatement(friendCreation,[], checkOpen,function() {});
+	executeDbStatement(settingsCreation,[], checkOpen,function() {});
 }
 
 var tableCount = 0;
 
 function checkOpen() {
 	tableCount++;
-	if (tableCount==4)
+	if (tableCount==5) {
 		isOpen=true;
+		var statement = "INSERT INTO "+ SETTINGS_TABLE_NAME+" (name, value) VALUES (?,?)";
+		executeDbStatement(statement,["firstNameFirst", "true"],function(){},function(){});
+	}
 }
 /*
  * Deze functie verwijdert de gegeven tabel uit de database.
@@ -88,64 +98,81 @@ function drop(tablename) {
  *
  * emotion:	de emotie die we willen opslaan in de database.
  */
-function insertEmotion(emotion, activityName,personNameList, succesCallback, errorCallback) {
+//function insertEmotion(emotion, activityName,personNameList, succesCallback, errorCallback) {
+//	if (isOpen == false)
+//		return;
+//	var statement = "INSERT INTO "+HISTORY_TABLE_NAME+" (date,time,epochtime,country,city,emoticon_id, activity) VALUES (?,?,?,?,?,?,?)";
+//	var location = getLocation(function(position) {
+//		var cityName="Leuven";
+//		var countryName="België";
+//		var longitude = position.coords.longitude;
+//		var latitude = position.coords.latitude;
+//		var googleLatLong = new google.maps.LatLng(latitude,longitude);
+//		geocoder.geocode({'latLng':googleLatLong},function(results,status) {
+//			
+//			if (status == google.maps.GeocoderStatus.OK) {
+//				console.log(results[0].formatted_address);
+//				
+//				if (results[1]) {
+//					for (var i=0; i<results[0].address_components.length; i++) 
+//						for (var b=0;b<results[0].address_components[i].types.length;b++)
+//							if (results[0].address_components[i].types[b] == "locality") {
+//								city= results[0].address_components[i];
+//								locationFilterArray.push(city.long_name);
+//								break;
+//							}
+//					for (var i=0; i<results[0].address_components.length; i++) 
+//						for (var b=0;b<results[0].address_components[i].types.length;b++)
+//							if (results[0].address_components[i].types[b] == "country") {
+//								country= results[0].address_components[i];
+//								break;
+//							}
+//				}
+//				
+//				if (debugDatabase) {
+//					console.log("[database.js]@insertEmotion(emotion): city is "+city.long_name);
+//					console.log("[database.js]@insertEmotion(emotion): country is "+country.long_name);
+//				}
+//				
+//				countryName = country.long_name;
+//				cityName = city.long_name;
+//			}
+//			
+//			var epochTime = getEpochTime();
+//			var statement = "INSERT INTO "+HISTORY_TABLE_NAME+" (date,time,epochtime,country,city,emoticon_id,activity) VALUES (?,?,?,?,?,?,?)";
+//			executeDbStatement(statement,[getDateString(),getTimeString(),epochTime,countryName,cityName,emotion.uniqueId,activityName],function(){succesCallback();},function(){errorCallback();});
+//			
+//			for(var i=0;i<personNameList.length;i++) {
+//				statement = "INSERT INTO "+FRIEND_TABLE_NAME+" (epochtime,firstName, lastName, image) VALUES (?,?,?,?)";
+//				executeDbStatement(statement,[epochTime,personNameList[i].firstName,personNameList[i].lastName,personNameList[i].image],function(){},function(){});
+//			}
+//		});
+//	}, function() {
+//		var epochTime = getEpochTime();
+//		var statement = "INSERT INTO "+HISTORY_TABLE_NAME+" (date,time,epochtime,country,city,emoticon_id,activity) VALUES (?,?,?,?,?,?,?)";
+//		executeDbStatement(statement,[getDateString(),getTimeString(),epochTime,"unavailable","unavailable",emotion.uniqueId,activityName],function(){succesCallback();},function(){errorCallback();});
+//			
+//		for(var i=0;i<personNameList.length;i++) {
+//			statement = "INSERT INTO "+FRIEND_TABLE_NAME+" (epochtime,displayName) VALUES (?,?)";
+//			executeDbStatement(statement,[epochTime,personNameList[i]],function(){},function(){});
+//		}
+//	});
+//}
+
+function insertEmotion(emotion, countryName, cityName, activityName,personNameList, succesCallback, errorCallback) {
 	if (isOpen == false)
 		return;
+	console.log(countryName);
+	console.log(cityName);
 	var statement = "INSERT INTO "+HISTORY_TABLE_NAME+" (date,time,epochtime,country,city,emoticon_id, activity) VALUES (?,?,?,?,?,?,?)";
-	var location = getLocation(function(position) {
-		var cityName="Leuven";
-		var countryName="België";
-		var longitude = position.coords.longitude;
-		var latitude = position.coords.latitude;
-		var googleLatLong = new google.maps.LatLng(latitude,longitude);
-		geocoder.geocode({'latLng':googleLatLong},function(results,status) {
-			
-			if (status == google.maps.GeocoderStatus.OK) {
-				console.log(results[0].formatted_address);
-				
-				if (results[1]) {
-					for (var i=0; i<results[0].address_components.length; i++) 
-						for (var b=0;b<results[0].address_components[i].types.length;b++)
-							if (results[0].address_components[i].types[b] == "locality") {
-								city= results[0].address_components[i];
-								break;
-							}
-					for (var i=0; i<results[0].address_components.length; i++) 
-						for (var b=0;b<results[0].address_components[i].types.length;b++)
-							if (results[0].address_components[i].types[b] == "country") {
-								country= results[0].address_components[i];
-								break;
-							}
-				}
-				
-				if (debugDatabase) {
-					console.log("[database.js]@insertEmotion(emotion): city is "+city.long_name);
-					console.log("[database.js]@insertEmotion(emotion): country is "+country.long_name);
-				}
-				
-				countryName = country.long_name;
-				cityName = city.long_name;
-			}
-			
 			var epochTime = getEpochTime();
 			var statement = "INSERT INTO "+HISTORY_TABLE_NAME+" (date,time,epochtime,country,city,emoticon_id,activity) VALUES (?,?,?,?,?,?,?)";
 			executeDbStatement(statement,[getDateString(),getTimeString(),epochTime,countryName,cityName,emotion.uniqueId,activityName],function(){succesCallback();},function(){errorCallback();});
 			
 			for(var i=0;i<personNameList.length;i++) {
-				statement = "INSERT INTO "+FRIEND_TABLE_NAME+" (epochtime,displayName) VALUES (?,?)";
-				executeDbStatement(statement,[epochTime,personNameList[i]],function(){},function(){});
+				statement = "INSERT INTO "+FRIEND_TABLE_NAME+" (epochtime,firstName, lastName, image) VALUES (?,?,?,?)";
+				executeDbStatement(statement,[epochTime,personNameList[i].firstName,personNameList[i].lastName,personNameList[i].image],function(){},function(){});
 			}
-		});
-	}, function() {
-		var epochTime = getEpochTime();
-		var statement = "INSERT INTO "+HISTORY_TABLE_NAME+" (date,time,epochtime,country,city,emoticon_id,activity) VALUES (?,?,?,?,?,?,?)";
-		executeDbStatement(statement,[getDateString(),getTimeString(),epochTime,"unavailable","unavailable",emotion.uniqueId,activityName],function(){succesCallback();},function(){errorCallback();});
-			
-		for(var i=0;i<personNameList.length;i++) {
-			statement = "INSERT INTO "+FRIEND_TABLE_NAME+" (epochtime,displayName) VALUES (?,?)";
-			executeDbStatement(statement,[epochTime,personNameList[i]],function(){},function(){});
-		}
-	});
 }
 
 /*
@@ -214,18 +241,18 @@ function getCountForEmotions(statement,field1,field2, resultCallback)  {
 
 //////
 
-function getAllSelectionsOfEmotions(dateRange, city, activity, friendName, resultCallback) {
+function getAllSelectionsOfEmotions(dateRange, city, activity, friend, resultCallback) {
 	var statement = 'SELECT emoticon_id, COUNT(emoticon_id) ' +
 					'FROM '+ HISTORY_TABLE_NAME + ' LEFT OUTER JOIN ' + FRIEND_TABLE_NAME + ' ON ' + HISTORY_TABLE_NAME + '.epochtime=' + FRIEND_TABLE_NAME + '.epochtime';
 
-	if(dateRange != null || city != null || activity != null || friendName != null) {
+	if(dateRange != null || city != null || activity != null || friend != null) {
 		statement = statement + ' WHERE';
 	}
 	
 	if(dateRange != null) {
 		statement = statement + ' ' + HISTORY_TABLE_NAME + '.epochtime>' + dateRange;
 		
-		if(city != null || activity != null || friendName != null) {
+		if(city != null || activity != null || friend != null) {
 			statement = statement + ' AND';
 		}
 	}
@@ -233,7 +260,7 @@ function getAllSelectionsOfEmotions(dateRange, city, activity, friendName, resul
 	if(city != null) {
 		statement = statement + ' city=\'' + city + '\'';
 		
-		if(friendName != null || activity != null) {
+		if(friend != null || activity != null) {
 			statement = statement + ' AND';
 		}
 	}
@@ -241,13 +268,13 @@ function getAllSelectionsOfEmotions(dateRange, city, activity, friendName, resul
 	if(activity != null) {
 		statement = statement + ' activity=\'' + activity + '\'';
 		
-		if(friendName != null) {
+		if(friend != null) {
 			statement = statement + ' AND';
 		}
 	}
 	
-	if(friendName != null) {
-		statement = statement + ' displayName=\'' + friendName + '\' ';
+	if(friend != null) {
+		statement = statement + ' ' + FRIEND_TABLE_NAME + '.lastName=\'' + friend.lastName + '\' AND  ' + FRIEND_TABLE_NAME + '.firstName=\'' + friend.firstName + '\' ';
 	}
 	
 	statement = statement + ' GROUP BY emoticon_id'+' ORDER BY emoticon_id DESC';
@@ -438,12 +465,12 @@ function doesActivityExist(activityName,resultCallBack){
  *
  *****************************************************/
  
-function insertContact(firstName, lastName,resultCallback) {
-	var displayName = firstName+' '+lastName;
-	var statement = "INSERT INTO "+CONTACT_TABLE_NAME+" (displayName, firstName, lastName, count) VALUES (?,?,?,?)";
+function insertContact(contact, resultCallback) {
+	var statement = "INSERT INTO "+CONTACT_TABLE_NAME+" (firstName, lastName, image, count) VALUES (?,?,?,?)";
 	
 	database.transaction(function(tx) {
-		tx.executeSql(statement,[displayName,firstName,lastName,0],function(t,result) {
+		tx.executeSql(statement,[contact.firstName,contact.lastName,contact.image,1],function(t,result) {
+			friendFilterArray.push(contact);
 			resultCallback(true); 
 		},function() {
 			resultCallback(false); 
@@ -451,56 +478,42 @@ function insertContact(firstName, lastName,resultCallback) {
 	});	
 }
 
-function getCountOfContact(displayName, callBack) {
-	var statement = "SELECT count FROM "+CONTACT_TABLE_NAME+" WHERE displayName=\""+displayName+"\"";
+function getCountOfContact(contact, callBack) {
+	var statement = "SELECT firstName, count FROM "+CONTACT_TABLE_NAME+" WHERE lastName=\""+contact.lastName+"\" AND firstName=\""+contact.firstName+"\"";
 	
 	database.transaction(function(tx) {
 		tx.executeSql(statement,[],function(t,result) {
-			var out = 0;
+			var out;
 			
-			if (result.rows.length==1) {
-				var row = result.rows.item(0);
-				out = row['count'];
+			if(result.rows.length == 0) {
+				out = null;
+			} else {
+				
+				for(var i = 0; i < result.rows.length; i++) {
+					var row = result.rows.item(i);
+					out = row['count'];
+				}
 			}
 				
 			callBack(out);
 		},function(t,e) {
 			callBack(0);
+			
 		});
 	});	
 }
 
-function getContacts(callBack) {
-	var statement = "SELECT displayName FROM "+CONTACT_TABLE_NAME+" ORDER BY displayName";
-	var resultArray = new Array();
-	database.transaction(function(tx) {
-		tx.executeSql(statement,[], function(t,result) {
-			for (var i=0;i<result.rows.length;i++) {
-				var row = result.rows.item(i);
-				var newElement = row['displayName'];
-				
-				if (resultArray.indexOf(newElement)==-1)
-					resultArray[resultArray.length] = newElement;	
-			}
-			callBack(resultArray);
-		},function(t,error){
-			console.log(error);
-			callBack(resultArray);
-		});
-	});
-}
-
 function getContactsSorted(callBack) {
-	var statement = "SELECT displayName FROM "+CONTACT_TABLE_NAME+" ORDER BY count DESC";
+	var statement = "SELECT firstName, lastName, image FROM "+CONTACT_TABLE_NAME+" ORDER BY count DESC";
 	var resultArray = new Array();
 	database.transaction(function(tx) {
 		tx.executeSql(statement,[], function(t,result) {
+
 			for (var i=0;i<result.rows.length;i++) {
 				var row = result.rows.item(i);
-				var newElement = row['displayName'];
+				var contact = new Contact(row['firstName'], row['lastName'],row['image']);
 				
-				if (resultArray.indexOf(newElement)==-1)
-					resultArray[resultArray.length] = newElement;	
+				resultArray.push(contact);	
 			}
 			callBack(resultArray);
 		},function(t,error){
@@ -509,12 +522,49 @@ function getContactsSorted(callBack) {
 	});
 }
 
-function updateCountOfContact(displayName) {
-	getCountOfContact(displayName, function(result) {
-		var statement = "UPDATE "+CONTACT_TABLE_NAME+" SET count="+(result+1)+" WHERE displayName=\""+displayName+"\"";
-		
-		database.transaction(function(tx) {
-			tx.executeSql(statement,[],function() { console.log("Succes!"); }, function() {console.log("Fail!") });
+function updateCountOfContact(contact) {
+	getCountOfContact(contact, function(result) {
+		if(result == null) {
+			insertContact(contact, function(res) {getCountOfContact(contact, function(res2) {
+				console.log("Count: " + res2)
+			})});
+		} else {
+			var newCount = result+1;
+			var statement = "UPDATE "+CONTACT_TABLE_NAME+" SET count="+newCount+" WHERE lastName=\""+contact.lastName+"\" AND firstName=\""+contact.firstName+"\"";
+			database.transaction(function(tx) {
+				tx.executeSql(statement,[],function() { console.log("Succes!"); getCountOfContact(contact, function(res2) {
+					console.log("Count: " + res2)
+				})}, function() {console.log("Fail!") });
+			});
+		}
+	});
+}
+
+/*****************************************************
+*
+*****************************************************/
+
+function changeFirstNameFirstTo(value) {
+	var statement = "UPDATE "+SETTINGS_TABLE_NAME+" SET value= "+ '\'' + value+ '\'' + " WHERE name = 'firstNameFirst'";
+	
+	database.transaction(function(tx) {
+		tx.executeSql(statement,[],function() {console.log("Success firstNameFirst")}, function() {console.log("Fail!") });
+	});
+}
+
+function getFirstNameFirst(callback) {
+	var statement = "SELECT value FROM "+SETTINGS_TABLE_NAME + " WHERE name = 'firstNameFirst'";
+	
+	database.transaction(function(tx) {
+		tx.executeSql(statement,[], function(t,result) {
+			var waarde; 
+			for (var i=0;i<result.rows.length;i++) {
+				var row = result.rows.item(i);
+				waarde = row['value']
+			}
+			callback(waarde);
+		},function(t,error){
+			callback(null);
 		});
 	});
 }
@@ -523,7 +573,7 @@ function updateCountOfContact(displayName) {
 *
 *****************************************************/
  
- function emptyDatabase() {
+ function emptyDatabase(callback) {
  	isOpen = false;
  	tableCount = 0;
  	
@@ -531,18 +581,23 @@ function updateCountOfContact(displayName) {
  	var emptyActivtiesStatement = "DROP TABLE IF EXISTS " + ACTIVITY_TABLE_NAME;
  	var emptyFriendsStatement = "DROP TABLE IF EXISTS " + CONTACT_TABLE_NAME;
  	var emptyContactsStatement = "DROP TABLE IF EXISTS " + FRIEND_TABLE_NAME;
+ 	var emptySettingsStatement = "DROP TABLE IF EXISTS " + SETTINGS_TABLE_NAME;
+ 	
+ 	function emptySettings() {
+ 		executeDbStatement(emptySettingsStatement,[], open, function() {});
+ 	}
  	
  	function emptyContacts() {
- 		executeDbStatement(emptyContactsStatement,[], open(), console.log("Error in emptying database"));
+ 		executeDbStatement(emptyContactsStatement,[], emptySettings, emptySettings);
  	}
  	
  	function emptyFriends() {
- 		executeDbStatement(emptyFriendsStatement,[], emptyContacts(), emptyContacts());
+ 		executeDbStatement(emptyFriendsStatement,[], emptyContacts, emptyContacts);
  	}
  	
  	function emptyActivities() {
- 		executeDbStatement(emptyActivtiesStatement,[], emptyFriends(), emptyFriends());
+ 		executeDbStatement(emptyActivtiesStatement,[], emptyFriends, emptyFriends);
  	}
  	
- 	executeDbStatement(emptyHistoryStatement,[], emptyActivities(), emptyActivities());
+ 	executeDbStatement(emptyHistoryStatement,[], emptyActivities, emptyActivities);
  }

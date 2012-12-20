@@ -1,11 +1,21 @@
-
-getContactsSorted(function (resultArray) {console.log(resultArray); friendFilterArray = resultArray; friendFilterArray.unshift("Everyone"); currentFriendFilter = friendFilterArray.length-1;
-	getAllActivities(function (resultArray) {activityFilterArray = resultArray; activityFilterArray.unshift("All activities"); currentActivityFilter = activityFilterArray.length-1;
-		getAllLocations(function(resultArray) {console.log(resultArray); locationFilterArray = resultArray; locationFilterArray.unshift("Everywhere"); currentLocationFilter = locationFilterArray.length-1;
+// Haalt de contacten, activiteiten en locaties op uit de database.
+// Initialiseert hiermee de filters.
+getContactsSorted(function (resultArray) { friendFilterArray = resultArray;
+	getAllActivities(function (resultArray) {activityFilterArray = resultArray;
+		getAllLocations(function(resultArray) {locationFilterArray = resultArray;
 			initFilters();
 		});
 	});
 });
+
+var filteredTime = "All time";
+var filteredActivity = "All activities";
+var filteredLocation = "Everywhere";
+var filteredFriend = "Everyone";
+
+/////////////////////////////////////////
+//				Initialiseer de filters					//
+/////////////////////////////////////////
 
 function initFilters() {
 	initTimeFilter();
@@ -14,69 +24,149 @@ function initFilters() {
 	initFriendFilter();
 }
 
-function initTimeFilter() {
-	$("select#timeFilter").append('<option value='+timeFilterArray[0]+' selected="selected">'+timeFilterArray[0]+'</option>');
+function emptyFilterArrays() {
+	locationFilterArray.length = 0;
 	
-	for(var i = 1; i < timeFilterArray.length; i++) {
-		$("select#timeFilter").append('<option value='+timeFilterArray[i]+'>'+timeFilterArray[i]+'</option>');
+	activityFilterArray.length = 0;
+	activityFilterArray.push("Work");
+	activityFilterArray.push("Free time");
+	activityFilterArray.push("Sport");
+	
+	friendFilterArray.length = 0;
+}
+
+function initTimeFilter() {
+	$("#timeFilter option").remove();
+	$("#timeFilter").selectmenu();
+
+	for(var i = 0; i < timeFilterArray.length; i++) {
+		if(timeFilterArray[i] != filteredTime) {
+			$("#timeFilter").append("<option value=" + timeFilterArray[i] + ">"+ timeFilterArray[i]+ "</option>");
+		} else {
+			$("#timeFilter").append("<option selected='selected' value=" + timeFilterArray[i] + ">"+ timeFilterArray[i]+ "</option>");
+		}
 	}
+	
+	$("#timeFilter").selectmenu("refresh");
 }
 
 function initLocationFilter() {
-	$("select#locationFilter").append('<option value='+locationFilterArray[0]+' selected="selected">'+locationFilterArray[0]+'</option>');
-	
-	for(var i = 1; i < locationFilterArray.length; i++) {
-		$("select#locationFilter").append('<option value='+locationFilterArray[i]+'>'+locationFilterArray[i]+'</option>');
+	locationFilterArray.sort();
+	locationFilterArray.unshift("Everywhere");
+	 
+	$("#locationFilter option").remove();
+	$("#locationFilter").selectmenu();
+
+	for(var i = 0; i < locationFilterArray.length; i++) {
+		if(locationFilterArray[i] != filteredLocation) {
+			$("#locationFilter").append("<option value=" + locationFilterArray[i] + ">"+ locationFilterArray[i]+ "</option>");
+		} else {
+			$("#locationFilter").append("<option selected='selected' value=" + locationFilterArray[i] + ">"+ locationFilterArray[i]+ "</option>");
+		}
 	}
+	
+	$("#locationFilter").selectmenu("refresh");
 }
 
 function initActivityFilter() {
-	$("select#activityFilter").append('<option value='+activityFilterArray[0]+' selected="selected">'+activityFilterArray[0]+'</option>');
-	
-	for(var i = 1; i < activityFilterArray.length; i++) {
-		$("select#activityFilter").append('<option value='+activityFilterArray[i]+'>'+activityFilterArray[i]+'</option>');
+	activityFilterArray.sort();
+	activityFilterArray.unshift("All activities");
+	 
+	$("#activityFilter option").remove();
+	$("#activityFilter").selectmenu();
+
+	for(var i = 0; i < activityFilterArray.length; i++) {
+		if(activityFilterArray[i] != filteredActivity) {
+			$("#activityFilter").append("<option value=" + activityFilterArray[i] + ">"+ activityFilterArray[i]+ "</option>");
+		} else {
+			$("#activityFilter").append("<option selected='selected' value=" + activityFilterArray[i] + ">"+ activityFilterArray[i]+ "</option>");
+		}
 	}
+	
+	$("#activityFilter").selectmenu("refresh");
 }
 
 function initFriendFilter() {
-	$("select#friendFilter").append('<option value='+friendFilterArray[0]+' selected="selected">'+friendFilterArray[0]+'</option>');
-	
-	for(var i = 1; i < friendFilterArray.length; i++) {
-		$("select#friendFilter").append('<option value='+friendFilterArray[i]+'>'+friendFilterArray[i]+'</option>');
+	friendFilterArray.sort(compare);
+	friendFilterArray.unshift(new Contact("Everyone", "", ""));
+	 
+	$("#friendFilter option").remove();
+	$("#friendFilter").selectmenu();
+
+	for(var i = 0; i < friendFilterArray.length; i++) {
+		var name = getName(friendFilterArray[i]);
+		
+		if(friendFilterArray[i].firstName + " " + friendFilterArray[i].lastName != filteredFriend.firstName + " " + filteredFriend.lastName) {
+			$("#friendFilter").append("<option value=" + i + ">"+ name + "</option>");
+		} else {
+			$("#friendFilter").append("<option selected='selected' value=" + i + ">"+ name + "</option>");
+		}
 	}
+	
+	$("#friendFilter").selectmenu("refresh");
 }
 
-function filterOkClicked() {
-	$.mobile.changePage('index.html#visualization', {
-		transition : "slide",
-		reverse : true
-	}, true, true);
-}
+
+/////////////////////////////////////////
+//		Haal geselecteerde waarden op			//
+/////////////////////////////////////////
 
 function getSelectedTime() {
 	var selectedTime = $("select#timeFilter option:selected").text();
-	if(selectedTime == "") selectedTime = null;
-	console.log("Selected Time: " + selectedTime);
 	return selectedTime;
 }
 
 function getSelectedLocation() {
 	var selectedLocation = $("select#locationFilter option:selected").text();
-	if(selectedLocation == "") selectedLocation = null;
-	console.log("Selected Location: " + selectedLocation);
 	return selectedLocation;
 }
 
 function getSelectedActivity() {
 	var selectedActivity = $("select#activityFilter option:selected").text();
-	if(selectedActivity == "") selectedActivity = null;
-	console.log("Selected Activity: " + selectedActivity);
 	return selectedActivity;
 }
 
 function getSelectedFriend() {
-	var selectedFriend = $("select#friendFilter option:selected").text();
-	if(selectedFriend == "") selectedFriend = null;
-	console.log("Selected Friend: " + selectedFriend);
-	return selectedFriend;
+	var selectedFriendIndex = $("select#friendFilter option:selected").val();
+	if(selectedFriendIndex == 0) return "Everyone";
+	return friendFilterArray[selectedFriendIndex];
+}
+
+
+/////////////////////////////////////////
+//						Listeners							//
+/////////////////////////////////////////
+
+$("#visualisations").live('pageshow',function() {
+	getContactsSorted(function (resultArray) { friendFilterArray = resultArray;
+		getAllActivities(function (resultArray) {activityFilterArray = resultArray;
+			getAllLocations(function(resultArray) {locationFilterArray = resultArray;
+				initFilters();
+			});
+		});
+	});
+});
+
+
+/////////////////////////////////////////
+//						Navigatie							//
+/////////////////////////////////////////
+
+function openVisFilter() {
+	$.mobile.changePage('index.html#visfilter', {
+		transition : "none",
+		reverse : true
+	}, true, true);
+}
+
+function filterOkClicked() {
+	$.mobile.changePage('index.html#visualisations', {
+		transition : "none",
+		reverse : true
+	}, true, true);
+	
+	filteredTime = getSelectedTime();
+	filteredActivity = getSelectedActivity();
+	filteredLocation = getSelectedLocation();
+	filteredFriend = getSelectedFriend();
 }

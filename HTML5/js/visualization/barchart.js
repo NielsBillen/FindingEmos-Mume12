@@ -82,12 +82,24 @@ function loadBarChartResources(canvas) {
 	/*
 	 * Laad de selectiedata van de emoties in vanuit
 	 * de SQL database.
+	 * 
+	 * Doe eerst het voorbereidend werk voor de filtercriteria
 	 */
 	
 	var time = getSelectedTime();
  	var location = getSelectedLocation();
  	var activity = getSelectedActivity();
  	var friend = getSelectedFriend(); 	
+ 	
+ 	document.getElementById("currentFilter-time").innerHTML = time;
+ 	document.getElementById("currentFilter-location").innerHTML = location;
+ 	document.getElementById("currentFilter-activity").innerHTML = activity;
+ 	
+ 	if(friend == "Everyone" || friend == null || friend == undefined) {
+ 			document.getElementById("currentFilter-friend").innerHTML = "Everyone"
+ 	} else {
+ 			document.getElementById("currentFilter-friend").innerHTML = getName(friend);
+ 	}
 	
 	if(time == "All time") {
 		time = null;
@@ -96,7 +108,6 @@ function loadBarChartResources(canvas) {
 	} else if (time == "This week") {
 		time = new Date().getTime() - 1000*7*24*60*60;
 	} else if (time == "Today") {
-		console.log("in Today");
 		var currentDate = new Date();
 		var currentDayTimeInMillis = (currentDate.getHours()*3600 + currentDate.getMinutes()*60 + currentDate.getSeconds())*1000;
 		time = currentDate.getTime() - currentDayTimeInMillis;
@@ -105,8 +116,6 @@ function loadBarChartResources(canvas) {
 	if(location == "Everywhere") location = null;
 	if(activity == "All activities") activity = null;
 	if(friend == "Everyone") friend = null;
-	
-	console.log(time + location + activity + friend);
 		
 	getAllSelectionsOfEmotions(time, location, activity, friend, function(result) {
 		if (localCallNumber != barChartLoadCalls)
@@ -120,6 +129,9 @@ function loadBarChartResources(canvas) {
 	 canvas.height =(emotionObjects.length)*(barChartImageHeight+barChartImageSeperation)+2*barChartYMargin;
 }
 
+function loadSelectedEmotions() {
+	
+}
 
 function setBarChartData(data) {
 	barChartLoadedData=true;

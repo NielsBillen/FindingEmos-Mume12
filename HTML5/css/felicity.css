@@ -21,6 +21,7 @@
 	padding: 0px;
 	margin: 0px;
 	border: 1px solid #333;
+	z-index: 1;
 }
 
 /*
@@ -56,14 +57,6 @@
 	 background: -o-linear-gradient(top,  #7d7e7d 0%,#0e0e0e 100%); /* Opera 11.10+ */
 	 background: -ms-linear-gradient(top,  #7d7e7d 0%,#0e0e0e 100%); /* IE10+ */
 	 background: linear-gradient(to bottom,  #7d7e7d 0%,#0e0e0e 100%); /* W3C */
-	/*
-	border-top: 1px solid rgba(230,230,230,0.5);
-    background: rgba(128,128,128,0.25);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 4px rgba(255,255,255,0.2), inset 0 4px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
-    -o-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 4px rgba(255,255,255,0.2), inset 0 4px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
-    -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 4px rgba(255,255,255,0.2), inset 0 4px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 4px rgba(255,255,255,0.2), inset 0 4px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
-	*/
 }
 
 
@@ -84,12 +77,6 @@
 }
 
 /*
- * Zorgt ervoor dat het lege gezichtje goed gepositioneerd wordt.
- */
-#emptyface {
-}
-
-/*
  * Plaats de uitleg en de onderste knop onderaan het scherm.
  */
 #moreIconsWrapper {
@@ -100,7 +87,6 @@
 	height:64px;
 	left:0;
 	right:0;
-	
 }
 
 
@@ -138,14 +124,17 @@
 	color: white;
 }
 
-#moreButton {
+#allEmosButton {
 	position:absolute;
 	height:20px;
 	bottom:0;
 	left:25%;
 	right:25%;
 	display:block;
+	width: 50%;
+	text-align: center;
 	
+	cursor: pointer;
 
     background: #7d7e7d;
 	border-top-left-radius:80px 40px;
@@ -155,16 +144,6 @@
 	font-size:20px;
 	font-family: "Georgia", Georgia, serif;
 	color:black;
-	
-	/*
-    box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 4px rgba(255,255,255,0.2), inset 0 4px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
-    -o-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 4px rgba(255,255,255,0.2), inset 0 4px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
-    -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 4px rgba(255,255,255,0.2), inset 0 4px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 4px rgba(255,255,255,0.2), inset 0 4px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
-	*/
-}
-
-#moreemotions{
 }
 
 a:link {text-decoration:none;}

@@ -6,7 +6,13 @@ var startpageVisible = false; // Of de startpagina zichtbaar is oph het moment.
 var startpageInitialized = false; // Of de startpagina al geinitializeerd is.
 var startpageLogging=false; // Of alle events gelogged moeten worden op de console.
 var shouldSwitch = false; // Deze variabele fixed een bug. Deze zorgt ervoor dat er bij het selecteren van een emotie maar een keer van pagina verwisseld wordt.
+
 var currentEmotion = null;
+var currentActivity = null;
+
+var geocoder=new google.maps.Geocoder();
+var countryName = "Niet gekend";
+var cityName = "Niet gekend";
 
 /****************************************************
  * Listeners die aan de start pagina gehangen worden
@@ -41,6 +47,35 @@ $("#startpage").live('pagebeforehide',function() {
 		console.log("[startpage.js]@pageshow: startpage invisible");
 	startpageVisible = false;
 });
+
+$("div.allEmosButton").live('tap',function(event) {
+	console.log("jaj");
+	$.mobile.changePage('index.html#allemos', {
+				transition : "none",
+				reverse : true
+			}, true, true);
+  });
+
+/*
+ * Code die het swypen mogelijk maakt.
+ */
+$('#startpage').live("swipeleft", function() {
+	if (!shouldSwitch)
+		$.mobile.changePage('index.html#visualisations', {
+			transition : "none",
+			reverse : false
+		}, true, true);
+});
+
+$('#visualisations').live("swiperight", function() {
+	if (!shouldSwitch)
+		$.mobile.changePage('index.html#startpage', {
+			transition : "none",
+			reverse : true
+		}, true, true);
+});
+
+///////////////////////////////////////////////////////
 
 /*
  * Initializes the start page. This function is called once.
@@ -431,32 +466,12 @@ function switchToActivity() {
 	setTimeout(function() {
 		if (shouldSwitch) {
 			shouldSwitch = false;
-			
+
 			$.mobile.changePage('index.html#activities', {
-					transition : "slide",
+					transition : "none",
 					reverse : false
 				}, true, true);
 			}
 		}
-	,50);
+	,1500);
 }
-
-/*
- * Code die het swypen mogelijk maakt.
- */
-$('div.ui-page').live("swipeleft", function() {
-	if (!shouldSwitch)
-		$.mobile.changePage('index.html#visualisations', {
-			transition : "slide",
-			reverse : false
-		}, true, true);
-});
-
-$('div.ui-page').live("swiperight", function() {
-	if (!shouldSwitch)
-		$.mobile.changePage('index.html#startpage', {
-			transition : "slide",
-			reverse : true
-		}, true, true);
-});
-

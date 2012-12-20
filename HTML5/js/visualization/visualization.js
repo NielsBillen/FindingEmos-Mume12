@@ -54,89 +54,16 @@ $("#visualisations").live('pagebeforehide',function() {
  ************************************/
  
 var timeFilterArray = new Array("All time", "This month", "This week", "Today");
-var currentTimeFilter = timeFilterArray.length-1;
-
-var currentLocationFilter;
-var currentFriendFilter;
-var currentActivityFilter;
 var locationFilterArray;
 var friendFilterArray;
 var activityFilterArray;
-
-
-/*
- * Verandert de tekst in de titelbalk naar de gegeven tekst
- *
- * name:	de naam die in de titel weergegeven moet worden.
- */
-function changeTimeFilter(name) {
-	document.getElementById("timeIndicator").innerHTML = name;
-}
-
-function changePlaceFilter(name) {
-	document.getElementById("placeIndicator").innerHTML = name;
-}
-
-function changeFriendFilter(name) {
-	document.getElementById("friendIndicator").innerHTML = name;
-}
-
-function dateFilterClickDown() {
-	if (currentTimeFilter == 0)
-		currentTimeFilter = timeFilterArray.length-1;
-	else
-		currentTimeFilter -= 1;
-	changeTimeFilter(timeFilterArray[currentTimeFilter]);
-	$(window).resize();
-}
-
-function dateFilterClickUp() {
-	currentTimeFilter = (currentTimeFilter + 1) % timeFilterArray.length;
-	changeTimeFilter(timeFilterArray[currentTimeFilter]);
-	$(window).resize();
-}
-
-function placeFilterClickDown() {
-	if (currentLocationFilter == 0)
-		currentLocationFilter = locationFilterArray.length-1;
-	else
-		currentLocationFilter -= 1;
-	changePlaceFilter(locationFilterArray[currentLocationFilter]);
-	$(window).resize();
-}
-
-function placeFilterClickUp() {
-	currentLocationFilter = (currentLocationFilter + 1) % locationFilterArray.length;
-	changePlaceFilter(locationFilterArray[currentLocationFilter]);
-	$(window).resize();
-}
-
-function friendFilterClickDown() {
-	if (currentFriendFilter == 0)
-		currentFriendFilter = friendFilterArray.length-1;
-	else
-		currentFriendFilter -= 1;
-	changeFriendFilter(friendFilterArray[currentFriendFilter]);
-	$(window).resize();
-}
-
-function friendFilterClickUp() {
-	currentFriendFilter = (currentFriendFilter + 1) % friendFilterArray.length;
-	changeFriendFilter(friendFilterArray[currentFriendFilter]);
-	$(window).resize();
-
-	$.mobile.changePage('index.html#visfilter', {
-			transition : "slide",
-			reverse : false
-		}, true, true);
-}
 
 /*********************************
  * Functies die bestanden inladen 
  *********************************/
 
 var updateInterval; // Interval object voor het hertekenen van de viualisatie.
-var fps = 20.0;
+var fps = 5.0;
 var timeout = 1000.0/fps; // Timout tussen twee redraw events.
 var animationPercentage = 0.0; // Variabele tussen [0,1] die aangeeft hoever we gevordert zijn in de animatie.
 var debugVisualisation = false;

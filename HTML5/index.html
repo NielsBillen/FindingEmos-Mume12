@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html manifest="felicity.appcache">
 	<head>
 		<!-- Titel en favicon van Felicity-->
 		<title>Felicity</title>
@@ -7,34 +7,38 @@
 
 		<!-- The CSS files should be loaded in the correct order to overwrite JQuery Mobile ones -->
 		<!-- Therefore you first load the JQuery files and then your own css files.-->
-		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="css/jquery.mobile-1.2.0.min.css" />
 		<link rel="stylesheet" href="css/general.css" />
 		<link rel="stylesheet" href="css/felicity.css" />
 		<link rel="stylesheet" href="css/activities.css" />
 		<link rel="stylesheet" href="css/contacts.css" />
 		<link rel="stylesheet" href="css/visualisation.css" />
+		<link rel="stylesheet" href="css/settings.css" />
 
 		<!-- Deze tag zorgt ervoor dat op een mobiele site, de mobiele versie getoond wordt (waardoor niet gezoomd moet worden)-->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Belangrijk is dat deze bestanden in de juiste volgorde worden ingeladen-->
 		<!-- Merk op dat een oude versie van JQuery nodig is, omv Touch Punch -->
-		<script src="http://www.google.com/jsapi"></script>
+		<script type="text/javascript" charset="utf-8" src="cordova-2.1.0.js"></script>
+		<script src="js/jsapi"></script>
 		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script> 
 		<script src="js/jquery/jquery-1.7.2.min.js"></script>
 		<script src="js/jquery/jquery-ui.min.js"></script>
 		<script src="js/jquery/jquery.mobile-1.2.0.min.js"></script>
 		<script src="js/jquery/jquery.ui.touch-punch.js"></script>
 		<script src="js/iscroll/iscroll.js"></script>
-		<script src="js/cordova/cordova-2.2.0.js"></script>
 		<script src="js/emotions.js"></script>
+		<script src="js/contact.js"></script>
 		<script src="js/database.js"></script>
 		<script src="js/startpage.js"></script>
 		<script src="js/activities.js"></script>
 		<script src="js/visualization/visualization.js"></script>
 		<script src="js/visualization/barchart.js"></script>
 		<script src="js/visualization/visfilter.js"></script>
+		<script src="js/settings.js"></script>
 		<script src="js/contacts.js"></script>
+		<script src="js/startup.js"></script>
 	</head>
 
 	<body>
@@ -44,7 +48,7 @@
 			<!-- Header, toont de naam van het programma en naderhand ook de emoties.-->
 			<div data-role="header" id="startpage-header" >
 				<h1 id="topbar">Felicity</h1>
-				<a href="index.html#settings" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+				<button data-icon="gear" class="ui-btn-right" data-iconpos="notext" onclick="openSettings()">Settings</button>
 			</div>
 
 			<!-- Content -->
@@ -62,8 +66,10 @@
 				<!-- Button, voor een dialog menu met meer iconen -->
 				<div id="moreIconsWrapper">
 					Drag and drop your feelings on the empty face
-	
-						<a href="#allemos" id="moreButton" data-transition="slideup">. . .</a>
+				</div>
+				
+				<div id="allEmosButton" class="allEmosButton">
+						<div id="allEmosButtonText">. . .</div>
 				
 				</div>
 			</div>
@@ -87,24 +93,25 @@
 		<!-- De pagina die een lijst toont met alle opties van activiteiten-->
 		<div data-role = "page" id = "activities">
 			<!-- Header -->
-			<header data-role="header" id="visualisation-header">
+			<header data-role="header" data-position="fixed" id="startpage-header">
 				<h1 id="topbar">Select your current activity</h1>
-				<a id="knopje" href="index.html#settings" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+				<button data-icon="gear" class="ui-btn-right" data-iconpos="notext" onclick="openSettings()">Settings</button>
 			</header>
 			
 			<!-- Content -->
 			<div data-role="content" id="activities-content">
-				<!-- Afbeelding die de huidige view aangeeft -->
-				<p align="center" class="viewindicator"> 
-					<img src="img/tabs1.png" height="16px"/> 
-				</p>
-				
-				<div id="activities-centralwrapper">
-					<div id="activitiescentralscroller">
-						<ul id = "activitylist">
-							
-						</ul>
+			
+				<div id="activities-contentwrapper">
+					<div id="activities-centralwrapper">
+						<div id="activitiescentralscroller">
+							<ul id = "activitylist">
+							</ul>
+						</div>
 					</div>
+				</div>
+				
+				<div id="activities-addButtonWrapper">
+					<button id="activities-addButton" data-theme="b" data-corners="false" onclick="addActivity()">Add</button>
 				</div>
 			</div>
 		</div>
@@ -113,31 +120,34 @@
 			<!-- Header -->
 			<header data-role="header" id="contacts-header">
 				<h1 id="topbar">Who are you with?</h1>
-				<a id="knopje" href="index.html#settings" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+				<button data-icon="gear" class="ui-btn-right" data-iconpos="notext" onclick="openSettings()">Settings</button>
 			</header>
 
 			<!-- Content -->
 			<div data-role="content" id="contacts-content">
-				<div id = "contacts-favorites" class ="contacts-text-left">Favorites</div>
+				<div id = "contacts-favorites" class ="contacts-text-left">
+					Favorites
+				</div>	
 				
 				<div id = "contacts-favorites-wrapper">
-					<div class = "contacts-favorite-image" name="Jos" id = "contacts-favorite1" onclick = onClickFavorite("contacts-favorite1",0)>
-						<img src="img/default.png"/>
-						<div class = "contacts-favorite-text" id = "contacts-favorite1-text">Jos</div>
+					<div class = "contacts-favorite1" id = "contacts-favorite1" onclick = onClickFavorite("contacts-favorite1",0)>
+						<img id="contacts-favorite-image-1" src="img/default.png"/>
 					</div>
-					<div id = "contacts-favorite2" name="Jaak" class = "contacts-favorite-image" onclick = onClickFavorite("contacts-favorite2",1)> 
-						<img src="img/default.png"/>
-						<div class = "contacts-favorite-text" id = "contacts-favorite2-text">Jaak</div>
+					
+					<div id = "contacts-favorite2" class = "contacts-favorite-image" onclick = onClickFavorite("contacts-favorite2",1)> 
+						<img id="contacts-favorite-image-2" src="img/default.png"/>
 					</div>
-					<div id = "contacts-favorite3" name = "Jef" class = "contacts-favorite-image" onclick = onClickFavorite("contacts-favorite3",2)> 
-						<img src="img/default.png"/>
-						<div class = "contacts-favorite-text" id = "contacts-favorite3-text">Jef</div>
+					
+					<div id = "contacts-favorite3" class = "contacts-favorite-image" onclick = onClickFavorite("contacts-favorite3",2)> 
+						<img id="contacts-favorite-image-3" src="img/default.png"/>
 					</div>	
 				</div>
 				
-				<div id = "contacts-all" class ="contacts-text-left">Contacts</div>
+				<div id = "contacts-all">
+					Contacts
+				</div>
 				
-				<div id = "beautifulcontactwrapper" class = "glaspane">
+				<div id = "beautifulcontactwrapper">
 					<div id = "contactswrapper">
 						<div id = "contactsscroller">
 							<div id="contactslist">
@@ -146,13 +156,10 @@
 					</div>
 				</div>
 				
-				<div id = "contacts-bottombar">
-					<div id = "addcontactsbutton" class="glaspane" onclick = addContactClicked()>
-						<div id="addcontactsbuttontext">Add contact</div>
-					</div>
-					<div id = "contactsbutton" class="glaspane" onclick = continueClicked()>
-						<div id="contactsbuttontext">Continue</div>
-					</div>
+				<div id="contacts-doneButtonWrapper" data-position="fixed">
+					<button id="contacts-doneButton" data-theme="b" data-corners="false" onclick = "continueClicked()">
+						Done
+					</button>
 				</div>
 			</div>
 		</div>
@@ -162,7 +169,7 @@
 			<!-- Header -->
 			<header data-role="header" id="visualisation-header">
 				<h1 id="topbar">Felicity</h1>
-				<a id="knopje" href="index.html#settings" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+				<button data-icon="gear" class="ui-btn-right" data-iconpos="notext" onclick="openSettings()">Settings</button>
 			</header>
 
 			<!-- Content -->
@@ -171,7 +178,19 @@
 					<img src="img/tabs2.png" height="15px"/>
 				</p>
 				
-				<a href="index.html#visfilter" data-role="button" data-theme="b">Filter</a>
+				<div id="filterWrapper" onclick="openVisFilter()">
+					<div id="currentFilterWrapper">
+						<div id="currentFilter-leftColumn">
+							<p id="currentFilter-time"></p>
+							<p id="currentFilter-activity"></p>
+						</div>
+						<div id="currentFilter-rightColumn">
+							<p id="currentFilter-location"></p>
+							<p id="currentFilter-friend"></p>
+						</div>
+						
+					</div>
+				</div>
 				
 				<div id="beautywrapper" class="glaspane">
 					<div id="canvaswrapper">
@@ -187,26 +206,26 @@
 			<!-- Header -->
 			<header data-role="header" id="visfilter-header">
 				<h1 id="topbar">Visualisation Filter</h1>
-				<a id="knopje" href="index.html#settings" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+				<button data-icon="gear" class="ui-btn-right" data-iconpos="notext" onclick="openSettings()">Settings</button>
 			</header>
 
 			<!-- Content -->
 			<div data-role="content" id="visfilter-content">
 			
-				<select id="timeFilter" data-theme="a" data-native-menu="false" >
+				<select id="timeFilter" data-theme="a">
 				</select>
 				
-				<select id="locationFilter" data-theme="a" data-native-menu="false" >
+				<select id="locationFilter" data-theme="a">
 				</select>
 				
-				<select id="activityFilter" data-theme="a" data-native-menu="false" >
+				<select id="activityFilter" data-theme="a">
 				</select>
 				
-				<select id="friendFilter" data-theme="a" data-native-menu="false" >
+				<select id="friendFilter" data-theme="a">
 				</select>
 				
 				<div id = "visfilter-bottombar" align="center">
-					<a href="index.html#visualisations" data-role="button" data-theme="b">Ok!</a>
+					<button data-theme="b" onclick="filterOkClicked()">Ok!</button>
 				</div>
 			</div>
 		</div>
@@ -215,21 +234,59 @@
 			<!-- Header -->
 			<header data-role="header" id="settings-header">
 				<h1 id="topbar">Settings</h1>
-				<a id="knopje" href="index.html" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Startpage</a>
+				<button data-icon="delete" class="ui-btn-right" data-iconpos="notext" onclick="goBack()">Settings</button>
 			</header>
 
 			<!-- Content -->
 			<div data-role="content" id="settings-content">
-			
-				<div id="settings-emptyDatabase" class="glaspane" onclick = emptyDatabase()>
-					Empty database
-				</div>
 				
-				<div id = "settings-bottombar" align="center">
-					<div id = "settingsokbutton" class="glaspane" onclick = settingsOkClicked()>
-						<div id="settingsokbuttontext">Ok</div>
+				<div id="settings-database">
+					<div id="settings-database-name">
+						Database
+					</div>
+					<div id="settings-database-line">
 					</div>
 				</div>
+				
+				<div id="settings-database-wrapper">
+					<div id="settings-database-leftColumn">
+						<div id="settings-database-clearDatabase">
+								Clear the whole database
+						</div>
+					</div>
+					
+					<div id="settings-database-rightColumn">
+						<button id="settings-emptyDatabase" data-corners="false" data-theme="b" onclick = settingsClearDatabase()>
+							Clear
+						</button>
+					</div>
+				</div>
+				
+				<div id="settings-contacts">
+					<div id="settings-contacts-name">
+						Contacts
+					</div>
+					<div id="settings-contacts-line">
+					</div>
+				</div>
+				
+				<div id="settings-contacts-wrapper">
+					<div id="settings-contacts-leftColumn">
+						<div id="settings-contacts-displayPolicy">
+								Display first name first
+						</div>
+					</div>
+					
+					<div id="settings-contacts-rightColumn">
+						<div id="settings-slider">
+							<select name="slider" id="slider" data-role="slider" class="slider">
+								<option value="false">Off</option>
+								<option value="true">On</option>
+							</select> 
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 		
@@ -250,8 +307,8 @@
 			</header>
 
 			<div data-role="content">
-				<input type="text" name="firstname" id="form_firstname" value="First name"/>
-				<input type="text" name="lastname" id="form_lastname" value="Last name"/>
+				<input type="text" name="firstname" id="form_firstname" value="First name" onclick="clearText(this)"/>
+				<input type="text" name="lastname" id="form_lastname" value="Last name" onclick="clearText(this)"/>
 				<input id = "addcontactformbutton "type="button" value="Add" onclick="addContactFormClicked()"/>
 			</div>
 		</div>

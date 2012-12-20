@@ -1,6 +1,10 @@
 CACHE MANIFEST
-CACHE:
+index.html
 favicon.ico
+js/cordova
+js/iscroll
+js/jquery
+js/visualization
 img/angry_big.png
 img/angry_small.png
 img/ashamed_big.png

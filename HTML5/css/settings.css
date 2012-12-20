@@ -1,6 +1,72 @@
-#settings-emptyDatabase {
-	margin-left: 5%;
-	margin-right: 5%;
+#settings-contacts-wrapper,
+#settings-database-wrapper {
+	width: 100%
+}
+
+#settings-database-wrapper {
+	position: absolute;
+	top: 65px;
+}
+
+#settings-contacts-wrapper {
+	position: absolute;
+	top: 155px;
+}
+
+#settings-contacts-leftColumn,
+#settings-database-leftColumn {
+	width: 56%;
+	margin-left: 3%;
+	margin-right: 1%;
+	color: white;
+	float: left;
+	height: 50px;
+	font-size: 14px;
+}
+
+#settings-database-clearDatabase,
+#settings-contacts-displayPolicy {
 	margin-top: 20px;
+}
+
+#settings-contacts-rightColumn,
+#settings-database-rightColumn {
+	width: 36%;
+	margin-left: 1%;
+	margin-right: 3%;
+	float: left;
+	height: 50px;
+}
+ 
+#settings-database,
+#settings-contacts {
+	position: absolute;
+	width: 94%;
+	margin-left: 3%;
+	margin-right: 3%;
+}
+
+#settings-database {
+		top: 50px;
+}
+
+#settings-contacts {
+		top: 140px;
+}
+
+#settings-database-name,
+#settings-contacts-name {
+	color: white;
+	font-size: 12px;
+}
+
+#settings-database-line,
+#settings-contacts-line {
+	height: 1px;
+	background-color: white;
+}
+
+#settings-slider {
+	margin-top: 5px;
 	text-align: center;
 }
