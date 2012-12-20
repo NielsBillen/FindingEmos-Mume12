@@ -75,8 +75,7 @@
             android:name="com.findingemos.felicity.visualization.FilterActivity"
             android:label="@string/title_activity_main" >
         </activity>
-        <activity android:name=".twitter.AndroidBasicOAuthActivity"></activity>
-        <activity android:name=".twitter.TwitterWebviewActivity"></activity>
+        <activity android:name="com.findingemos.felicity.twitter.TwitterWebviewActivity"></activity>
     </application>
 
 </manifest>

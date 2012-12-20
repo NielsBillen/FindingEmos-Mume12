@@ -41,10 +41,16 @@
     <string name="visualizations_location">Everywhere</string>
     <string name="visualizations_who">Everyone</string>
     <string name="visualizations_doing">All Activities</string>
-    <string name="visualizations_adjust_filters">Adjust your filters here!</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="visualizations_filterbutton">Filter!</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="twitter_callback">twitter-callback:///</string>
+    <string name="settings_firstname">First name first</string>
+    <string name="settings_cleardatabasebutton">Clear!</string>
+    <string name="settings_cleardatabase">Clear Database</string>
+    <string name="settings_contacts">Contacts</string>
+    <string name="settings_database">Contacts</string>
+    <string name="settings_social">Social</string>
+    <string name="settings_twitter">Twitter</string>
 
 </resources>

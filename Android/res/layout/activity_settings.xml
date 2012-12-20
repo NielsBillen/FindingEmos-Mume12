@@ -21,7 +21,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/firstNameFirstButton"
         android:layout_marginLeft="14dp"
-        android:text="First name First"
+        android:text="@string/settings_firstname"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/White" />
 
@@ -49,7 +49,7 @@
         android:layout_alignBottom="@+id/cleardatabase"
         android:layout_alignParentRight="true"
         android:textColor="@color/White"
-        android:text="Clear!" />
+        android:text="@string/settings_cleardatabasebutton" />
 
     <TextView
         android:id="@+id/cleardatabase"
@@ -58,7 +58,7 @@
         android:layout_alignLeft="@+id/firstnamefirst"
         android:layout_below="@+id/LineContacts"
         android:layout_marginTop="19dp"
-        android:text="Clear Database"
+        android:text="@string/settings_cleardatabase"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/White" />
 
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/firstnamefirst"
         android:layout_alignParentTop="true"
-        android:text="Contacts"
+        android:text="@string/settings_contacts"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/White" />
 
@@ -79,7 +79,7 @@
         android:layout_alignLeft="@+id/cleardatabase"
         android:layout_below="@+id/firstNameFirstButton"
         android:layout_marginTop="20dp"
-        android:text="Database"
+        android:text="@string/settings_database"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/White" />
 
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/cleardatabase"
         android:layout_centerVertical="true"
-        android:text="Social"
+        android:text="@string/settings_social"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/White" />
 
@@ -108,7 +108,7 @@
         android:layout_alignLeft="@+id/TextView01"
         android:layout_below="@+id/View01"
         android:layout_marginTop="20dp"
-        android:text="Twitter"
+        android:text="@string/settings_twitter"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/White" />
 

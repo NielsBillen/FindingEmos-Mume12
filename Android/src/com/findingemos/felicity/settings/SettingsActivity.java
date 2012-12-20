@@ -176,7 +176,7 @@ public class SettingsActivity extends Activity {
 					}
 				} else {
 					Toast.makeText(SettingsActivity.this,
-							"No access to Internet..please try again", 3000)
+							"No access to Internet..please try again", Toast.LENGTH_LONG)
 							.show();
 				}
 			}
@@ -221,7 +221,7 @@ public class SettingsActivity extends Activity {
 				}
 			}
 		} else {
-			Toast.makeText(this, "uh oh, Spaghetti Os", 300).show();
+			Toast.makeText(this, "uh oh, Spaghetti Os", Toast.LENGTH_SHORT).show();
 		}
 
 	}

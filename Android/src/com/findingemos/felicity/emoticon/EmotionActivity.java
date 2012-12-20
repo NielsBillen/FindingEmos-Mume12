@@ -66,16 +66,6 @@ import com.findingemos.felicity.visualization.VisualizationActivity;
 public class EmotionActivity extends SlideActivity implements Swipeable,
 		EmotionSelectionListener {
 
-	private static RequestToken rToken;
-	private String oauthVerifier;
-
-	// A Hack to test the working of oauth.
-	private static boolean test = true;
-
-	// Your OAUTH consumer and secret keys
-	private final static String OAUTH_CONSUMER = "eGH1yZ2vn892QHrAACgEw";
-	private final static String OAUTH_SECRET = "LmDPP7VFJgb1A5iqBCCRJmu4VqETiWtXmQmHzTOgo";
-
 	// Final boolean variable to check whether drag and drop is enabled.
 	public static final boolean DRAG_AND_DROP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 	// The database to call
@@ -378,12 +368,29 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 */
 	private String makeTweet(String activity, ArrayList<String> friends) {
 		String tweet = "I am " + currentEmotion.getName() + " in "
-				+ currentCity + " during " + activity + " with "
-				+ friends.get(0);
-		int length = tweet.length();
-		for (int i = 1; i < friends.size() && length <= Constants.TWEET_LIMIT; i++) {
-			tweet += " & " + friends.get(i);
+				+ currentCity + " during " + activity;
+		if (friends != null) {
+			// indien geen vrienden geselecteerd worden, dan is de lijst leeg
+			if (friends.size() > 0) {
+				tweet += " with " + friends.get(0);
+				if (friends.size() > 1) {
+					tweet += " and " + friends.size() + "others. #Felicity";
+				}
+			} else {
+				tweet += " all by myself. #Felicity";
+			}
 		}
+
+		tweet = tweetLimitCheck(tweet);
+
+		return tweet;
+	}
+
+	/**
+	 * @param tweet
+	 * @return
+	 */
+	private String tweetLimitCheck(String tweet) {
 		if (tweet.length() > Constants.TWEET_LIMIT) {
 			System.out.println("Tweet te lang!");
 			int i = Constants.TWEET_LIMIT - 1;
@@ -627,13 +634,20 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	public void onSwipeDown() {
 	}
 
+	/**
+	 * Post een tweet op twitter. Deze tweet moet korter of gelijk aan het
+	 * twitter limiet zijn.
+	 * 
+	 * @param tweet
+	 */
 	private void updateStatus(String tweet) {
+		// Veiligheid check om niet te crashen
 		if (tweet.length() > Constants.TWEET_LIMIT) {
+			// zou niet mogen optreden.
 			System.out.println("Tweet te lang!");
 			return;
 		}
 
-		// TODO Auto-generated method stub
 		SharedPreferences settings = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		String accessToken = settings.getString("twitter_access_token", null);
@@ -652,11 +666,11 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 				t.updateStatus(tweet);
 
 			} catch (TwitterException e) {
-				e.printStackTrace();
+				Log.e("EmotionActivity", "Het posten van de tweet is mislukt");
 			}
 		} else {
 			Toast.makeText(this, "No access to Internet..please try again",
-					3000).show();
+					Toast.LENGTH_LONG).show();
 		}
 	}
 
