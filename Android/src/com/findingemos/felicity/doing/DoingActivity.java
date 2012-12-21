@@ -6,6 +6,7 @@ import java.util.Arrays;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +46,11 @@ public class DoingActivity extends Activity {
 		Log.i("Activity", "Doing started");
 		setContentView(R.layout.doing_activity);
 		setTitle("What are you doing?");
+		
+		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+			EditText input = (EditText) findViewById(R.id.doing_edittext_add_category);
+			input.setTextColor(R.color.Black);
+		}
 
 		initializeCategories();
 		initializeAddButton();

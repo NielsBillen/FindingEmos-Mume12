@@ -118,24 +118,27 @@
             android:id="@+id/contacts_list_button_ok"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="60dp"
-            android:layout_height="32dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="@string/ok"
+            android:textSize="11sp"
             android:textColor="#FFFFFF" />
 
-        <TextView
+        <com.findingemos.felicity.util.AutoResizeTextView
             android:id="@+id/contacts_list_friends_selected"
-            android:layout_width="50dp"
-            android:layout_height="32dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_toLeftOf="@+id/contacts_list_button_ok"
             android:gravity="center"
             android:lines="2"
             android:text="@string/no_friends"
             android:textColor="@color/White"
-            android:textSize="9sp" />
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </LinearLayout>

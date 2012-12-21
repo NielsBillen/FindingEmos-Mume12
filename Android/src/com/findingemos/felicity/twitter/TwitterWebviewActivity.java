@@ -42,10 +42,10 @@ public class TwitterWebviewActivity extends Activity {
 		webView.loadUrl(url);
 	}
 	
-	@Override
-	public void onBackPressed() {
-		Toast.makeText(this,
-				"Please enter your credentials first or cancel.", Toast.LENGTH_LONG)
-				.show();
-	}
+//	@Override
+//	public void onBackPressed() {
+//		Toast.makeText(this,
+//				"Please enter your credentials first or cancel.", Toast.LENGTH_LONG)
+//				.show();
+//	}
 }

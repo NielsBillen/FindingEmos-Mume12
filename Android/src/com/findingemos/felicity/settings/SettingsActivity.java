@@ -230,6 +230,8 @@ public class SettingsActivity extends Activity {
 						Toast.makeText(SettingsActivity.this,"No access granted from Twitter", Toast.LENGTH_LONG).show();
 						cancelTwitter(settings);
 					}
+				} else {
+					throw new Exception("Gebruiker heeft te vroeg op back geklikt");
 				}
 			} else {
 				Log.e("SettinsActivity","Twitterpage came back with wrong results");

@@ -372,13 +372,15 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 		if(!currentCity.equals(UNKNOWN_LOCATION)) {
 			tweet += " in " + currentCity;
 		}
-		tweet += " during " + activity;
+		tweet += " during #" + activity.replaceAll(" ", "");
 		if (friends != null) {
 			// indien geen vrienden geselecteerd worden, dan is de lijst leeg
 			if (friends.size() > 0) {
 				tweet += " with " + friends.get(0);
-				if (friends.size() > 1) {
-					tweet += " and " + friends.size() + " others. #Felicity";
+				if(friends.size() == 2) {
+					tweet += " and 1 other. #Felicity";
+				} else if (friends.size() > 2) {
+					tweet += " and " + (friends.size()-1) + " others. #Felicity";
 				} else {
 					tweet += ". #Felicity";
 				}
