@@ -17,8 +17,7 @@ import android.database.sqlite.SQLiteDatabase;
  * @version 0.1
  */
 public class DatabaseVersionCodes {
-	// First version of the database (contains count history and history of
-	// emoticon)
+	// First version of the database (contains count history and history of emoticon)
 	public static final int EMOTION_V1_NIELS_14_10_2012 = 1;
 	public static final int EMOTION_V2_STIJN_12_11_2012 = 2;
 	public static final int EMOTION_V3_STIJN_15_11_2012 = 3;
@@ -30,8 +29,12 @@ public class DatabaseVersionCodes {
 	public static final int EMOTION_V7_ROBIN_06_12_2012 = 7;
 	// Friends tabel verwijderd.
 	public static final int EMOTION_V8_ROBIN_08_12_2012 = 8;
-	// The current version of the emoticon database.
-	public static final int EMOTION_CURRENT = EMOTION_V8_ROBIN_08_12_2012;
+	// Nieuwe emoties.
+	public static final int EMOTION_V9_ROBIN_20_12_2012 = 9;
+	// Nieuwe emoties.
+	public static final int EMOTION_V10_ROBIN_20_12_2012 = 10;
+	// Settingstabel is verwijderd
+	public static final int EMOTION_CURRENT = EMOTION_V10_ROBIN_20_12_2012;
 
 	/**
 	 * Performs an update for the given sql database from the given version to

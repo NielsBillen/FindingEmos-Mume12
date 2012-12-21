@@ -40,6 +40,10 @@ public class VisualizationActivity extends SlideActivity implements Swipeable {
 	private static Emotion[] currentData = Emotion.values();
 	
 	private static String filterString;
+	
+	public static void resetFiler() {
+		filterString = null;
+	}
 
 	public static Emotion[] getCurrentData() {
 		return currentData;

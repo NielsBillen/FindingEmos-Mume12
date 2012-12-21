@@ -48,8 +48,8 @@
         android:layout_alignBaseline="@+id/cleardatabase"
         android:layout_alignBottom="@+id/cleardatabase"
         android:layout_alignParentRight="true"
-        android:textColor="@color/White"
-        android:text="@string/settings_cleardatabasebutton" />
+        android:text="@string/settings_cleardatabasebutton"
+        android:textColor="@color/White" />
 
     <TextView
         android:id="@+id/cleardatabase"
@@ -72,44 +72,34 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/White" />
 
+    <View
+        android:id="@+id/lineSocial"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/Social"
+        android:background="@color/White" />
+
+    <TextView
+        android:id="@+id/twitterCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Social"
+        android:layout_below="@+id/lineSocial"
+        android:layout_marginTop="16dp"
+        android:text="@string/settings_twitter"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/White" />
+
     <TextView
         android:id="@+id/DatabaseText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/cleardatabase"
+        android:layout_alignLeft="@+id/firstnamefirst"
         android:layout_below="@+id/firstNameFirstButton"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="14dp"
         android:text="@string/settings_database"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/White" />
-
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/cleardatabase"
-        android:layout_centerVertical="true"
-        android:text="@string/settings_social"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/White" />
-
-    <View
-        android:id="@+id/View01"
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/TextView01"
-        android:background="@color/White" />
-
-    <TextView
-        android:id="@+id/TextView02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TextView01"
-        android:layout_below="@+id/View01"
-        android:layout_marginTop="20dp"
-        android:text="@string/settings_twitter"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/White" />
 
     <CheckBox
@@ -117,6 +107,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/TextView02" />
+        android:layout_alignTop="@+id/twitterCheckbox" />
+
+    <TextView
+        android:id="@id/Social"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cleardatabase"
+        android:layout_below="@+id/clearDatabaseButton"
+        android:layout_marginTop="16dp"
+        android:text="@string/settings_social"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/White" />
 
 </RelativeLayout>

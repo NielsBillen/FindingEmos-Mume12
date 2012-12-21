@@ -6,8 +6,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.findingemos.felicity.R;
+import com.findingemos.felicity.settings.SettingsActivity;
 
 public class TwitterWebviewActivity extends Activity {
 	private Intent mIntent;
@@ -16,6 +18,7 @@ public class TwitterWebviewActivity extends Activity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.twitter_webview);
+		setTitle("Enter your Twitter credentials");
 		mIntent = getIntent();
 		String url = (String)mIntent.getExtras().get("URL");
 		WebView webView = (WebView) findViewById(R.id.webview);
@@ -37,5 +40,12 @@ public class TwitterWebviewActivity extends Activity {
 			}
 		});
 		webView.loadUrl(url);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		Toast.makeText(this,
+				"Please enter your credentials first or cancel.", Toast.LENGTH_LONG)
+				.show();
 	}
 }

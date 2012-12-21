@@ -15,7 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Menu;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -28,6 +28,7 @@ import com.findingemos.felicity.emoticon.Emotion;
 import com.findingemos.felicity.emoticon.EmotionActivity;
 import com.findingemos.felicity.twitter.Constants;
 import com.findingemos.felicity.twitter.TwitterWebviewActivity;
+import com.findingemos.felicity.visualization.VisualizationActivity;
 
 public class SettingsActivity extends Activity {
 
@@ -43,8 +44,9 @@ public class SettingsActivity extends Activity {
 
 	private boolean twitterEnabled;
 	private boolean firstnameFirst;
-
-	// static boolean firstName;
+	
+	// moet een veld zijn om terug te kunnen annuleren als webview faalt.
+	private CheckBox enableTwitter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class SettingsActivity extends Activity {
 							startActivity(intent);
 
 							CharSequence text = "Database cleared!";
+							VisualizationActivity.resetFiler();
 							int duration = Toast.LENGTH_SHORT;
 							Toast toast = Toast.makeText(
 									getApplicationContext(), text, duration);
@@ -128,7 +131,7 @@ public class SettingsActivity extends Activity {
 			}
 		});
 
-		final CheckBox enableTwitter = (CheckBox) findViewById(R.id.enableTwitterButton);
+		enableTwitter = (CheckBox) findViewById(R.id.enableTwitterButton);
 		enableTwitter.setChecked(twitterEnabled);
 		enableTwitter.setOnClickListener(new OnClickListener() {
 
@@ -137,14 +140,15 @@ public class SettingsActivity extends Activity {
 				twitterEnabled = !twitterEnabled;
 				SharedPreferences settings = PreferenceManager
 						.getDefaultSharedPreferences(SettingsActivity.this);
-				SharedPreferences.Editor editor = settings.edit();
-				editor.putBoolean("twitter enabled", twitterEnabled);
-				editor.commit();
 
 				accessToken = settings.getString("twitter_access_token", null);
 				accessTokenSecret = settings.getString(
 						"twitter_access_token_secret", null);
 
+				SharedPreferences.Editor editor = settings.edit();
+				editor.putBoolean("twitter enabled", twitterEnabled);
+				editor.commit();
+				
 				if ((accessToken != null) && (accessTokenSecret != null)) {
 					return;
 				}
@@ -176,52 +180,65 @@ public class SettingsActivity extends Activity {
 					}
 				} else {
 					Toast.makeText(SettingsActivity.this,
-							"No access to Internet..please try again", Toast.LENGTH_LONG)
+							"No access to Internet..please enable your internet first", Toast.LENGTH_LONG)
 							.show();
+					cancelTwitter(settings);
 				}
 			}
+
 		});
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_settings, menu);
-		return true;
+	
+	/**
+	 * @param settings
+	 */
+	private void cancelTwitter(SharedPreferences settings) {
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("twitter enabled", false);
+		editor.commit();
+		enableTwitter.setChecked(false);
+		twitterEnabled = false;
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+		SharedPreferences settings = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		try {
+			if (requestCode == TWITTER_AUTH) {
 
-		if (requestCode == TWITTER_AUTH) {
+				if (resultCode == Activity.RESULT_OK) {
+					String oauthVerifier = (String) data.getExtras().get(
+							"oauth_verifier");
 
-			if (resultCode == Activity.RESULT_OK) {
-				String oauthVerifier = (String) data.getExtras().get(
-						"oauth_verifier");
+					AccessToken at = null;
 
-				AccessToken at = null;
-
-				try {
-					// Pair up our request with the response
-					at = mTwitter.getOAuthAccessToken(oauthVerifier);
-					String theToken = at.getToken();
-					String theTokenSecret = at.getTokenSecret();
-					SharedPreferences settings = PreferenceManager
-							.getDefaultSharedPreferences(this);
-					settings = PreferenceManager
-							.getDefaultSharedPreferences(this);
-					SharedPreferences.Editor editor = settings.edit();
-					editor.putString("twitter_access_token", theToken);
-					editor.putString("twitter_access_token_secret",
-							theTokenSecret);
-					editor.commit();
-				} catch (TwitterException e) {
-					e.printStackTrace();
+					try {
+						// Pair up our request with the response
+						at = mTwitter.getOAuthAccessToken(oauthVerifier);
+						String theToken = at.getToken();
+						String theTokenSecret = at.getTokenSecret();
+						settings = PreferenceManager
+								.getDefaultSharedPreferences(this);
+						SharedPreferences.Editor editor = settings.edit();
+						editor.putString("twitter_access_token", theToken);
+						editor.putString("twitter_access_token_secret",
+								theTokenSecret);
+						editor.commit();
+					} catch (TwitterException e) {
+						// De gebruiker heeft op cancel gedrukt in de webview
+						Toast.makeText(SettingsActivity.this,"No access granted from Twitter", Toast.LENGTH_LONG).show();
+						cancelTwitter(settings);
+					}
 				}
+			} else {
+				Log.e("SettinsActivity","Twitterpage came back with wrong results");
 			}
-		} else {
-			Toast.makeText(this, "uh oh, Spaghetti Os", Toast.LENGTH_SHORT).show();
+		} catch (Exception e) {
+			// De gebruiker heeft op cancel gedrukt in de webview
+			Toast.makeText(SettingsActivity.this,"No access granted from Twitter", Toast.LENGTH_LONG).show();
+			cancelTwitter(settings);
+			
 		}
 
 	}

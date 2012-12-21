@@ -2,17 +2,20 @@ package com.findingemos.felicity.friends;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
@@ -112,6 +115,19 @@ public class FriendsActivity extends Activity {
 	 */
 	private void initContacsListView(ContactsArrayAdapter adapter) {
 		ListView lv = (ListView) this.findViewById(R.id.contacts_view_list);
+		adapter.sort(new Comparator<Contact>() {
+			
+
+			@Override
+			public int compare(Contact lhs, Contact rhs) {
+				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+				if(settings.getBoolean("firstname enabled", true)) {
+					return lhs.getFirstName().compareToIgnoreCase(rhs.getFirstName());					
+				} else {
+					return lhs.getLastName().compareToIgnoreCase(rhs.getLastName());
+				}
+			}
+		});
 		lv.setAdapter(adapter);
 		setListItemClickListeners(lv);
 	}

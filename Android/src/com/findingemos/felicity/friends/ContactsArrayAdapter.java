@@ -40,7 +40,7 @@ public class ContactsArrayAdapter extends ArrayAdapter<Contact> {
 
 		TextView contactName = (TextView) convertView
 				.findViewById(R.id.contacts_view_contact_name);
-
+		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
 		boolean firstnameFirst = settings.getBoolean("firstname enabled", true);
 

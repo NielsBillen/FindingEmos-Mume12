@@ -20,25 +20,22 @@ import com.findingemos.felicity.R;
  */
 public enum Emotion {
 	// The enumeration
-	ANGRY("Angry", R.drawable.angry_small, R.drawable.angry_big, 0, "angry"), ASHAMED(
-			"Ashamed", R.drawable.ashamed_small, R.drawable.ashamed_big, 1,
-			"ashamed"), BORED("Bored", R.drawable.bored_small,
-			R.drawable.bored_large, 2, "bored"), HAPPY("Happy",
-			R.drawable.happy_small, R.drawable.happy_big, 3, "happy"), HUNGRY(
-			"Hungry", R.drawable.hungry_small, R.drawable.hungry_big, 4,
-			"hungry"), INLOVE("In Love", R.drawable.inlove_small,
-			R.drawable.inlove_big, 5, "love"), IRRITATED("Irritated",
-			R.drawable.irritated_small, R.drawable.irritated_big, 6,
-			"irritated"), SAD("Sad", R.drawable.sad_small, R.drawable.sad_big,
-			7, "sad"), SCARED("Scared", R.drawable.scared_small,
-			R.drawable.scared_big, 8, "big"), SICK("Sick",
-			R.drawable.sick_small, R.drawable.sick_big, 9, "sick"), TIRED(
-			"Tired", R.drawable.tired_small, R.drawable.tired_big, 10, "tired"), VERYHAPPY(
-			"Very Happy", R.drawable.very_happy_small,
-			R.drawable.very_happy_big, 11, "veryhappy"), VERYSAD("Very Sad",
-			R.drawable.very_sad_small, R.drawable.very_sad_big, 12, "verysad"), VERYVERYHAPPY(
-			"Very very happy", R.drawable.very_very_happy_small,
-			R.drawable.very_very_happy_big, 13, "veryveryhappy");
+	ANGRY("Angry", R.drawable.angry_small, R.drawable.angry_big, 0, "angry"), 
+	ASHAMED("Ashamed", R.drawable.ashamed_small, R.drawable.ashamed_big, 1,"ashamed"), 
+	BORED("Bored", R.drawable.bored_small,R.drawable.bored_large, 2, "bored"),
+	COOL("Cool",R.drawable.cool_small,R.drawable.cool_big,3,"cool"),
+	HAPPY("Happy",R.drawable.happy_small, R.drawable.happy_big, 4, "happy"), 
+	HUNGRY(	"Hungry", R.drawable.hungry_small, R.drawable.hungry_big, 5,"hungry"), 
+	INLOVE("In Love", R.drawable.inlove_small,R.drawable.inlove_big, 6, "love"), 
+	IRRITATED("Irritated",R.drawable.irritated_small, R.drawable.irritated_big, 7,"irritated"),
+	NAUGHTY("Naughty",R.drawable.naughty_small,R.drawable.naughty_big,8,"naughty"),
+	SAD("Sad", R.drawable.sad_small, R.drawable.sad_big,9, "sad"), 
+	SCARED("Scared", R.drawable.scared_small,R.drawable.scared_big, 10, "big"), 
+	SICK("Sick",R.drawable.sick_small, R.drawable.sick_big,11, "sick"), 
+	SUPERHAPPY("Super Happy", R.drawable.super_happy_small,	R.drawable.super_happy_big, 12, "superhappy"),
+	TIRED("Tired", R.drawable.tired_small, R.drawable.tired_big, 13, "tired"), 
+	VERYHAPPY("Very Happy", R.drawable.very_happy_small,R.drawable.very_happy_big, 14, "veryhappy"), 
+	VERYSAD("Very Sad",	R.drawable.very_sad_small, R.drawable.very_sad_big, 15, "verysad");
 
 	// A static comparator to compare two emoticons
 	private static final Comparator<Emotion> COMPARATOR = new Comparator<Emotion>() {

@@ -136,17 +136,6 @@
             android:text="@string/no_friends"
             android:textColor="@color/White"
             android:textSize="9sp" />
-
-        <ImageView
-            android:id="@+id/contacts_list_search_icon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="3dp"
-            android:contentDescription="@string/search"
-            android:src="@drawable/search_icon" />
     </RelativeLayout>
 
 </LinearLayout>

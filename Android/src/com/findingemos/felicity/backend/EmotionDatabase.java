@@ -56,8 +56,6 @@ public class EmotionDatabase {
 	private static final String ACTIVITIES = "Activities";
 	// Geselecteerde contacten en hun count
 	private static final String CONTACTSCOUNT = "ContactsCount";
-	// alle instellingen
-	private static final String SETTINGS = "Settings";
 
 	// The database itself
 	private SQLiteDatabase database;
@@ -138,7 +136,6 @@ public class EmotionDatabase {
 		database.execSQL("DROP TABLE IF EXISTS " + HISTORY + " ;");
 		database.execSQL("DROP TABLE IF EXISTS " + ACTIVITIES + " ;");
 		database.execSQL("DROP TABLE IF EXISTS " + FRIENDS + " ;");
-		database.execSQL("DROP TABLE IF EXISTS " + SETTINGS + " ;");
 		database.execSQL("DROP TABLE IF EXISTS " + COUNT + " ;");
 		database.execSQL("DROP TABLE IF EXISTS " + CONTACTSCOUNT + " ;");
 
@@ -848,76 +845,6 @@ public class EmotionDatabase {
 	}
 
 	// ///////////////////////////////////////////////////////////////////
-	// / SETTINGS ///
-	// //////////////////////////////////////////////////////////////////
-	public synchronized boolean firstNameFirst() {
-
-		if (isClosed) {
-			open();
-		}
-
-		Cursor cursor = database.query(true, SETTINGS, new String[] {
-				SETTINGS_KEY_ID, SETTINGS_SETTING, SETTINGS_VALUE },
-				SETTINGS_SETTING + "='" + "firstname first'", null, null, null,
-				null, null);
-		int count = 0;
-		if (cursor != null && cursor.getCount() > 0) {
-			cursor.moveToFirst();
-			count = cursor.getInt(2);
-		}
-
-		if (cursor != null)
-			cursor.close();
-
-		return count != 0;
-	}
-	
-	public synchronized void changeFirstNameFirst(boolean value) {
-		int newValue = 0;
-		if (value)
-			newValue = 1;
-		
-		String strFilter = SETTINGS_SETTING + "= 'firstname first'";
-		ContentValues args = new ContentValues();
-		args.put(SETTINGS_VALUE, newValue);
-		database.update(SETTINGS, args, strFilter, null);
-	}
-	
-//	public synchronized boolean twitter() {
-//
-//		if (isClosed) {
-//			open();
-//		}
-//
-//		Cursor cursor = database.query(true, SETTINGS, new String[] {
-//				SETTINGS_KEY_ID, SETTINGS_SETTING, SETTINGS_VALUE },
-//				SETTINGS_SETTING + "='" + "twitter'", null, null, null,
-//				null, null);
-//		int count = 0;
-//		if (cursor != null && cursor.getCount() > 0) {
-//			cursor.moveToFirst();
-//			count = cursor.getInt(2);
-//		}
-//
-//		if (cursor != null)
-//			cursor.close();
-//
-//		return count != 0;
-//	}
-//	
-//	public synchronized void changeTwitter(boolean value) {
-//		int newValue = 0;
-//		if (value)
-//			newValue = 1;
-//		
-//		String strFilter = SETTINGS_SETTING + "= 'firstname first'";
-//		ContentValues args = new ContentValues();
-//		args.put(SETTINGS_VALUE, newValue);
-//		database.update(SETTINGS, args, strFilter, null);
-//	}
-
-
-	// ///////////////////////////////////////////////////////////////////
 	// / DATABASE HELPER ///
 	// //////////////////////////////////////////////////////////////////
 
@@ -964,19 +891,11 @@ public class EmotionDatabase {
 					+ " integer primary key, " + CONTACTS_KEY_NAME
 					+ " text not null," + CONTACTS_KEY_IMAGE + " blob, "
 					+ CONTACTS_KEY_COUNT + " integer);");
-			db.execSQL("create table " + SETTINGS + "(" + SETTINGS_KEY_ID
-					+ " integer primary key, " + SETTINGS_SETTING
-					+ " text not null, " + SETTINGS_VALUE + " integer);");
 
 			db.execSQL("INSERT INTO " + ACTIVITIES + " VALUES (0, 'Work', 0);");
 			db.execSQL("INSERT INTO " + ACTIVITIES + " VALUES (1, 'Study', 0);");
 			db.execSQL("INSERT INTO " + ACTIVITIES
 					+ " VALUES (2, 'Spare time', 1);");
-
-			db.execSQL("INSERT INTO " + SETTINGS
-					+ " VALUES (0, 'firstname first',1);");
-//			db.execSQL("INSERT INTO " + SETTINGS
-//					+ " VALUES (1, 'twitter',0);");
 
 			Log.i("Creating DB", "Done");
 		}

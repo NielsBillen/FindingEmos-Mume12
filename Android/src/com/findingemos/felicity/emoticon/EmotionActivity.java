@@ -65,6 +65,9 @@ import com.findingemos.felicity.visualization.VisualizationActivity;
 @SuppressLint("NewApi")
 public class EmotionActivity extends SlideActivity implements Swipeable,
 		EmotionSelectionListener {
+	
+	// Boolean die er voorzorgt dat een emotie maximaal eenmaal geteld kan worden.
+	public static boolean doingStarted = false;
 
 	// Final boolean variable to check whether drag and drop is enabled.
 	public static final boolean DRAG_AND_DROP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
@@ -96,7 +99,7 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 		super.onCreate(savedInstanceState);
 
 		// Deze hack mag hier gebruikt worden, aangezien de main thread juist
-		// geblokt moet worden als we twitter id willen toevoegen
+		// geblokt moet worden als we twitter tokens willen toevoegen.
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 					.permitAll().build();
@@ -196,11 +199,6 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 		startActivityForResult(intent, EMOTION_REQUEST_CODE);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -369,7 +367,7 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 * @return
 	 */
 	private String makeTweet(String activity, ArrayList<String> friends) {
-		String tweet = "I am " + currentEmotion.getName();
+		String tweet = "I am #" + currentEmotion.getName().replaceAll(" ", "");
 		// Indien de locatie niet gekend is wordt deze ook niet getweet.
 		if(!currentCity.equals(UNKNOWN_LOCATION)) {
 			tweet += " in " + currentCity;
@@ -381,6 +379,8 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 				tweet += " with " + friends.get(0);
 				if (friends.size() > 1) {
 					tweet += " and " + friends.size() + " others. #Felicity";
+				} else {
+					tweet += ". #Felicity";
 				}
 			} else {
 				tweet += " all by myself. #Felicity";
@@ -421,9 +421,6 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 * @param emoticon
 	 *            De nieuwe emotie van de gebruiker.
 	 */
-
-	public static boolean doingStarted = false;
-
 	private void userSelectedEmoticon(Emotion emoticon) {
 		currentEmotion = emoticon;
 		drawEmoticion(currentEmotion);

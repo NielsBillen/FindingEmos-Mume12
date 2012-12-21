@@ -48,11 +48,7 @@ public class Contact {
 	}
 
 	public boolean equals(Contact other) {
-		if (!other.getName().equals(this.getName())) {
-			return false;
-		}
-
-		return true;
+		return other.getName().equals(this.getName());
 	}
 
 	/**
