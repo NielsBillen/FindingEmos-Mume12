@@ -89,10 +89,6 @@ public class EmotionDatabase {
 	private String CONTACTS_KEY_IMAGE = "image";
 	private String CONTACTS_KEY_COUNT = "count";
 
-	private String SETTINGS_KEY_ID = "_id";
-	private String SETTINGS_SETTING = "setting";
-	private String SETTINGS_VALUE = "settingsValue";
-
 	/**
 	 * Creates a new database for the given context.
 	 * 
