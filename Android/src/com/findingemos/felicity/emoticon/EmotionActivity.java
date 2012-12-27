@@ -14,7 +14,9 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
@@ -31,6 +33,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -78,6 +81,8 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	public static final int EMOTION_REQUEST_CODE = 1;
 	// Code for requesting extra information (activity)
 	public static final int EXTRA_INFORMATION_CODE = 2;
+	
+	public static final int LOCATION_SETTINGS = 3;
 	
 	public static final String UNKNOWN_LOCATION = "Location not kwown yet";
 
@@ -315,6 +320,8 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 			emotionGalleryReturned(data);
 		} else if (requestCode == EXTRA_INFORMATION_CODE) {
 			extraInformationReturned(data);
+		} else if (requestCode == LOCATION_SETTINGS) {
+			initCurrentLocation();
 		}
 	}
 
@@ -472,33 +479,61 @@ public class EmotionActivity extends SlideActivity implements Swipeable,
 	 */
 	private void initCurrentLocation() {
 		LocationManager locationManager;
-		String svcName = Context.LOCATION_SERVICE;
-		locationManager = (LocationManager) getSystemService(svcName);
-
 		String provider;
-		boolean gpsEnabled = locationManager
-				.isProviderEnabled(LocationManager.GPS_PROVIDER);
-		boolean internetEnabled = isNetworkConnected();
+		try {
+			String svcName = Context.LOCATION_SERVICE;
+			locationManager = (LocationManager) getSystemService(svcName);
 
-		if (internetEnabled) {
-			Log.i("Location Method", "Internet");
-			Criteria criteria = new Criteria();
-			criteria.setAccuracy(Criteria.ACCURACY_FINE);
-			criteria.setPowerRequirement(Criteria.POWER_LOW);
-			criteria.setAltitudeRequired(false);
-			criteria.setBearingRequired(false);
-			criteria.setSpeedRequired(false);
-			criteria.setCostAllowed(true);
-			provider = locationManager.getBestProvider(criteria, true);
-			locationManager.requestSingleUpdate(provider, locationListener,
-					null);
-		} else if (gpsEnabled) {
-			Log.i("Location Method", "GPS");
-			provider = LocationManager.GPS_PROVIDER;
-			locationManager.requestSingleUpdate(provider, locationListener,
-					null);
-		} else {
-			Log.i("Location Method", "none");
+			provider = null;
+			boolean gpsEnabled = locationManager
+					.isProviderEnabled(LocationManager.GPS_PROVIDER);
+			boolean internetEnabled = isNetworkConnected();
+
+			if (internetEnabled) {
+				Log.i("Location Method", "Internet");
+				Criteria criteria = new Criteria();
+				criteria.setAccuracy(Criteria.ACCURACY_FINE);
+				criteria.setPowerRequirement(Criteria.POWER_LOW);
+				criteria.setAltitudeRequired(false);
+				criteria.setBearingRequired(false);
+				criteria.setSpeedRequired(false);
+				criteria.setCostAllowed(true);
+				provider = locationManager.getBestProvider(criteria, true);
+				locationManager.requestSingleUpdate(provider, locationListener,
+						null);
+			} else if (gpsEnabled) {
+				Log.i("Location Method", "GPS");
+				provider = LocationManager.GPS_PROVIDER;
+				locationManager.requestSingleUpdate(provider, locationListener,
+						null);
+			} else {
+				Log.i("Location Method", "none");
+			}
+		} catch (Exception e) {
+			
+			Log.i("Location Method", "locationServices disabled");
+			DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					switch (which) {
+					case DialogInterface.BUTTON_POSITIVE:
+						Toast.makeText(EmotionActivity.this, "Please enable location services", Toast.LENGTH_LONG).show();
+			            Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+			            EmotionActivity.this.startActivityForResult(myIntent,LOCATION_SETTINGS);
+						break;
+
+					case DialogInterface.BUTTON_NEGATIVE:
+						// No button clicked
+						break;
+					}
+				}
+			};
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(EmotionActivity.this);
+			builder.setMessage("Do you want to enable location services?")
+					.setPositiveButton("Yes", dialogClickListener)
+					.setNegativeButton("No", dialogClickListener).show();
+
 		}
 	}
 
