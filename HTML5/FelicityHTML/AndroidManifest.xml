@@ -1,0 +1,55 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.felicityhtml"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="15" />
+        
+ 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.READ_CONTACTS" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	
+	<supports-screens
+    		android:largeScreens="true"
+    		android:normalScreens="true"
+    		android:smallScreens="true"
+    		android:resizeable="true"
+    		android:anyDensity="true"
+    />
+
+    <application
+        android:icon="@drawable/super_happy_small"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".Hello"
+            android:label="FelicityHTML" 
+            android:configChanges="orientation|keyboardHidden" >
+            
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.android.activity" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            
+            
+        </activity>
+        <activity 
+    android:name="org.apache.cordova.DroidGap" 
+    android:label="@string/app_name" 
+    android:configChanges="orientation|keyboardHidden"> 
+    <intent-filter></intent-filter> 
+</activity>
+        
+    </application>
+    
+    
+
+</manifest>
